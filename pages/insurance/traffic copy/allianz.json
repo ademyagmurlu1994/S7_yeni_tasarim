@@ -1,0 +1,705 @@
+{
+  "success": true,
+  "companyCode": 120,
+  "productCode": 590,
+  "message": { "statu": "Successful..!", "header": null, "content": null },
+  "data": {
+    "messages": [],
+    "policyBase": {
+      "contractId": 743284375,
+      "versionNo": 0,
+      "productId": 11,
+      "agentCode": "12547",
+      "agentRole": 61784,
+      "subAgentCode": null,
+      "subAgentIntegerId": null,
+      "quoteId": 186516168,
+      "quoteReference": "135879102/1",
+      "policyRef": null,
+      "hasPayment": false,
+      "endorsReasonCode": null,
+      "endorsReasonExp": null,
+      "endorsementNo": null,
+      "bis": null,
+      "isAutoRenewal": 1,
+      "isRenewal": false,
+      "groupCode": null,
+      "paymentType": "CC_MAIL_ORDER",
+      "installmentCardCount": null,
+      "numberOfInstallments": 1
+    },
+    "policyPaymentInfo": {
+      "paymentPlans": [
+        {
+          "orderNo": 1,
+          "maturityDate": "2022-02-23T00:00:00",
+          "swiftCode": "TL",
+          "rate": 1,
+          "premiumAmount": 1723.08,
+          "commissionAmount": 153.85
+        }
+      ],
+      "currencyDistributions": {
+        "TL": {
+          "totalPremiumAmount": 1723.08,
+          "totalCommissionAmount": 153.85,
+          "premiumSwiftExchange": 1
+        }
+      }
+    },
+    "policyDateInfo": {
+      "termStartDate": "2022-02-23T00:00:00",
+      "termEndDate": "2023-02-23T00:00:00",
+      "signatureDate": "2022-02-23T00:00:00",
+      "firstQuoteDate": "2022-02-23T00:00:00",
+      "quoteExpiryDate": "2022-02-28T00:00:00",
+      "businessStartDate": null,
+      "businessEndDate": null,
+      "tariffDate": "2022-02-23T00:00:00",
+      "businessStartTime": "2022-02-23T12:00:00",
+      "businessEndTime": "2023-02-23T12:00:00",
+      "systemStartDate": "2022-02-23T17:08:00"
+    },
+    "risks": [
+      {
+        "partitionType": "19",
+        "partitionName": null,
+        "riskBase": {
+          "sumInsuredDeterminedByUnion": null,
+          "sumInsuredDeterminedByCompany": null,
+          "defSumInsuredSwf": "TL",
+          "defSumInsuredSwfExchg": 1,
+          "defPremiumSwf": "TL",
+          "defPremiumSwfExchg": 1,
+          "infOrDefRate": 30.0
+        },
+        "policyPartners": [
+          {
+            "identityNo": "11132170028",
+            "taxNumber": null,
+            "partnerId": 163778395,
+            "name": "BURHAN",
+            "surname": "K**A",
+            "gender": "***",
+            "roleType": 1,
+            "partnerType": 1,
+            "nationality": "TR"
+          },
+          {
+            "identityNo": "11132170028",
+            "taxNumber": null,
+            "partnerId": 163778395,
+            "name": "BURHAN",
+            "surname": "K**A",
+            "gender": "***",
+            "roleType": 2,
+            "partnerType": 1,
+            "nationality": "TR"
+          }
+        ],
+        "covers": [
+          {
+            "plan": null,
+            "code": "45",
+            "explanation": "MADDİ - KAZA BAŞINA",
+            "sumInsuredWholeCover": 100000,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "43",
+            "explanation": "SAKATLANMA VE ÖLÜM - KİŞİ BAŞINA",
+            "sumInsuredWholeCover": 500000,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "40",
+            "explanation": "MADDİ - ARAÇ BAŞINA",
+            "sumInsuredWholeCover": 50000,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "39",
+            "explanation": "ZORUNLU KARAYOLLARI MALİ SORUMLULUK TEMİNATI",
+            "sumInsuredWholeCover": 0,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "42",
+            "explanation": "SAĞLIK GİDERLERİ - KAZA BAŞINA",
+            "sumInsuredWholeCover": 2500000,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "41",
+            "explanation": "SAĞLIK GİDERLERİ - KİŞİ BAŞINA",
+            "sumInsuredWholeCover": 500000,
+            "sumInsuredWholeCoverSwf": "TL"
+          },
+          {
+            "plan": null,
+            "code": "44",
+            "explanation": "SAKATLANMA VE ÖLÜM - KAZA BAŞINA",
+            "sumInsuredWholeCover": 2500000,
+            "sumInsuredWholeCoverSwf": "TL"
+          }
+        ],
+        "discounts": [
+          { "savingCode": "5", "explanation": "HASARSIZLIK", "rate": 0.85 },
+          { "savingCode": "32", "explanation": "TRAFİK MARKA İNDİRİMİ", "rate": 0.99 },
+          { "savingCode": "25", "explanation": "GECİKME ARTTIRIMI", "rate": 1.1 }
+        ],
+        "exemptionDiscounts": [],
+        "previousPolicyInfo": {
+          "prevInsuranceCompCode": "104",
+          "prevInsuranceCompExp": "Doga Sigorta A.Ş.",
+          "prevInsCompAgencyNo": "202272",
+          "prevInsCompPolicyRef": "82012427",
+          "prevInsCompReplaceNo": "0",
+          "prevInsCompNoLossRank": "5",
+          "prevInsCompNoLossRankExp": "5.KADEME (%10 INDIRIM)"
+        },
+        "notes": [],
+        "loanCreditors": [],
+        "riskExtras": {
+          "vehicle": {
+            "fuelType": "D",
+            "plate1": "34",
+            "plate2": "BZR",
+            "plate3": "320",
+            "usageManner": "1",
+            "usageSubstance": "9999",
+            "makeCode": 153,
+            "modelCode": 1371,
+            "modelYear": 2018,
+            "motorNo": "DGT009802",
+            "chassisNo": "WVWZZZAWZJY227809",
+            "tramerTrafficLicenseDate": "2019-12-25T00:00:00",
+            "registrationSerialCode": null,
+            "registrationSerialNo": null,
+            "asbisReferenceNo": null,
+            "registrationDate": 2018,
+            "noLossRank": "6",
+            "noLossRankExp": "6.KADEME (%15 INDIRIM)"
+          },
+          "egmInfo": {
+            "egmVehicleInfo": {
+              "subMakeType": "AB HEÇBEK",
+              "subMakeTypeId": 403,
+              "salvage": false,
+              "seatCapacity": 5,
+              "makeName": "VOLKSWAGEN",
+              "modelYear": 2018,
+              "motorPower": 59,
+              "motorNo": "DGT009802",
+              "color": "SİYAH",
+              "chassisNo": "WVWZZZAWZJY227809",
+              "motorVolume": 1598,
+              "motorType": "AW",
+              "makeType": "OTOMOBİL",
+              "makeTypeId": 4,
+              "fuelType": "D"
+            },
+            "egmVehicleOwnerInfo": [{ "ownerName": null, "ownerSurname": null }],
+            "egmVehicleRegistrationInfo": {
+              "usageManner": "YOLCU NAKLI",
+              "plateCityCode": null,
+              "plateNo": "BZR320",
+              "registrationDate": "2019-12-25T00:00:00",
+              "registrationSerialCode": null,
+              "towedAway": false,
+              "ownershipDocumentDate": "2019-12-25T00:00:00"
+            },
+            "serviceExecuteTime": "2022-03-05T16:50:34",
+            "searchType": "MSM",
+            "objectionStatus": null
+          }
+        },
+        "packageRiskInfoList": [
+          {
+            "packageId": 1,
+            "packageGroupCode": "190",
+            "packageName": "Standart Paket",
+            "packageDescription": "Standart Paket",
+            "selected": true,
+            "defaultPackage": false,
+            "coverList": [
+              {
+                "code": "40",
+                "name": "MADDİ TEMİNATI (ARAÇ BAŞINA)",
+                "sumInsuredWholeCover": 50000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "42",
+                "name": "SAĞLIK GİDERİ TEMİNATI(KAZA BAŞINA)",
+                "sumInsuredWholeCover": 2500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "44",
+                "name": "SAKATLANMA VE ÖLÜM TEMİNATI (KAZA BAŞINA)",
+                "sumInsuredWholeCover": 2500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "39",
+                "name": "ZORUNLU KARAYOLLARI MALİ SORUMLULUK TEMİNATI",
+                "sumInsuredWholeCover": 0,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "45",
+                "name": "MADDİ TEMİNATI(KAZA BAŞINA)",
+                "sumInsuredWholeCover": 100000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "41",
+                "name": "KİŞİ BAŞINA SAĞLIK GİDERLERİ TEMİNATI",
+                "sumInsuredWholeCover": 500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "43",
+                "name": "SAKATLANMA VE ÖLÜM TEMİNATI (KİŞİ BAŞINA)",
+                "sumInsuredWholeCover": 500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              }
+            ],
+            "discountList": [
+              {
+                "name": null,
+                "discountRate": 0.85,
+                "savingCode": "5",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.01,
+                "savingCode": "27",
+                "riskRate": 1.3596,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.05,
+                "savingCode": "2505",
+                "riskRate": 1.053,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.0927,
+                "savingCode": "29",
+                "riskRate": 1.0927,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.2857,
+                "savingCode": "2082",
+                "riskRate": 1.0949,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.1,
+                "savingCode": "2501",
+                "riskRate": 1.0995,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.1,
+                "savingCode": "25",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.98,
+                "savingCode": "31",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.97,
+                "savingCode": "2083",
+                "riskRate": 0.9316,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.175,
+                "savingCode": "2511",
+                "riskRate": 1.175,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.0309,
+                "savingCode": "2512",
+                "riskRate": 1.0309,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.99,
+                "savingCode": "32",
+                "riskRate": 0.9855,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.00661834,
+                "savingCode": "2550",
+                "riskRate": 1.00661834,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.8547,
+                "savingCode": "30",
+                "riskRate": 0.8547,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1,
+                "savingCode": "2223",
+                "riskRate": 0,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.01,
+                "savingCode": "28",
+                "riskRate": 1.0051,
+                "explanation": null
+              }
+            ],
+            "totalPremium": 1723.08,
+            "maxPackageDiscountRate": null,
+            "mtplPackageRiskInfoExtrasResponse": { "installmentCounts": [3, 4, 5, 6, 7] }
+          },
+          {
+            "packageId": 2,
+            "packageGroupCode": "190",
+            "packageName": "Ek Teminatlı Paket",
+            "packageDescription": "Kapsamlı Paket",
+            "selected": false,
+            "defaultPackage": false,
+            "coverList": [
+              {
+                "code": "44",
+                "name": "SAKATLANMA VE ÖLÜM TEMİNATI (KAZA BAŞINA)",
+                "sumInsuredWholeCover": 2500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "39",
+                "name": "ZORUNLU KARAYOLLARI MALİ SORUMLULUK TEMİNATI",
+                "sumInsuredWholeCover": 0,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "381",
+                "name": "MADDİ + BEDENİ KAZA BAŞINA",
+                "sumInsuredWholeCover": 50000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "38",
+                "name": "İHTİYARİ MALİ MESULİYET",
+                "sumInsuredWholeCover": 0,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "40",
+                "name": "MADDİ TEMİNATI (ARAÇ BAŞINA)",
+                "sumInsuredWholeCover": 50000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "41",
+                "name": "KİŞİ BAŞINA SAĞLIK GİDERLERİ TEMİNATI",
+                "sumInsuredWholeCover": 500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "45",
+                "name": "MADDİ TEMİNATI(KAZA BAŞINA)",
+                "sumInsuredWholeCover": 100000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "43",
+                "name": "SAKATLANMA VE ÖLÜM TEMİNATI (KİŞİ BAŞINA)",
+                "sumInsuredWholeCover": 500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              },
+              {
+                "code": "42",
+                "name": "SAĞLIK GİDERİ TEMİNATI(KAZA BAŞINA)",
+                "sumInsuredWholeCover": 2500000,
+                "coverSwiftCode": "TL",
+                "actionState": 1,
+                "mandatory": false,
+                "coverClaimInfo": {
+                  "clmFirstPaymentLimit": 0,
+                  "clmInfOrDefRate": 0,
+                  "clmLimitPerMonth": 0,
+                  "clmNoOfInstallment": 0
+                }
+              }
+            ],
+            "discountList": [
+              {
+                "name": null,
+                "discountRate": 1.01,
+                "savingCode": "28",
+                "riskRate": 1.0051,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.0309,
+                "savingCode": "2512",
+                "riskRate": 1.0309,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.85,
+                "savingCode": "5",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.8547,
+                "savingCode": "30",
+                "riskRate": 0.8547,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.97,
+                "savingCode": "2083",
+                "riskRate": 0.9316,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.00661834,
+                "savingCode": "2550",
+                "riskRate": 1.00661834,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.2857,
+                "savingCode": "2082",
+                "riskRate": 1.0949,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.0927,
+                "savingCode": "29",
+                "riskRate": 1.0927,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.175,
+                "savingCode": "2511",
+                "riskRate": 1.175,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.99,
+                "savingCode": "32",
+                "riskRate": 0.9855,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.05,
+                "savingCode": "2505",
+                "riskRate": 1.053,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.01,
+                "savingCode": "27",
+                "riskRate": 1.3596,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.1,
+                "savingCode": "2501",
+                "riskRate": 1.0995,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1.1,
+                "savingCode": "25",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 0.98,
+                "savingCode": "31",
+                "riskRate": 1,
+                "explanation": null
+              },
+              {
+                "name": null,
+                "discountRate": 1,
+                "savingCode": "2223",
+                "riskRate": 0,
+                "explanation": null
+              }
+            ],
+            "totalPremium": 1854.33,
+            "maxPackageDiscountRate": null,
+            "mtplPackageRiskInfoExtrasResponse": { "installmentCounts": [3, 4, 5, 6, 7] }
+          }
+        ]
+      }
+    ]
+  }
+}

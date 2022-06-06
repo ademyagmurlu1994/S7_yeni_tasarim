@@ -1,0 +1,62 @@
+.ag_btn {
+  display: inline-block;
+  padding: 1px 34px;
+  font-weight: 500;
+  font-size: 12px;
+  border-radius: 50px;
+  padding-bottom: 5px;
+  &.btn_1 {
+    background-color: var(--main-color);
+    color: #fff;
+    border: 1px solid var(--main-color);
+    box-shadow: 0px 15px 20px 0px rgba(255, 48, 127, 0.15);
+    &:hover {
+      color: var(--main-color);
+      background-color: #fff;
+      border-color: var(--main-color);
+      box-shadow: 0px 15px 20px 0px rgba(56, 56, 102, 0.15);
+    }
+  }
+  &.btn_2 {
+    background-color: #fff;
+    color: var(--main-color);
+    border: 1px solid var(--main-color);
+    box-shadow: 0px 15px 20px 0px rgba(56, 56, 102, 0.15);
+    height: 25px;
+    &:hover {
+      color: #fff;
+      background-color: var(--main-color);
+      border-color: #fff;
+    }
+  }
+}
+.video_popup_btn {
+  color: #fff;
+  font-weight: 500;
+  background: transparent;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  span {
+    color: #fff;
+    background-color: var(--main-color);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding: 15px 20px;
+    text-align: center;
+
+    svg {
+      position: relative;
+      top: 3px;
+    }
+  }
+  b {
+    padding-left: 10px;
+  }
+  &:hover {
+    color: #fff;
+    outline: 0;
+    border: 0;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "companyCode": 0,
+  "insured": {
+    "type": "TCKN",
+    "identityNo": "36208417708",
+    "contact": { "email": "adem@regortech.com", "mobilePhone": "5433509664" }
+  },
+  "building": {
+    "whoMakesInsurance": 2,
+    "floorCount": 5,
+    "constructionType": 4,
+    "consturctionYear": 8,
+    "usageType": 5,
+    "damageStatus": 0,
+    "squareMeter": 120,
+    "floorNo": 0
+  },
+  "mortgage": {
+    "isMortgage": true,
+    "bank": { "code": 135, "branchCode": 9073 },
+    "financialCompanyCode": 0
+  },
+  "uavtCode": 1182405751,
+  "isRenewal": false,
+  "policyNumber": 0
+}

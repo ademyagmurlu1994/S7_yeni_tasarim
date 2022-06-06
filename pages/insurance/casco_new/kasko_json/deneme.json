@@ -1,0 +1,35 @@
+{
+  "companyCode": 200,
+  "insured": {
+    "type": "TCKN",
+    "identityNo": "15682814050",
+    "birthDate": "1957-05-17T00:00:00",
+    "contact": { "email": "hakanduran2021@gmail.com", "mobilePhone": "5433509664" }
+  },
+  "car": {
+    "isPlateExist": true,
+    "plateState": "34",
+    "plateNo": "SK4710",
+    "registrationDate": "2021-07-09T00:00:00.000Z",
+    "registrationSerialCode": "FC",
+    "registrationSerialNo": "343609",
+    "motorNo": "CUS342843",
+    "chassisNo": "WVWZZZ6RZHY193560",
+    "modelYear": "2017",
+    "makeCode": "153",
+    "modelCode": "1129",
+    "fuelType": "DİZEL",
+    "countOfPassengers": "5",
+    "usageManner": "1"
+  },
+  "prevPolicy": null,
+  "city": { "code": 34, "districtCode": null },
+  "addtional": { "isDisabledVehicle": false, "isLpgExist": false, "professionDiscount": 0 },
+  "quote": {
+    "startDate": "2022-01-28T00:00:00+03:00",
+    "endDate": "2023-01-28T00:00:00+03:00",
+    "autoRenewal": true,
+    "issueDate": "2022-01-28T00:00:00+03:00",
+    "currency": "TL"
+  }
+}

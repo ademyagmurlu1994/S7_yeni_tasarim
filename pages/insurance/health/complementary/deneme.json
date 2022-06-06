@@ -1,0 +1,35 @@
+[
+  {
+    "companyCode": 200,
+    "insured": {
+      "info": {
+        "identityNo": "36208417708",
+        "birthDate": "2010-02-06T11:27:55.042Z",
+        "relation": 0,
+        "profession": "-1"
+      },
+      "contact": { "email": "user@example.com", "mobilePhone": "string" }
+    },
+    "familyMembers": []
+  },
+  {
+    "companyCode": 200,
+    "insured": {
+      "info": {
+        "identityNo": "36208417708",
+        "birthDate": "1994-05-10T11:27:55.042Z",
+        "relation": 0,
+        "profession": "1"
+      },
+      "contact": { "email": "user@example.com", "mobilePhone": "string" }
+    },
+    "familyMembers": [
+      {
+        "identityNo": "51556655794",
+        "birthDate": "1995-08-15T11:27:55.042Z",
+        "relation": 2,
+        "profession": "3"
+      }
+    ]
+  }
+]

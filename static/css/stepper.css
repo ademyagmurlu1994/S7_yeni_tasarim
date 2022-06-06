@@ -1,0 +1,111 @@
+@import url("./font-awesome/css/all.css");
+
+.stepper-wrapper {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+.stepper-item .step-name {
+  text-align: center;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.active .step-counter {
+  background-color: white;
+  color: var(--main-color);
+  border: 3px solid var(--main-color);
+}
+
+.stepper-item.completed .step-counter {
+  background-color: var(--main-color);
+  color: white;
+}
+/*Aktif ve Completed stepin çizgisinin rengini main color yapıyoruz.*/
+.stepper-item.active::before,
+.stepper-item.completed::before {
+  border-bottom: 2px solid var(--main-color);
+}
+
+.stepper-item.completed .step-counter .step-count {
+  display: none;
+}
+.stepper-item.completed .step-counter::before {
+  content: "\f00c"; /* You should use \ and not /*/
+  font-family: "Font Awesome 5 Free";
+}
+
+.stepper-item.completed::after {
+  border-bottom: 2px solid var(--main-color);
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+
+/*Mobil Görünüm*/
+@media (max-width: 768px) {
+  .stepper-item .step-counter {
+    width: 30px;
+    height: 30px;
+  }
+
+  .stepper-item::after {
+    top: 15px;
+  }
+
+  .stepper-item::before {
+    top: 15px;
+  }
+
+  .stepper-item {
+    font-size: 9pt;
+  }
+}

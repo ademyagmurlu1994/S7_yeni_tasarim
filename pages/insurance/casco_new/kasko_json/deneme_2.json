@@ -1,0 +1,35 @@
+{
+  "companyCode": 180,
+  "insured": {
+    "type": "TCKN",
+    "identityNo": "15670814406",
+    "birthDate": "1980-12-03T00:00:00",
+    "contact": { "email": "aytug@sigorta7.com", "mobilePhone": "5360332021" }
+  },
+  "car": {
+    "isPlateExist": true,
+    "plateState": "34",
+    "plateNo": "HR0106",
+    "registrationDate": "2021-07-09T00:00:00+03:00",
+    "registrationSerialCode": "FC",
+    "registrationSerialNo": "343608",
+    "motorNo": "K4MC8R009657",
+    "chassisNo": "VF1KR260A44709800",
+    "modelYear": 2011,
+    "makeCode": "122",
+    "modelCode": "565",
+    "fuelType": "BENZİNLİ",
+    "countOfPassengers": 5,
+    "usageManner": 1
+  },
+  "prevPolicy": null,
+  "city": { "code": 34, "districtCode": null },
+  "addtional": { "isDisabledVehicle": false, "isLpgExist": false, "professionDiscount": 0 },
+  "quote": {
+    "startDate": null,
+    "endDate": null,
+    "autoRenewal": true,
+    "issueDate": null,
+    "currency": "TL"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "companyCode": 180,
+  "insured": {
+    "type": "TCKN",
+    "identityNo": "11132170028",
+    "birthDate": "1989-04-20T00:00:00",
+    "contact": { "email": "burhan@sigorta7.com", "mobilePhone": "5546164110" }
+  },
+  "car": {
+    "isPlateExist": true,
+    "plateState": "34",
+    "plateNo": "BZR320",
+    "registrationDate": "2019-12-25T00:00:00+03:00",
+    "registrationSerialCode": "FB",
+    "registrationSerialNo": "424160",
+    "motorNo": "DGT009802",
+    "chassisNo": "WVWZZZAWZJY227809",
+    "modelYear": 2018,
+    "makeCode": "153",
+    "modelCode": "1371",
+    "fuelType": "DİZEL",
+    "countOfPassengers": 5,
+    "usageManner": 1
+  },
+  "prevPolicy": null,
+  "city": { "code": 34, "districtCode": null },
+  "addtional": { "isDisabledVehicle": false, "isLpgExist": false, "professionDiscount": 0 },
+  "quote": {
+    "startDate": null,
+    "endDate": null,
+    "autoRenewal": true,
+    "issueDate": null,
+    "currency": "TL"
+  }
+}

@@ -1,0 +1,123 @@
+.marqueeContainer {
+  overflow-x: initial !important;
+}
+.marqueeContainer .overlay {
+  --gradient-color: rgb(255, 255, 255), rgba(255, 255, 255, 0) !important;
+  --gradient-width: 50px !important;
+}
+
+.single_blog_in {
+  &.blog_style_01 {
+    border-radius: 10%;
+
+    /*.card-body h2 a:hover {
+      color: $base_color;
+    }*/
+
+    .card .images .dates {
+      background-color: var(--main-color);
+    }
+
+    /*.card-body a:hover {
+      color: $base_color;
+    }*/
+  }
+}
+
+.blog_slider_2,
+.blog_slider_3 {
+  .owl-stage-outer {
+    padding-bottom: 42px;
+  }
+}
+.blog_slider_2 .owl-dots,
+.blog_slider_3 .owl-dots {
+  width: 100%;
+  text-align: center;
+}
+
+.blog_slider_2 button.owl-dot,
+.blog_slider_3 button.owl-dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background-color: #383866;
+  outline: 0;
+  border: 0;
+}
+.blog_slider_2 button.owl-dot.active,
+.blog_slider_3 button.owl-dot.active {
+  background-color: var(--main-color);
+}
+
+.ag_blog_newsletter {
+  padding: 50px 20px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 15px 50px 0px rgba(102, 102, 102, 0.21);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h4 {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
+    line-height: 1.3em;
+    color: #383866;
+    font-size: 30px;
+    padding-bottom: 20px;
+  }
+
+  p {
+    font-family: "Hind", sans-serif;
+    font-weight: 400;
+    color: #383866;
+    font-size: 16px;
+    padding-bottom: 36px;
+  }
+
+  input {
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    outline: 0;
+    font-family: "Hind", sans-serif;
+    font-weight: 400;
+    color: #383866;
+    font-size: 16px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid var(--main-color);
+  }
+
+  .ag_btn {
+    margin-top: 36px;
+    -webkit-box-shadow: 0px 15px 20px 0px rgba(48, 67, 239, 0.15);
+    -moz-box-shadow: 0px 15px 20px 0px rgba(48, 67, 239, 0.15);
+    box-shadow: 0px 15px 20px 0px rgba(48, 67, 239, 0.15);
+    cursor: pointer;
+    box-shadow: 0px 15px 20px 0px rgba(255, 64, 137, 0.15);
+  }
+  .myMove .animation-container {
+    display: flex;
+    flex-wrap: inherit;
+    max-width: 100%;
+  }
+  .myMove {
+    position: relative;
+    animation: mymove 5s infinite;
+    overflow-y: hidden;
+
+    @keyframes mymove {
+      from {
+        left: 0px;
+      }
+      to {
+        left: 200px;
+      }
+    }
+  }
+}
