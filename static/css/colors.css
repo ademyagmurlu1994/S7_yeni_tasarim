@@ -10,6 +10,10 @@
   --main-color-light: rgb(255, 0, 131, 0.2);*/
 }
 
+.text-main {
+  color: var(--main-color) !important;
+}
+
 ::-moz-selection {
   /* Code for Firefox */
   color: black;

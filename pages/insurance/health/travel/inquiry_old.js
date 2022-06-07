@@ -9,7 +9,6 @@ import PageMessage from "/components/PageMessage";
 import BaseSelect from "react-select";
 import RequiredSelect from "/components/RequiredSelect";
 import PreLoader from "/components/PreLoader";
-import VerifySms from "/components/common/VerifySms";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 
@@ -316,7 +315,7 @@ export default function TravelHealthInsurance() {
                 </div>
                 <div className="timeline-body animate__animated animate__fadeInUp  ">
                   {
-                    <form onSubmit={handleSubmit(validateStep)}>
+                    <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
                       {/**Gidiş Dönüş Tarihi */}
                       <h4>Gidiş Dönüş Tarihi</h4>
                       <div className="row gidis-donus-tarih-secimi">
@@ -503,7 +502,11 @@ export default function TravelHealthInsurance() {
                   {(() => {
                     if (state.activeStep > 1) {
                       return (
-                        <form onSubmit={handleSubmit(validateStep)} id="secondStep">
+                        <form
+                          autocomplete="off"
+                          onSubmit={handleSubmit(validateStep)}
+                          id="secondStep"
+                        >
                           <div className="unregistered-user">
                             <div className="phone-number">
                               Cep Telefonu

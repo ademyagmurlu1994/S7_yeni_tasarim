@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "/instances/axios";
 
+//Components
 import PaymentOptions from "/components/health/complementary/PaymentOptions";
 import PreLoader from "/components/PreLoader";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import GetQuotePrint from "/components/common/GetQuotePrint";
 
+//fonksiyonlar
 import { getNewToken, writeResponseError, numberToTrNumber } from "/functions/common";
 
+//images
 import {
   AkSigortaLogo,
   AnadoluSigortaLogo,
@@ -37,11 +41,9 @@ const ComplementaryHealthOffers = () => {
 
   useEffect(() => {
     if (state.token) {
-      let complementaryInquiryInformations = JSON.parse(
-        localStorage.getItem("complementaryInquiryInformations")
-      );
-      if (complementaryInquiryInformations) {
-        setInquiryInformations(complementaryInquiryInformations);
+      let inquiryInformations = JSON.parse(localStorage.getItem("inquiryInformations"));
+      if (inquiryInformations) {
+        setInquiryInformations(inquiryInformations);
       }
     }
   }, [state.token]);
@@ -208,6 +210,25 @@ const ComplementaryHealthOffers = () => {
         break;
       default:
       // code block
+    }
+  };
+
+  const gotoQuotePolicy = (index) => {
+    //teklif poliçeleştirme sayfasına gitmeden önce teklif bilgilerini kaydediyoruz.
+    let quote = state.offers[index];
+    quote.service = "tss";
+    quote.companyLogo = "";
+
+    if (
+      quote.revisionNumber != undefined &&
+      quote.revisionNumber.toString() != "" &&
+      quote.quoteReference != undefined &&
+      quote.quoteReference.toString() != ""
+    ) {
+      localStorage.setItem("quotePolicy", JSON.stringify(quote));
+      window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
+    } else {
+      alert("Üzgünüz. Bu teklif için satın alma işlemi şimdilik kapalı!");
     }
   };
 
@@ -487,24 +508,18 @@ const ComplementaryHealthOffers = () => {
                               <button className="btn btn-apply-discount ">Uygula</button>
                             </p>
                             <button
-                              // href={
-                              //   "/policy-steps?companyCode=" +
-                              //   offer.companyCode +
-                              //   "&quoteReference=" +
-                              //   offer.quoteReference +
-                              //   "&revisionNumber=" +
-                              //   offer.revisionNumber +
-                              //   "&brutPrim=" +
-                              //   offer.brutPrim +
-                              //   "&productName=" +
-                              //   offer.productName +
-                              //   "&service=health"
-                              // }
-                              className="btn btn-buy-now"
-                              disabled
+                              onClick={() => gotoQuotePolicy(index)}
+                              className="btn-main w-100"
                             >
                               HEMEN SATIN AL
                             </button>
+                            <GetQuotePrint
+                              token={state.token}
+                              service="tss"
+                              companyCode={offer.companyCode}
+                              quoteReference={offer.quoteReference}
+                              revisionNumber={offer.revisionNumber}
+                            />
                             <div className="card-text mt-3 mb-2 text-center w-100">
                               <div className="call-now">
                                 HEMEN ARA <br />
@@ -520,6 +535,8 @@ const ComplementaryHealthOffers = () => {
               );
             }
           })()}
+
+          <div className="clear-fix"></div>
         </div>
       </section>
     </>

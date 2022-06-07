@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import BaseSelect, { useStateManager } from "react-select";
 import { useRouter } from "next/router";
 import axios from "/instances/axios";
 
 //Componentler
 import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
@@ -13,7 +14,6 @@ import PreLoader from "/components/PreLoader";
 import PreFormLoader from "/components/PreFormLoader";
 import PageMessage from "/components/PageMessage";
 import RequiredSelect from "/components/RequiredSelect";
-import VerifySms from "/components/common/VerifySms";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 
@@ -27,6 +27,7 @@ import {
   writeResponseError,
   numberToTrNumber,
   getNewToken,
+  isValidMaskedDate,
   isValidTcKimlikOrVergiKimlik,
 } from "/functions/common";
 
@@ -61,7 +62,7 @@ const VehicleInsuranceInquiry = () => {
     carCompanyCode: "",
     carCompanyModelTypeCode: "",
     carModelYear: null,
-    carPurchaseDate: "gg-aa-yyyy",
+    carPurchaseDate: "",
     fuelType: "BENZİNLİ",
     carUsageManner: "01",
     documentSerialNumber: "",
@@ -102,6 +103,7 @@ const VehicleInsuranceInquiry = () => {
     setValue,
     setError,
     clearErrors,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -306,7 +308,7 @@ const VehicleInsuranceInquiry = () => {
     try {
       let bodyData = {};
       await axios
-        .post("/api/quote/v1/Traffic/getmakecodes", bodyData, {
+        .post("/api/quote/v1/traffic/getmakecodes", bodyData, {
           headers: {
             Authorization: state.token,
             "Content-Type": "application/json",
@@ -338,7 +340,7 @@ const VehicleInsuranceInquiry = () => {
     if (selectedCarCompany && selectedCarCompany.markaKod) {
       let bodyData = { makeCode: selectedCarCompany.markaKod };
       try {
-        let res = await axios.post("/api/quote/v1/Traffic/getmodelsbymakecode", bodyData, {
+        let res = await axios.post("/api/quote/v1/traffic/getmodelsbymakecode", bodyData, {
           headers: {
             Authorization: state.token,
             "Content-Type": "application/json",
@@ -369,7 +371,7 @@ const VehicleInsuranceInquiry = () => {
 
     try {
       await axios
-        .post("/api/quote/v1/Traffic/getcarinfo", bodyData, {
+        .post("/api/quote/v1/traffic/getcarinfo", bodyData, {
           headers: {
             Authorization: state.token,
             "Content-Type": "application/json",
@@ -393,6 +395,11 @@ const VehicleInsuranceInquiry = () => {
 
   const saveInquiryInformations = () => {
     let carPlateNo = state.carPlateNo.replaceAll(" ", "");
+    let birthDate = state.birthDate.split(".");
+    birthDate = birthDate[2] + "-" + birthDate[1] + "-" + birthDate[0] + "T00:00:00";
+    let carPurchaseDate = state.carPurchaseDate.split(".");
+    carPurchaseDate =
+      carPurchaseDate[2] + "-" + carPurchaseDate[1] + "-" + carPurchaseDate[0] + "T00:00:00";
 
     var inquiryInformations = {};
 
@@ -403,7 +410,7 @@ const VehicleInsuranceInquiry = () => {
         insured: {
           type: state.isIdentityTcNo ? "TCKN" : "VKN",
           identityNo: state.tcOrTaxIdentityNo.toString(),
-          birthDate: state.isIdentityTcNo ? state.birthDate + "T00:00:00" : null,
+          birthDate: state.isIdentityTcNo ? birthDate : null,
           contact: {
             email: state.email, //####
             mobilePhone: state.phoneNumber
@@ -430,7 +437,7 @@ const VehicleInsuranceInquiry = () => {
             ? carInformation.aracTipKodu
             : selectedCarCompanyModel.tipKod, //###
           fuelType: carInformation.yakitTipi ? carInformation.yakitTipi : null, //###
-          countOfPassengers: carInformation.koltukSayisi ? carInformation.koltukSayisi : null, //###
+          countOfPassengers: carInformation.koltukSayisi ? carInformation.koltukSayisi : 0, //###
           usageManner: carInformation.kullanimBicim
             ? carInformation.kullanimBicim
             : state.carUsageManner, //###
@@ -476,7 +483,7 @@ const VehicleInsuranceInquiry = () => {
         insured: {
           type: state.isIdentityTcNo ? "TCKN" : "VKN", //Vergi vs
           identityNo: state.tcOrTaxIdentityNo.toString(),
-          birthDate: state.isIdentityTcNo ? state.birthDate + "T00:00:00" : null,
+          birthDate: state.isIdentityTcNo ? birthDate : null,
           contact: {
             email: state.email, //####
             mobilePhone: state.phoneNumber
@@ -490,7 +497,7 @@ const VehicleInsuranceInquiry = () => {
           isPlateExist: false,
           plateState: state.plateCity.toString(), //Plaka İl bilgisi
           plateNo: "",
-          registrationDate: state.carPurchaseDate + "T00:00:00", //### ruhsat tarihi
+          registrationDate: carPurchaseDate, //### ruhsat tarihi
           registrationSerialCode: null,
           registrationSerialNo: null,
           motorNo: "KAL342843", //###
@@ -671,41 +678,56 @@ const VehicleInsuranceInquiry = () => {
                       </div>
                       <div className="timeline-body animate__animated animate__fadeInUp">
                         {
-                          <form onSubmit={handleSubmit(validateStep)} id="firstStep">
+                          <form
+                            autocomplete="off"
+                            onSubmit={handleSubmit(validateStep)}
+                            id="firstStep"
+                          >
                             {/* T.C. Kimlik Numarası ile giriş yapılmış ise Doğum Tarihi istiyoruz. */}
 
                             {state.isIdentityTcNo ? (
                               <div className="birthdate-input w-100 mt-4">
-                                <TextField
-                                  {...register("birthDate", {
-                                    required: "Doğum Tarihi Alanı zorunlu",
-                                  })}
-                                  InputLabelProps={{
-                                    shrink: true,
-                                    required: true,
-                                    fontSize: "15pt",
+                                <Controller
+                                  name={"birthDate"}
+                                  control={control}
+                                  rules={{
+                                    required: "Doğum Tarihi zorunlu",
+                                    validate: isValidMaskedDate,
                                   }}
-                                  InputProps={{
-                                    inputProps: {
-                                      defaultValue: getTodayDate(),
-                                      max: getTodayDate(),
-                                    },
-                                  }}
-                                  max={getTodayDate()}
-                                  value={state.birthDate}
-                                  onChange={(e) => {
-                                    {
-                                      setState({ ...state, birthDate: e.target.value });
-                                      clearErrors("birthDate");
-                                    }
-                                  }}
-                                  name="birthDate"
-                                  id="birthDate"
-                                  type="date"
-                                  sx={inputStyle}
-                                  size="small"
-                                  error={Boolean(errors["birthDate"])}
-                                  label="Doğum Tarihi"
+                                  render={(props) => (
+                                    <TextField
+                                      InputLabelProps={{
+                                        //shrink: true,
+                                        //required: true,
+                                        fontSize: "15pt",
+                                      }}
+                                      InputProps={{
+                                        inputProps: {
+                                          defaultValue: getTodayDate(),
+                                          max: getTodayDate(),
+                                          className: "date-mask",
+                                        },
+                                      }}
+                                      max={getTodayDate()}
+                                      value={state.birthDate}
+                                      onKeyUp={(e) => {
+                                        {
+                                          setState({ ...state, birthDate: e.target.value });
+                                          clearErrors("birthDate");
+                                          setValue("birthDate", e.target.value);
+                                        }
+                                      }}
+                                      name="birthDate"
+                                      id="birthDate"
+                                      sx={inputStyle}
+                                      size="small"
+                                      error={Boolean(errors["birthDate"])}
+                                      label="Doğum Tarihi"
+                                      placeholder="gg.aa.yyyy"
+                                      autoComplete="off"
+                                      {...props}
+                                    />
+                                  )}
                                 />
 
                                 <small className="text-danger">
@@ -816,7 +838,11 @@ const VehicleInsuranceInquiry = () => {
                           <h4 className="timeline-title">Ruhsat sahibi bilgileri</h4>
                         </div>
                         <div className="timeline-body animate__animated animate__fadeInUp  ">
-                          <form onSubmit={handleSubmit(validateStep)} id="secondStep">
+                          <form
+                            autocomplete="off"
+                            onSubmit={handleSubmit(validateStep)}
+                            id="secondStep"
+                          >
                             <div className="radio-is-registered-user mb-3">
                               <div className="form-check">
                                 <input
@@ -861,20 +887,27 @@ const VehicleInsuranceInquiry = () => {
                                   ab***@hotmail.com
                                 </div>
                                 <div className="news-notification-confirmation mt-2">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      value={state.isCheckedNotification}
-                                      id="flexCheckDefault"
+                                  <div
+                                    className="w-100 m-0 p-0"
+                                    style={{ display: "flex", alignItems: "flex-start" }}
+                                  >
+                                    <Checkbox
+                                      id="notificationCheckbox"
+                                      sx={{
+                                        padding: "0px 8px 0px 0px",
+                                        "&.Mui-checked": {
+                                          color: "var(--main-color)",
+                                        },
+                                      }}
                                       onChange={(e) =>
                                         setState({
                                           ...state,
                                           isCheckedNotification: e.target.checked,
                                         })
                                       }
+                                      value={state.isCheckedNotification}
                                     />
-                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                    <label htmlFor="notificationCheckbox">
                                       İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar
                                       olmak için tıklayınız.
                                     </label>
@@ -943,6 +976,7 @@ const VehicleInsuranceInquiry = () => {
                                         value={state.email}
                                         onChange={(e) => {
                                           setState({ ...state, email: e.target.value });
+                                          setValue("emailAddress", e.target.value);
                                         }}
                                         type="email"
                                         id="emailAddress"
@@ -958,24 +992,27 @@ const VehicleInsuranceInquiry = () => {
                                   </small>
                                 </div>
                                 <div className="news-notification-confirmation mt-2">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id="check-notification-confirmation"
-                                      {...register("notification-confirmation", {})}
-                                      value={state.isCheckedNotification}
+                                  <div
+                                    className="w-100 m-0 p-0"
+                                    style={{ display: "flex", alignItems: "flex-start" }}
+                                  >
+                                    <Checkbox
+                                      id="notificationCheckbox"
+                                      sx={{
+                                        padding: "0px 8px 0px 0px",
+                                        "&.Mui-checked": {
+                                          color: "var(--main-color)",
+                                        },
+                                      }}
                                       onChange={(e) =>
                                         setState({
                                           ...state,
                                           isCheckedNotification: e.target.checked,
                                         })
                                       }
+                                      value={state.isCheckedNotification}
                                     />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="check-notification-confirmation"
-                                    >
+                                    <label htmlFor="notificationCheckbox">
                                       İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar
                                       olmak için tıklayınız.
                                     </label>
@@ -1010,7 +1047,11 @@ const VehicleInsuranceInquiry = () => {
                           <h4 className="timeline-title">Araç ve ruhsat bilgileri</h4>
                         </div>
                         <div className="timeline-body animate__animated animate__fadeInUp">
-                          <form onSubmit={handleSubmit(getKaskoOffers)} id="thirdStep">
+                          <form
+                            autocomplete="off"
+                            onSubmit={handleSubmit(getKaskoOffers)}
+                            id="thirdStep"
+                          >
                             {isExistPlate && isActiveSetCarInformation == false ? (
                               <div className="vehicle-license-with-me">
                                 <div
@@ -1240,7 +1281,9 @@ const VehicleInsuranceInquiry = () => {
                                                 setSelectedCarCompany(newValue);
                                               }}
                                               options={carCompanies}
-                                              getOptionLabel={(option) => option.marka}
+                                              getOptionLabel={(option) =>
+                                                option.marka + " - " + option.markaKod
+                                              }
                                               sx={{ width: "100%" }}
                                               size="small"
                                               loading={state.isLoadingCarCompanies}
@@ -1277,7 +1320,9 @@ const VehicleInsuranceInquiry = () => {
                                                 setSelectedCarCompanyModel(newValue);
                                               }}
                                               options={carModels}
-                                              getOptionLabel={(option) => option.tip}
+                                              getOptionLabel={(option) =>
+                                                option.tip + " - " + option.tipKod
+                                              }
                                               sx={{ width: "100%" }}
                                               size="small"
                                               loading={state.isLoadingCarModels}
@@ -1323,34 +1368,56 @@ const VehicleInsuranceInquiry = () => {
                                 {JSON.stringify(selectedCarCompanyModel)} */}
                                 {!isExistPlate && (
                                   <div className="date-the-vehicle-was-purchased mt-4">
-                                    <TextField
-                                      {...register("purchasedDate", {
+                                    <Controller
+                                      name={"purchasedDate"}
+                                      control={control}
+                                      rules={{
                                         required: "Aracın Satın Alındığı Tarih zorunlu",
-                                      })}
-                                      InputLabelProps={{
-                                        shrink: true,
-                                        required: true,
-                                        fontSize: "15pt",
+                                        validate: isValidMaskedDate,
                                       }}
-                                      InputProps={{
-                                        inputProps: {
-                                          min: "1990-01-01",
-                                          max: getTodayDate(),
-                                        },
-                                      }}
-                                      value={state.carPurchaseDate}
-                                      onChange={(e) =>
-                                        setState({
-                                          ...state,
-                                          carPurchaseDate: e.target.value,
-                                        })
-                                      }
-                                      type="date"
-                                      sx={inputStyle}
-                                      size="small"
-                                      error={Boolean(errors["birthDate"])}
-                                      label="Aracın Satın Alındığı Tarih"
+                                      render={(props) => (
+                                        <TextField
+                                          InputLabelProps={{
+                                            //shrink: true,
+                                            //required: true,
+                                            fontSize: "15pt",
+                                          }}
+                                          InputProps={{
+                                            inputProps: {
+                                              min: "1990-01-01",
+                                              max: getTodayDate(),
+                                              className: "date-mask",
+                                            },
+                                          }}
+                                          value={state.carPurchaseDate}
+                                          onKeyUp={(e) => {
+                                            {
+                                              setState({
+                                                ...state,
+                                                carPurchaseDate: e.target.value,
+                                              });
+                                              clearErrors("purchasedDate");
+                                              setValue("purchasedDate", e.target.value);
+                                            }
+                                          }}
+                                          sx={inputStyle}
+                                          size="small"
+                                          error={Boolean(errors["purchasedDate"])}
+                                          label="Aracın Satın Alındığı Tarih"
+                                          placeholder="gg.aa.yyyy"
+                                          autoComplete="off"
+                                          {...props}
+                                        />
+                                      )}
                                     />
+                                    <small className="text-danger">
+                                      {errors["purchasedDate"]?.message}
+                                      {/**Validate Message */}
+                                      {errors.purchasedDate &&
+                                      errors.purchasedDate.type == "validate"
+                                        ? "Aracın Satın Alındığı Tarih zorunlu"
+                                        : ""}
+                                    </small>
                                   </div>
                                 )}
                                 {/*Araç Model Yılı*/}
@@ -1396,7 +1463,9 @@ const VehicleInsuranceInquiry = () => {
                                       setSelectedCarCompany(newValue);
                                     }}
                                     options={carCompanies}
-                                    getOptionLabel={(option) => option.marka}
+                                    getOptionLabel={(option) =>
+                                      option.marka + " - " + option.markaKod
+                                    }
                                     sx={{ width: "100%" }}
                                     size="small"
                                     loading={state.isLoadingCarCompanies}
@@ -1430,7 +1499,7 @@ const VehicleInsuranceInquiry = () => {
                                       setSelectedCarCompanyModel(newValue);
                                     }}
                                     options={carModels}
-                                    getOptionLabel={(option) => option.tip}
+                                    getOptionLabel={(option) => option.tip + " - " + option.tipKod}
                                     sx={{ width: "100%" }}
                                     size="small"
                                     loading={state.isLoadingCarModels}

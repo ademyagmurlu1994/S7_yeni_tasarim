@@ -130,7 +130,7 @@ const Login = () => {
                   />
                 </RadioGroup>
 
-                <form className="" onSubmit={handleSubmit(onLogin)}>
+                <form autoComplete="off" className="" onSubmit={handleSubmit(onLogin)}>
                   {/* E-posta adresi */}
                   <div
                     className={`col-lg-12 mt-3 ${checkedLoginFormat != "radioEmail" && "d-none"}`}

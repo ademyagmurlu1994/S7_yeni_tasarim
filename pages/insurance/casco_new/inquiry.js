@@ -13,7 +13,6 @@ import PreLoader from "/components/PreLoader";
 import PreFormLoader from "/components/PreFormLoader";
 import PageMessage from "/components/PageMessage";
 import RequiredSelect from "/components/RequiredSelect";
-import VerifySms from "/components/common/VerifySms";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 import LicenceInformation from "/components/casco/LicenceInformation";

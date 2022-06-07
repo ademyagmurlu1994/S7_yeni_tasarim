@@ -863,7 +863,7 @@ const Inquiry = () => {
     }
 
     //console.log(inquiryInformations);
-    localStorage.setItem("daskInquiryInformations", JSON.stringify(inquiryInformations));
+    localStorage.setItem("inquiryInformations", JSON.stringify(inquiryInformations));
     router.push("/insurance/dask/offers");
   };
 
@@ -916,7 +916,7 @@ const Inquiry = () => {
                     </div>
                     <div className="timeline-body animate__animated animate__fadeInUp  ">
                       {
-                        <form onSubmit={handleSubmit(validateStep)}>
+                        <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
                           {state.isKnowUavtNumber ? (
                             <div className="uavt-no mt-2">
                               <label className="form-check-label" htmlFor="uavtNo">
@@ -1331,7 +1331,11 @@ const Inquiry = () => {
                       <h4 className="timeline-title">Kullanıcı Bilgileri</h4>
                     </div>
                     <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      <form onSubmit={handleSubmit(validateStep)} id="secondStep">
+                      <form
+                        autocomplete="off"
+                        onSubmit={handleSubmit(validateStep)}
+                        id="secondStep"
+                      >
                         <div className="radio-is-registered-user mb-3">
                           <div className="form-check">
                             <input
@@ -1529,7 +1533,7 @@ const Inquiry = () => {
                       <h4 className="timeline-title">Konut Bilgisi </h4>
                     </div>
                     <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      <form onSubmit={handleSubmit(validateStep)}>
+                      <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
                         <>
                           {state.isExistPolicy ? (
                             <>
@@ -1979,7 +1983,7 @@ const Inquiry = () => {
                         </div>
                       </div>
 
-                      <form onSubmit={handleSubmit(validateStep)}>
+                      <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
                         {state.isExistMortgage && (
                           <>
                             <div className="rehin-alacakli-radio">

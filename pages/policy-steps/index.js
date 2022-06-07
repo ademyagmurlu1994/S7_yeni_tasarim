@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import axios from "/instances/axios";
+
 //Components
 import PreLoader from "/components/PreLoader";
 import PageMessage from "/components/PageMessage";
 import Alert from "@mui/material/Alert";
 import Stepper from "/components/common/Stepper";
 import PagePreLoader from "/components/common/PagePreLoader";
+import GetQuotePrint from "/components/common/GetQuotePrint";
 
 import {
   AkSigortaLogo,
@@ -163,13 +165,13 @@ const PolicySteps = () => {
   //http requestler
   const getQuoteDocuments = async () => {
     let postUrl = "";
-    if (quotePolicy.service == "casco") {
-      postUrl = "/api/print/v1/Casco/printcascoquote";
-    } else if (quotePolicy.service == "traffic") {
-      postUrl = "/api/print/v1/traffic/printtrafficquote";
-    } else if (quotePolicy.service == "health") {
-      postUrl = "/api/print/v1/Health/printhealthquote";
-    }
+    // if (quotePolicy.service == "casco") {
+    //   postUrl = "/api/print/v1/Casco/printcascoquote";
+    // } else if (quotePolicy.service == "traffic") {
+    //   postUrl = "/api/print/v1/traffic/printtrafficquote";
+    // } else if (quotePolicy.service == "health") {
+    //   postUrl = "/api/print/v1/Health/printhealthquote";
+    // }
 
     try {
       let bodyData = {
@@ -275,18 +277,14 @@ const PolicySteps = () => {
                         Email
                       </div>
                       <div className="header-action-icon">
-                        <a
-                          className="header-action-icon"
-                          href={state.pdfList[0] && state.pdfList[0].url}
-                          style={{
-                            alignItems: "center",
-                          }}
-                          target="_blank"
-                          download
-                        >
-                          <i className="fas fa-download"></i>
-                          İndir
-                        </a>
+                        <GetQuotePrint
+                          token={token}
+                          service={quotePolicy.service}
+                          companyCode={quotePolicy.companyCode}
+                          quoteReference={quotePolicy.quoteReference}
+                          revisionNumber={quotePolicy.revisionNumber}
+                          view="icon"
+                        />
                       </div>
                     </div>
                   </div>

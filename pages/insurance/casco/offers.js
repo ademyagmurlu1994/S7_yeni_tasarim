@@ -9,7 +9,9 @@ import PreLoader from "/components/PreLoader";
 import PageMessage from "/components/PageMessage";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import GetQuotePrint from "/components/common/GetQuotePrint";
 
+//images
 import {
   AkSigortaLogo,
   AnadoluSigortaLogo,
@@ -71,7 +73,7 @@ const VehicleInsuranceOffers = () => {
     console.log(bodyData);
 
     await axios
-      .post("/api/quote/v1/Casco/getcascoquote", bodyData, {
+      .post("/api/quote/v1/casco/getcascoquote", bodyData, {
         headers: {
           Authorization: state.token,
           "Content-Type": "application/json",
@@ -101,6 +103,8 @@ const VehicleInsuranceOffers = () => {
   };
 
   const mapOffersByCompanyCode = (companyCode, data) => {
+    data = Array.isArray(data) ? data[0] : data;
+
     switch (companyCode) {
       case 100:
         if (data.primBilgileri[0].prim) {
@@ -185,11 +189,11 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 160:
-        if (data[0].primBilgileriWS.burutPrim) {
-          let brutPrim = Number(data[0].primBilgileriWS.burutPrim);
+        if (data.primBilgileriWS.burutPrim) {
+          let brutPrim = Number(data.primBilgileriWS.burutPrim);
           let offerObject = {
             companyCode: 160,
-            quoteReference: data[0].polPoliceNo,
+            quoteReference: data.polPoliceNo,
             revisionNumber: 0,
             companyLogo: MapfreSigortaLogo,
             brutPrim: brutPrim,
@@ -203,11 +207,11 @@ const VehicleInsuranceOffers = () => {
         }
         break;
       case 180:
-        if (data[0].payment.grosS_PREMIUM) {
-          let brutPrim = Number(data[0].payment.grosS_PREMIUM);
+        if (data.payment.grosS_PREMIUM) {
+          let brutPrim = Number(data.payment.grosS_PREMIUM);
           let offerObject = {
             companyCode: 180,
-            quoteReference: data[0].proposaL_NO,
+            quoteReference: data.proposaL_NO,
             revisionNumber: 0,
             companyLogo: SomboSigortaLogo,
             brutPrim: brutPrim,
@@ -222,12 +226,12 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 200:
-        if (data[0].brutPrim) {
-          let brutPrim = Number(data[0].brutPrim);
+        if (data.brutPrim) {
+          let brutPrim = Number(data.brutPrim);
           let offerObject = {
             companyCode: 200,
-            quoteReference: data[0].teklifNo,
-            revisionNumber: data[0].maxRevizeNo,
+            quoteReference: data.teklifNo,
+            revisionNumber: data.maxRevizeNo,
             companyLogo: ZurichSigortaLogo,
             brutPrim: brutPrim,
             customerName: "",
@@ -256,8 +260,17 @@ const VehicleInsuranceOffers = () => {
     quote.service = "casco";
     quote.companyLogo = "";
 
-    localStorage.setItem("quotePolicy", JSON.stringify(quote));
-    window.location.href = "/policy-steps?quoteReference=" + quote.quoteReference;
+    if (
+      quote.revisionNumber != undefined &&
+      quote.revisionNumber.toString() != "" &&
+      quote.quoteReference != undefined &&
+      quote.quoteReference.toString() != ""
+    ) {
+      localStorage.setItem("quotePolicy", JSON.stringify(quote));
+      window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
+    } else {
+      alert("Üzgünüz. Bu teklif için satın alma işlemi şimdilik kapalı!");
+    }
   };
 
   return (
@@ -551,12 +564,17 @@ const VehicleInsuranceOffers = () => {
                             %{/*offer.advanceDiscountRatio*/} peşin indirimi
                             <button className="btn btn-apply-discount ">Uygula</button>
                           </p>
-                          <button
-                            onClick={() => gotoQuotePolicy(index)}
-                            className="btn btn-buy-now"
-                          >
+                          <button onClick={() => gotoQuotePolicy(index)} className="btn-main w-100">
                             HEMEN SATIN AL
                           </button>
+                          <GetQuotePrint
+                            token={state.token}
+                            service="casco"
+                            companyCode={offer.companyCode}
+                            quoteReference={offer.quoteReference}
+                            revisionNumber={offer.revisionNumber}
+                          />
+
                           <div className="card-text mt-3 mb-2 text-center w-100">
                             <div className="call-now">
                               HEMEN ARA <br />

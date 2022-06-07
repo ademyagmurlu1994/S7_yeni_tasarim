@@ -74,7 +74,7 @@ const SingleCodeVerification = ({
   useEffect(async () => {
     if (verifySmsState.ipAddress) {
       console.log("İp: ", verifySmsState.ipAddress);
-      await sendSms();
+      //await sendSms();
     }
   }, [verifySmsState.ipAddress]);
 
@@ -152,56 +152,56 @@ const SingleCodeVerification = ({
   };
 
   const onVerifySingleUseCode = async () => {
-    try {
-      let bodyData = {
-        mobileNo: phoneNumber
-          .toString()
-          .replaceAll(" ", "")
-          .replaceAll("(", "")
-          .replaceAll(")", ""),
-        code: verifySmsState.inputValidationCode.toString(),
-        messageId: verifySmsState.messageId.toString(),
-        ipAddress: verifySmsState.ipAddress ? verifySmsState.ipAddress : "",
-      };
+    // try {
+    //   let bodyData = {
+    //     mobileNo: phoneNumber
+    //       .toString()
+    //       .replaceAll(" ", "")
+    //       .replaceAll("(", "")
+    //       .replaceAll(")", ""),
+    //     code: verifySmsState.inputValidationCode.toString(),
+    //     messageId: verifySmsState.messageId.toString(),
+    //     ipAddress: verifySmsState.ipAddress ? verifySmsState.ipAddress : "",
+    //   };
 
-      await axios
-        .post("/api/quote/v1/Casco/getsmsbymobileno", bodyData, {
-          headers: {
-            Authorization: verifySmsState.token,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        })
-        .then((res) => {
-          console.log("getsmsbymobileno response: ", res.data);
+    //   await axios
+    //     .post("/api/quote/v1/Casco/getsmsbymobileno", bodyData, {
+    //       headers: {
+    //         Authorization: verifySmsState.token,
+    //         "Content-Type": "application/json",
+    //         Accept: "application/json",
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log("getsmsbymobileno response: ", res.data);
 
-          let isVerified = false;
-          if (res.data.data.isSuccessful) {
-            setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: true });
-            isVerified = true;
-            $("#verificationSingleCode").modal("hide");
-          } else {
-            setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: false });
-            isVerified = false;
-          }
+    //       let isVerified = false;
+    //       if (res.data.data.isSuccessful) {
+    //         setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: true });
+    //         isVerified = true;
+    //         $("#verificationSingleCode").modal("hide");
+    //       } else {
+    //         setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: false });
+    //         isVerified = false;
+    //       }
 
-          //Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
-          singleCodeVerificationCallback(isVerified);
-        });
-    } catch (error) {
-      writeResponseError(error);
-    }
-
-    // let isVerified = false;
-    // if (verifySmsState.inputValidationCode.toString() == "1234") {
-    //   isVerified = true;
-    //   $("#verificationSingleCode").modal("hide");
-    // } else {
-    //   setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: false });
-    //   isVerified = false;
+    //       //Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
+    //       singleCodeVerificationCallback(isVerified);
+    //     });
+    // } catch (error) {
+    //   writeResponseError(error);
     // }
-    // //Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
-    // singleCodeVerificationCallback(isVerified);
+
+    let isVerified = false;
+    if (verifySmsState.inputValidationCode.toString() == "1234") {
+      isVerified = true;
+      $("#verificationSingleCode").modal("hide");
+    } else {
+      setVerifySmsState({ ...verifySmsState, isVerifiedValidationCode: false });
+      isVerified = false;
+    }
+    //Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
+    singleCodeVerificationCallback(isVerified);
   };
 
   return (

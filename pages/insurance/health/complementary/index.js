@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
 
 //Componentler
 import PreLoader from "/components/PreLoader";
 import BaseSelect from "react-select";
 import RequiredSelect from "/components/RequiredSelect";
-import VerifySms from "/components/common/VerifySms";
 import ComplementaryFAQ from "/components/faq/ComplementaryFAQ";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 import PagePreLoader from "/components/common/PagePreLoader";
 import InsuranceIndexPageInformation from "/components/common/InsuranceIndexPageInformation";
 import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
+import DateField from "/components/input/DateField";
 
 //Fonksiyonlar
 import {
   isValidTcKimlik,
   getNewToken,
   getTodayDate,
+  isValidMaskedDate,
   writeResponseError,
   addDaysToDate,
 } from "/functions/common";
@@ -30,6 +31,22 @@ import { DaskInsuranceInformationPhoto, WhatIsTheDaskInsurance } from "/resource
 //import { reactSelectStyles } from "functions/styles";
 
 const ComplementaryHealthInsurance = (props) => {
+  const Select = (props) => <RequiredSelect {...props} SelectComponent={BaseSelect} />;
+
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    setError,
+    setValue,
+    resetField,
+
+    formState: { errors },
+    control,
+  } = useForm();
+
+  const router = useRouter();
+
   const [state, setState] = useState({
     activeStep: 1,
     phoneNumber: undefined,
@@ -71,6 +88,10 @@ const ComplementaryHealthInsurance = (props) => {
   const [isShowNotifyConfirmPopup, setIsShowNotifyConfirmPopup] = useState(false);
   const [notificationConfirmation, setNotificationConfirmation] = useState(undefined);
 
+  // const { birthDateRef, ...birthDateProps } = register({
+  //   required: "Doğum Tarihi zorunlu",
+  // });
+
   useEffect(async () => {
     //Authorization için token çekiyoruz.
     if (!Boolean(token)) {
@@ -93,19 +114,6 @@ const ComplementaryHealthInsurance = (props) => {
       router.push("/insurance/health/complementary/offers");
     }
   }, [isVerifySmsSingleCode]);
-
-  const Select = (props) => <RequiredSelect {...props} SelectComponent={BaseSelect} />;
-
-  const {
-    register,
-    handleSubmit,
-    clearErrors,
-    setError,
-    resetField,
-    formState: { errors },
-  } = useForm();
-
-  const router = useRouter();
 
   const validateStep = (data) => {
     if (errors != {}) {
@@ -173,7 +181,7 @@ const ComplementaryHealthInsurance = (props) => {
     };
 
     console.log(inquiryInformations);
-    localStorage.setItem("complementaryInquiryInformations", JSON.stringify(inquiryInformations));
+    localStorage.setItem("inquiryInformations", JSON.stringify(inquiryInformations));
   };
 
   const isExistTcKimlikNoInUserList = (identityNo) => {
@@ -194,12 +202,12 @@ const ComplementaryHealthInsurance = (props) => {
   };
 
   const onChangeDogumTarihi = (e, index) => {
-    if (e.target.value.replaceAll("_", "").replaceAll(".", "").length == 8) {
-      clearErrors();
-      let { userListForHealthInsurance } = state;
-      userListForHealthInsurance[index].birthDate = e.target.value;
-      setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-    }
+    setValue("birthDate" + index, e.target.value.toString());
+    console.log(e.target.value);
+    clearErrors();
+    let { userListForHealthInsurance } = state;
+    userListForHealthInsurance[index].birthDate = e.target.value.toString();
+    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
   };
 
   const onChangeYakinlikDerecesi = (e, index) => {
@@ -390,7 +398,11 @@ const ComplementaryHealthInsurance = (props) => {
                       {(() => {
                         if (state.activeStep == 1) {
                           return (
-                            <form onSubmit={handleSubmit(validateStep)} id="firstStep">
+                            <form
+                              autocomplete="off"
+                              onSubmit={handleSubmit(validateStep)}
+                              id="firstStep"
+                            >
                               {state.userListForHealthInsurance.map((user, index) => (
                                 <div
                                   className="user-list-for-health-insurance-wrapper mt-2  py-1"
@@ -433,7 +445,7 @@ const ComplementaryHealthInsurance = (props) => {
                                         className={`form-control date-mask ${
                                           errors["birthDate" + index] && "invalid"
                                         }`}
-                                        placeholder="Doğum Tarihi"
+                                        placeholder="gg.aa.yyyy"
                                         {...register("birthDate" + index, {
                                           required: "Doğum Tarihi zorunlu",
                                         })}
@@ -441,10 +453,17 @@ const ComplementaryHealthInsurance = (props) => {
                                         value={user.birthDate}
                                         max={getTodayDate()}
                                         required
+                                        autocomplete="off"
                                       />
 
                                       <small className="text-danger">
                                         {errors["birthDate" + index]?.message}
+                                        {/**Validate Message */}
+                                        {errors["birthDate" + index]
+                                          ? errors["birthDate" + index].type == "validate"
+                                            ? "Geçersiz Doğum Tarihi"
+                                            : ""
+                                          : ""}
                                       </small>
                                     </div>
 
@@ -550,7 +569,11 @@ const ComplementaryHealthInsurance = (props) => {
                         {(() => {
                           if (state.activeStep == 2) {
                             return (
-                              <form onSubmit={handleSubmit(validateStep)} id="secondStep">
+                              <form
+                                autocomplete="off"
+                                onSubmit={handleSubmit(validateStep)}
+                                id="secondStep"
+                              >
                                 <div className="unregistered-user">
                                   <div className="row phone-number">
                                     <div className="col-12 col-md-6 col-lg-6">
@@ -616,9 +639,10 @@ const ComplementaryHealthInsurance = (props) => {
                                                 message: "Geçersiz email adresi",
                                               },
                                             })}
-                                            onChange={(e) =>
-                                              setState({ ...state, email: e.target.value })
-                                            }
+                                            onChange={(e) => {
+                                              setState({ ...state, email: e.target.value });
+                                              setValue("email", e.target.value);
+                                            }}
                                             value={state.email}
                                           />
                                         </div>
@@ -691,7 +715,7 @@ const ComplementaryHealthInsurance = (props) => {
                         {(() => {
                           if (state.activeStep == 3) {
                             return (
-                              <form onSubmit={handleSubmit(validateStep)}>
+                              <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
                                 <div className="verify-single-use-code">
                                   <div className="row warning-before-process">
                                     <div className="col-12 col-md-6 col-lg-6">

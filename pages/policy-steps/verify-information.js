@@ -63,26 +63,30 @@ const PaymentSteps = () => {
 
   useEffect(() => {
     //userInformation'ı güncelliyoruz.
-    if (inquiryInformations) {
+    if (quotePolicy) {
       console.log(inquiryInformations);
       state.userInformations[1].value = "0" + inquiryInformations.insured.contact.mobilePhone;
       state.userInformations[2].value = inquiryInformations.insured.contact.email;
-      state.userInformations[7].value =
-        inquiryInformations.car.registrationSerialCode +
-        " " +
-        inquiryInformations.car.registrationSerialNo;
+      if (quotePolicy.service == "casco" || quotePolicy.service == "traffic") {
+        state.userInformations[7].value =
+          inquiryInformations.car.registrationSerialCode +
+          " " +
+          inquiryInformations.car.registrationSerialNo;
+      }
+
       //console.log(state.inquiryInformations.insured.contact);
       // userInformations[]
     }
-  }, [inquiryInformations]);
+  }, [quotePolicy]);
 
   const validateFormData = (data) => {
     console.log("Veri", data);
-    if (state.isConfirmInformations) {
-      window.location.href = "/payment?" + params;
-    }
 
-    if (service == "health") {
+    if (quotePolicy.service == "casco" || quotePolicy.service == "traffic") {
+      if (state.isConfirmInformations) {
+        window.location.href = "/payment?" + params;
+      }
+    } else {
       window.location.href = "/payment?" + params;
     }
   };
@@ -105,7 +109,7 @@ const PaymentSteps = () => {
           {/**Specifications */}
           {quotePolicy && (
             <div className="col-12 mt-4">
-              <form onSubmit={handleSubmit(validateFormData)}>
+              <form autoComplete="off" onSubmit={handleSubmit(validateFormData)}>
                 <div className="row offer-detail-specifications justify-content-center">
                   <div className="col-12 col-lg-8 col-md-8">
                     {(quotePolicy.service == "casco" || quotePolicy.service == "traffic") && (

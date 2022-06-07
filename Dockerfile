@@ -6,16 +6,15 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# ARG BACKEND_API_URL
-# ENV BACKEND_API_URL $BACKEND_API_URL
-ARG ENVIROMENT_VAR 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 
 FROM node:14-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-RUN  REACT_APP_DOMAIN=${ENVIROMENT_VAR} npm run build && npm prune --production
+RUN npm run build && npm prune --production
 
 # Production image, copy all the files and run next
 FROM node:14-alpine AS runner
@@ -30,9 +29,12 @@ COPY --from=builder /app/static ./static
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/.env ./.env
+COPY --from=builder /app/.env.local ./.env.local
+# COPY --from=builder /app/.env.production ./.env.production
+#COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
+
 # COPY entrypoint.sh .
-COPY .env.production .
+# COPY .env.production .
 
 # # Execute script
 # RUN apk add --no-cache --upgrade bash

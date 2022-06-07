@@ -75,7 +75,7 @@ const Dask = () => {
                   <div className="col-lg-12">
                     <div className="contact_thir_form mx-auto">
                       {
-                        <form onSubmit={handleSubmit(getDaskOffers)}>
+                        <form autoComplete="off" onSubmit={handleSubmit(getDaskOffers)}>
                           <div className="d-flex mb-3">
                             <div className="w-50">
                               <div className="custom-radio-button">

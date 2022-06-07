@@ -115,7 +115,7 @@ const Register = () => {
                   </div>
                 </div>
 
-                <form className="" onSubmit={handleSubmit(onRegister)}>
+                <form autoComplete="off" className="" onSubmit={handleSubmit(onRegister)}>
                   {/* Individual form */}
                   <div className={`individual ${state.isIndividual == false && "d-none"}`}>
                     {/*Ad */}

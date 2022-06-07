@@ -124,6 +124,7 @@ setInterval(() => {
             : new Date(1000, 1, 0),
           lazy: false,
         });
+        item.value = "";
       }
     }
   }

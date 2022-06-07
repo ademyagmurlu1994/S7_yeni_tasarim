@@ -100,12 +100,36 @@ const PaymentSteps = () => {
   //Sigorta şirketinin 3d secure'e sahip olup olmadığının kontrolü
   const hasSecurityPaymentSystem = async () => {
     setLoader(true);
+
+    let postUrl = "";
+
+    switch (quotePolicy.service.toString()) {
+      case "casco":
+        postUrl = "/api/policy/v1/casco/getcascohassecuritypaymentsystem";
+        break;
+      case "traffic":
+        postUrl = "/api/policy/v1/traffic/gettraffichassecuritypaymentsystem";
+        break;
+      case "tss":
+        postUrl = "/api/policy/v1/health/gethealthhassecuritypaymentsystem";
+        break;
+      case "travelhealth":
+        postUrl = "/api/policy/v1/travel/gettravelhassecuritypaymentsystem";
+        break;
+      case "dask":
+        postUrl = "/api/policy/v1/dask/getdaskhassecuritypaymentsystem";
+        break;
+      case "personelaccident":
+        postUrl = "/api/policy/v1/personelaccident/getpersonelaccidenthassecuritypaymentsystem";
+        break;
+    }
+
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode),
     };
 
     await axios
-      .post("/api/policy/v1/casco/getcascohassecuritypaymentsystem", bodyData, {
+      .post(postUrl, bodyData, {
         headers: {
           Authorization: token,
           "Content-Type": "application/json",
@@ -150,6 +174,28 @@ const PaymentSteps = () => {
 
   //3D ödeme için gerekli bilgileri getiriyoruz.
   const getPaymentTicket = async () => {
+    let postUrl = "";
+    switch (quotePolicy.service.toString()) {
+      case "casco":
+        postUrl = "/api/policy/v1/casco/getcascopaymentticket";
+        break;
+      case "traffic":
+        postUrl = "/api/policy/v1/traffic/gettrafficpaymentticket";
+        break;
+      case "tss":
+        postUrl = "/api/policy/v1/health/gethealthpaymentticket";
+        break;
+      case "travelhealth":
+        postUrl = "/api/policy/v1/travel/gettravelpaymentticket";
+        break;
+      case "dask":
+        postUrl = "/api/policy/v1/health/gethealthpaymentticket";
+        break;
+      case "personelaccident":
+        postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpaymentticket";
+        break;
+    }
+
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode), //########
       card: {
@@ -205,7 +251,6 @@ const PaymentSteps = () => {
 
     setRequest(bodyData);
     console.log("Gönderilen Request: ", bodyData);
-    let postUrl = "/api/policy/v1/casco/getcascopaymentticket";
 
     await axios
       .post(postUrl, bodyData, {
@@ -221,19 +266,19 @@ const PaymentSteps = () => {
         } else {
           setTicket(null);
           setLoader(false);
-          setAlert({
-            ...alert,
-            severity: "error",
-            message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
-          });
+          // setAlert({
+          //   ...alert,
+          //   severity: "error",
+          //   message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
+          // });
         }
       })
       .catch((error) => {
-        setAlert({
-          ...alert,
-          severity: "error",
-          message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
-        });
+        // setAlert({
+        //   ...alert,
+        //   severity: "error",
+        //   message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
+        // });
         writeResponseError(error);
         setTicket(null);
         setLoader(false);
@@ -241,6 +286,28 @@ const PaymentSteps = () => {
   };
 
   const completePayment2D = async () => {
+    let postUrl = "";
+    switch (quotePolicy.service.toString()) {
+      case "casco":
+        postUrl = "/api/policy/v1/casco/getcascopolicy";
+        break;
+      case "traffic":
+        postUrl = "/api/policy/v1/traffic/gettrafficpolicy";
+        break;
+      case "tss":
+        postUrl = "/api/policy/v1/health/gethealthpolicy";
+        break;
+      case "travelhealth":
+        postUrl = "/api/policy/v1/travel/gettravelpolicy";
+        break;
+      case "dask":
+        postUrl = "/api/policy/v1/dask/getdaskpolicy";
+        break;
+      case "personelaccident":
+        postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpolicy";
+        break;
+    }
+
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode), //########
       card: {
@@ -270,7 +337,6 @@ const PaymentSteps = () => {
     };
 
     console.log("Gönderilen Request: ", bodyData);
-    let postUrl = "/api/policy/v1/casco/getcascopolicy";
 
     await axios
       .post(postUrl, bodyData, {

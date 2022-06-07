@@ -86,6 +86,10 @@ export const isValidImeiNumber = (value) => {
   return true;
 };
 
+export const isValidMaskedDate = (value) => {
+  return value.trim().replaceAll("_", "").replaceAll(".", "").length == 8;
+};
+
 export const getToken = async () => {
   let body_data = {
     username: "DEMO",
@@ -232,12 +236,19 @@ export const numberToTrNumber = (number) => {
 
 //Türkçe karakter uppercase çözümü
 export const turkishToUpper = (string) => {
-  var string = string;
   var letters = { i: "İ", ş: "Ş", ğ: "Ğ", ü: "Ü", ö: "Ö", ç: "Ç", ı: "I" };
   string = string.replace(/(([iışğüçö]))/g, function (letter) {
     return letters[letter];
   });
   return string.toUpperCase();
+};
+
+export const capitalize = (word) => {
+  word = word.trim();
+  const firstLetter = turkishToUpper(word.charAt(0));
+  const lower = word.slice(1).toLowerCase();
+
+  return firstLetter + lower;
 };
 
 //Regex is Valid
@@ -276,11 +287,19 @@ export const isValidCreditCard = (value) => {
 };
 
 export const getClientIpAdress = async () => {
-  try {
-    let res = await defaultAxios.get("https://api.ipify.org?format=json");
-    return res.data.ip;
-  } catch (error) {
-    writeResponseError(error);
+  let clientIpAddress = localStorage.getItem("ClientIpAddress");
+  if (clientIpAddress && clientIpAddress != "undefined") {
+    return clientIpAddress;
+  } else {
+    try {
+      let res = await defaultAxios.get("https://api.ipify.org?format=json");
+      if (res) {
+        localStorage.setItem("ClientIpAddress", res.data.ip);
+      }
+      return res.data.ip;
+    } catch (error) {
+      writeResponseError(error);
+    }
   }
 };
 

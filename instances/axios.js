@@ -3,7 +3,7 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 //const URL_SERVER = "http://172.16.120.65:62000";
-const URL_SERVER = String(publicRuntimeConfig.BACKEND_API_URL);
+const URL_SERVER = String(publicRuntimeConfig.NEXT_PUBLIC_API_URL);
 
 Axios.defaults.proxy = true;
 Axios.defaults.prefix = URL_SERVER;

@@ -61,7 +61,7 @@ export default function travelIndex() {
                   <div className="col-lg-12">
                     <div className="contact_thir_form mx-auto">
                       {
-                        <form onSubmit={handleSubmit(getTravelHealthOffers)}>
+                        <form autoComplete="off" onSubmit={handleSubmit(getTravelHealthOffers)}>
                           <div className="tckn-input-card">
                             <div className="tc-kimlik-no mt-4">
                               <label htmlFor="tcKimlikNo">T.C. Kimlik Numarası</label>

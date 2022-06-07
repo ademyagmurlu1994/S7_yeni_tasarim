@@ -12,7 +12,6 @@ import PagePreLoader from "/components/common/PagePreLoader";
 import PreLoader from "/components/PreLoader";
 import PageMessage from "/components/PageMessage";
 import Alert from "@mui/material/Alert";
-import { display } from "@mui/system";
 
 //İmages
 import { CascoPrintPolicyBanner, CascoPrintPolicyIcon } from "/resources/images.js";
@@ -126,6 +125,28 @@ const PaymentResult = () => {
 
   //3D ödeme gerçekleştirdikten sonra backend'e bilgi veriyoruz.
   const getPolicy = async () => {
+    let postUrl = "";
+    switch (quotePolicy.service.toString()) {
+      case "casco":
+        postUrl = "/api/policy/v1/casco/getcascopolicy";
+        break;
+      case "traffic":
+        postUrl = "/api/policy/v1/traffic/gettrafficpolicy";
+        break;
+      case "tss":
+        postUrl = "/api/policy/v1/health/gethealthpolicy";
+        break;
+      case "travelhealth":
+        postUrl = "/api/policy/v1/travel/gettravelpolicy";
+        break;
+      case "dask":
+        postUrl = "/api/policy/v1/dask/getdaskpolicy";
+        break;
+      case "personelaccident":
+        postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpolicy";
+        break;
+    }
+
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode), //########
       card: {
@@ -153,7 +174,6 @@ const PaymentResult = () => {
     };
 
     console.log("Gönderilen Request: ", JSON.stringify(bodyData));
-    let postUrl = "/api/policy/v1/casco/getcascopolicy";
 
     setRequest(bodyData);
 
@@ -173,18 +193,27 @@ const PaymentResult = () => {
     }
   };
 
+  //Backend olumlu cevap dönerse poliçe dökümanını getiriyoruz.
   const getPolicyDocuments = async () => {
     let postUrl = "";
-
-    switch (quotePolicy.service) {
+    switch (quotePolicy.service.toString()) {
       case "casco":
         postUrl = "/api/print/v1/casco/printcascopolicy";
         break;
       case "traffic":
-        postUrl = "/api/print/v1/Traffic/printtrafficpolicy";
+        postUrl = "/api/print/v1/traffic/printtrafficpolicy";
         break;
-      case "health":
-        postUrl = "/api/print/v1/Health/printhealthpolicy";
+      case "tss":
+        postUrl = "/api/print/v1/health/printtsspolicy";
+        break;
+      case "travelhealth":
+        postUrl = "/api/print/v1/travel/printtravelpolicy";
+        break;
+      case "dask":
+        postUrl = "/api/print/v1/dask/printdaskpolicy";
+        break;
+      case "personelaccident":
+        postUrl = "/api/print/v1/personelaccident/printpersonelaccidentpolicy";
         break;
     }
 
