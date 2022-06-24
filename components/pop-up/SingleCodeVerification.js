@@ -5,6 +5,10 @@ import axios from "/instances/axios";
 //fonksiyonlar
 import { writeResponseError, getNewToken, getClientIpAdress } from "/functions/common";
 
+//Components
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+
 const SingleCodeVerification = ({
   singleCodeVerificationCallback,
   phoneNumber,
@@ -74,7 +78,7 @@ const SingleCodeVerification = ({
   useEffect(async () => {
     if (verifySmsState.ipAddress) {
       console.log("İp: ", verifySmsState.ipAddress);
-      //await sendSms();
+      // await sendSms();
     }
   }, [verifySmsState.ipAddress]);
 
@@ -222,22 +226,17 @@ const SingleCodeVerification = ({
             style={{ borderRadius: "20px", boxShadow: "rgba(255, 255, 255, 0.5) 0px 8px 24px" }}
           >
             <div className="modal-body">
-              <form onSubmit={handleSubmit(onVerifySingleUseCode)}>
+              <form autoComplete="off" onSubmit={handleSubmit(onVerifySingleUseCode)}>
                 <div className="verify-single-use-code">
-                  <div className="row warning-before-process">
+                  <div className="row warning-before-process mb-3">
                     <div className="col-12 ">
-                      <div
-                        className="alert alert-warning mt-3"
-                        role="alert"
-                        style={{
-                          padding: "1px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i className="fas fa-exclamation-circle fa-lg mr-2 ml-2"></i>
-                        +90 {phoneNumber} telefonunuza gönderilen doğrulama kodunu giriniz.
-                      </div>
+                      <Alert severity="warning" style={{ fontSize: "11pt" }}>
+                        <strong>
+                          +90 {phoneNumber.toString().slice(0, 6)} XXX
+                          {phoneNumber.toString().slice(9, 15)}
+                        </strong>{" "}
+                        telefonunuza gönderilen doğrulama kodunu giriniz.
+                      </Alert>
                     </div>
                   </div>
 
@@ -272,19 +271,10 @@ const SingleCodeVerification = ({
                   {/* Girilen doğrulama kodu yanlış ise*/}
                   {verifySmsState.isVerifiedValidationCode == false && (
                     <div className="row wrong-code-alert">
-                      <div className="col-12 ">
-                        <div
-                          className="alert alert-danger mt-3"
-                          role="alert"
-                          style={{
-                            padding: "1px",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <i className="fas fa-times-circle fa-lg mr-2"></i>
+                      <div className="col-12 mt-3">
+                        <Alert severity="error" style={{ fontSize: "11pt" }}>
                           Girilen Kod Hatalıdır. Yeniden giriş yapınız.
-                        </div>
+                        </Alert>
                       </div>
                     </div>
                   )}

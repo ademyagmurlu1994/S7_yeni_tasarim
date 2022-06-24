@@ -50,9 +50,9 @@ const GetQuotePrint = ({ service, companyCode, quoteReference, revisionNumber, t
           postUrl = "/api/print/v1/traffic/printtrafficquote";
           break;
         case "tss":
-          postUrl = "/api/print/v1/health/printtssquote";
+          postUrl = "/api/print/v1/tss/printtssquote";
           break;
-        case "travelhealth":
+        case "travel":
           postUrl = "/api/print/v1/travel/printtravelquote";
           break;
         case "dask":

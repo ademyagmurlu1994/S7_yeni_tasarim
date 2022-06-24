@@ -1,0 +1,45 @@
+$main-color: rgb(164, 129, 248);
+$color: #eaeaf0;
+
+.icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    opacity: 1;
+    font-size: 26px;
+    line-height: 79px;
+    font-weight: 400;
+    color: $color;
+    border: 4px solid $color !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activeIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    opacity: 1;
+    font-size: 26px;
+    line-height: 79px;
+    font-weight: 400;
+    color: $color;
+    border: 4px solid $color !important;
+    background-color: $main-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow {
+    position: absolute;
+    width: 0%;
+    top: 76.5px;
+    left: calc(50% - 20px);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    background-color: transparent !important;
+    border-bottom: 20px solid $main-color;
+}
+

@@ -66,7 +66,7 @@ const ComplementaryHealthOffers = () => {
     const bodyData = inquiryInformations;
     bodyData.companyCode = companyCode;
     await axios
-      .post("/api/quote/v1/Health/gethealthquote", bodyData, {
+      .post("/api/quote/v1/tss/gettssquote", bodyData, {
         headers: {
           Authorization: state.token,
           "Content-Type": "application/json",
@@ -219,17 +219,8 @@ const ComplementaryHealthOffers = () => {
     quote.service = "tss";
     quote.companyLogo = "";
 
-    if (
-      quote.revisionNumber != undefined &&
-      quote.revisionNumber.toString() != "" &&
-      quote.quoteReference != undefined &&
-      quote.quoteReference.toString() != ""
-    ) {
-      localStorage.setItem("quotePolicy", JSON.stringify(quote));
-      window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
-    } else {
-      alert("Üzgünüz. Bu teklif için satın alma işlemi şimdilik kapalı!");
-    }
+    localStorage.setItem("quotePolicy", JSON.stringify(quote));
+    window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
   };
 
   return (

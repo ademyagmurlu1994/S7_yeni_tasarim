@@ -176,7 +176,7 @@ const VehicleInsuranceOffers = () => {
           let productName = "";
           let offerObject = {
             companyCode: 150,
-            quoteReference: data.OncekiPoliceNo,
+            quoteReference: data.ReferansNo,
             revisionNumber: data.OncekiPoliceYenilemeNo,
             companyLogo: HdiSigortaLogo,
             brutPrim: brutPrim,
@@ -257,18 +257,9 @@ const VehicleInsuranceOffers = () => {
     quote.service = "traffic";
     quote.companyLogo = "";
 
-    if (
-      quote.revisionNumber != undefined &&
-      quote.revisionNumber.toString() != "" &&
-      quote.quoteReference != undefined &&
-      quote.quoteReference.toString() != ""
-    ) {
-      localStorage.setItem("quotePolicy", JSON.stringify(quote));
+    localStorage.setItem("quotePolicy", JSON.stringify(quote));
 
-      window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
-    } else {
-      alert("Üzgünüz. Bu teklif için satın alma işlemi şimdilik kapalı!");
-    }
+    window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
   };
 
   return (

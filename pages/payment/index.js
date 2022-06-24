@@ -25,10 +25,11 @@ const PaymentSteps = () => {
 
   const [token, setToken] = useState("");
   const [creditCardInformation, setCreditCardInformation] = useState(undefined);
-  const [userInformation, setUserInformation] = useState();
+  const [inquiryInformations, setInquiryInformations] = useState();
   const [quotePolicy, setQuotePolicy] = useState();
   const [hasSecurityPayment, setHasSecurityPayment] = useState(undefined);
-  const [ticket, setTicket] = useState(undefined);
+  const [ticket, setTicket] = useState({ success: false });
+  const [ticketFlag, setTicketFlag] = useState(false);
   const [loader, setLoader] = useState(true);
   const [alert, setAlert] = useState({ severity: undefined, message: "" });
 
@@ -45,20 +46,20 @@ const PaymentSteps = () => {
   useEffect(() => {
     //ödeme için user bilgilerini getiriyoruz.
     if (token && JSON.parse(localStorage.getItem("inquiryInformations"))) {
-      const inquiryInformationData = JSON.parse(localStorage.getItem("inquiryInformations"));
-      setUserInformation(inquiryInformationData.insured);
+      const inquiryInformations = JSON.parse(localStorage.getItem("inquiryInformations"));
+      setInquiryInformations(inquiryInformations);
     }
   }, [token]);
 
-  //userInformation bilgisi geldiğinde quotePolicy'i getiriyoruz.
+  //inquiryInformations bilgisi geldiğinde quotePolicy'i getiriyoruz.
   useEffect(() => {
-    if (userInformation) {
+    if (inquiryInformations) {
       let quotePolicy = JSON.parse(localStorage.getItem("quotePolicy"));
       if (quotePolicy) {
         setQuotePolicy(quotePolicy);
       }
     }
-  }, [userInformation]);
+  }, [inquiryInformations]);
 
   //Sigorta şirketinin 3D ödeme sistemi olup olmadığının kontrolü.
   useEffect(async () => {
@@ -89,7 +90,8 @@ const PaymentSteps = () => {
   useEffect(() => {
     if (creditCardInformation) {
       //Eğer company 3d ödeme servisi varsa formu onayladıktan sonra öncelikle getPaymentTicket ile doğrulama ekranına yönlendirmemiz gerekiyor
-      if (hasSecurityPayment.hasSecurityPayment) {
+      //Ticket getirme işlemi başarısız olmuşsa ticket'a null değeri atanıyor.
+      if (hasSecurityPayment.hasSecurityPayment && ticketFlag != false) {
         getPaymentTicket();
       } else {
         completePayment2D();
@@ -111,9 +113,9 @@ const PaymentSteps = () => {
         postUrl = "/api/policy/v1/traffic/gettraffichassecuritypaymentsystem";
         break;
       case "tss":
-        postUrl = "/api/policy/v1/health/gethealthhassecuritypaymentsystem";
+        postUrl = "/api/policy/v1/tss/gettsshassecuritypaymentsystem";
         break;
-      case "travelhealth":
+      case "travel":
         postUrl = "/api/policy/v1/travel/gettravelhassecuritypaymentsystem";
         break;
       case "dask":
@@ -183,13 +185,13 @@ const PaymentSteps = () => {
         postUrl = "/api/policy/v1/traffic/gettrafficpaymentticket";
         break;
       case "tss":
-        postUrl = "/api/policy/v1/health/gethealthpaymentticket";
+        postUrl = "/api/policy/v1/tss/gettsspaymentticket";
         break;
-      case "travelhealth":
+      case "travel":
         postUrl = "/api/policy/v1/travel/gettravelpaymentticket";
         break;
       case "dask":
-        postUrl = "/api/policy/v1/health/gethealthpaymentticket";
+        postUrl = "/api/policy/v1/dask/getdaskpaymentticket";
         break;
       case "personelaccident":
         postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpaymentticket";
@@ -206,14 +208,11 @@ const PaymentSteps = () => {
         expiryMonth: 0,
         expiryYear: 0,
       },
-      policy: {
-        quoteReference: quotePolicy.quoteReference.toString(), //########
-        revisionNumber: quotePolicy.revisionNumber.toString(), //########
+      quote: {
+        quoteReference: quotePolicy.quoteReference ? quotePolicy.quoteReference.toString() : null, //########
+        revisionNumber: quotePolicy.revisionNumber ? quotePolicy.revisionNumber.toString() : null, //########
       },
-      contact: {
-        phone: userInformation.contact.mobilePhone.toString(),
-        email: userInformation.contact.email,
-      },
+      insured: inquiryInformations.insured,
       installment: 1, //########
       totalAmount: Number(quotePolicy.brutPrim), //
       returnURL:
@@ -235,14 +234,11 @@ const PaymentSteps = () => {
           expiryMonth: Number(creditCardInformation.expirationdate.substring(0, 2)),
           expiryYear: Number("20" + creditCardInformation.expirationdate.substring(3, 5)),
         },
-        policy: {
-          quoteReference: quotePolicy.quoteReference.toString(), //########
-          revisionNumber: quotePolicy.revisionNumber.toString(), //########
+        quote: {
+          quoteReference: quotePolicy.quoteReference ? quotePolicy.quoteReference.toString() : null, //########
+          revisionNumber: quotePolicy.revisionNumber ? quotePolicy.revisionNumber.toString() : null, //########
         },
-        contact: {
-          phone: userInformation.contact.mobilePhone.toString(),
-          email: userInformation.contact.email,
-        },
+        insured: inquiryInformations.insured,
         installment: 1,
         totalAmount: Number(quotePolicy.brutPrim),
         returnURL: "string",
@@ -250,7 +246,7 @@ const PaymentSteps = () => {
     }
 
     setRequest(bodyData);
-    console.log("Gönderilen Request: ", bodyData);
+    console.log("Gönderilen Request Ticket: ", JSON.stringify(bodyData));
 
     await axios
       .post(postUrl, bodyData, {
@@ -264,28 +260,20 @@ const PaymentSteps = () => {
         if (res.data.success) {
           setTicket(res.data.data);
         } else {
-          setTicket(null);
+          setTicketFlag(false);
           setLoader(false);
-          // setAlert({
-          //   ...alert,
-          //   severity: "error",
-          //   message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
-          // });
         }
       })
       .catch((error) => {
-        // setAlert({
-        //   ...alert,
-        //   severity: "error",
-        //   message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
-        // });
         writeResponseError(error);
-        setTicket(null);
+        setTicketFlag(false);
         setLoader(false);
       });
   };
 
   const completePayment2D = async () => {
+    setLoader(true);
+
     let postUrl = "";
     switch (quotePolicy.service.toString()) {
       case "casco":
@@ -295,9 +283,9 @@ const PaymentSteps = () => {
         postUrl = "/api/policy/v1/traffic/gettrafficpolicy";
         break;
       case "tss":
-        postUrl = "/api/policy/v1/health/gethealthpolicy";
+        postUrl = "/api/policy/v1/tss/gettsspolicy";
         break;
-      case "travelhealth":
+      case "travel":
         postUrl = "/api/policy/v1/travel/gettravelpolicy";
         break;
       case "dask":
@@ -307,6 +295,9 @@ const PaymentSteps = () => {
         postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpolicy";
         break;
     }
+
+    let inquiryInformationsData = inquiryInformations;
+    inquiryInformationsData.companyCode = Number(quotePolicy.companyCode);
 
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode), //########
@@ -320,14 +311,11 @@ const PaymentSteps = () => {
         expiryMonth: Number(creditCardInformation.expirationdate.substring(0, 2)),
         expiryYear: Number("20" + creditCardInformation.expirationdate.substring(3, 5)),
       },
-      policy: {
-        quoteReference: quotePolicy.quoteReference.toString(), //########
-        revisionNumber: quotePolicy.revisionNumber.toString(), //########
+      quote: {
+        quoteReference: quotePolicy.quoteReference ? quotePolicy.quoteReference.toString() : null, //########
+        revisionNumber: quotePolicy.revisionNumber ? quotePolicy.revisionNumber.toString() : null, //########
       },
-      contact: {
-        phone: userInformation.contact.mobilePhone.toString(),
-        email: userInformation.contact.email,
-      },
+      quoteParameters: inquiryInformationsData,
       payment3DInfo: {
         isPay3dPost: false,
         orderNo: "string",
@@ -336,7 +324,7 @@ const PaymentSteps = () => {
       installment: 1, //########
     };
 
-    console.log("Gönderilen Request: ", bodyData);
+    console.log("Gönderilen Request 2D: ", JSON.stringify(bodyData));
 
     await axios
       .post(postUrl, bodyData, {
@@ -347,6 +335,8 @@ const PaymentSteps = () => {
         },
       })
       .then((res) => {
+        setLoader(false);
+
         if (res.data.success) {
           router.push("/payment/result?paymentTwoCheckStatus=" + true);
         } else {
@@ -356,10 +346,11 @@ const PaymentSteps = () => {
             message: "Ödeme işlemlerinde bir hata oluştu lütfen daha sonra tekrar deneyiniz.",
           });
         }
+
         console.log("Get Casco Policy: ", res);
-        console.log("status=", resultSuccess);
       })
       .catch((error) => {
+        setLoader(false);
         writeResponseError(error);
         setAlert({
           ...alert,
@@ -398,7 +389,7 @@ const PaymentSteps = () => {
 
             {/* {JSON.stringify(request)} */}
             {hasSecurityPayment == false ||
-              (hasSecurityPayment && ticket == null && (
+              (hasSecurityPayment && ticketFlag == false && (
                 <div className="col-12 mt-5 mb-5">
                   {/* Kredi Kart Bilgi Girişi */}
                   <div className="row">

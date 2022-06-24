@@ -30,7 +30,7 @@ const PaymentResult = () => {
   const [query, setQuery] = useState();
   const [token, setToken] = useState("");
   const [creditCardInformation, setCreditCardInformation] = useState(undefined);
-  const [userInformation, setUserInformation] = useState();
+  const [inquiryInformations, setInquiryInformations] = useState();
   const [quotePolicy, setQuotePolicy] = useState();
   const [ticket, setTicket] = useState();
   const [paymentResult, setPaymentResult] = useState();
@@ -54,21 +54,21 @@ const PaymentResult = () => {
     //user bilgilerini getiriyoruz.
     if (token && JSON.parse(localStorage.getItem("inquiryInformations"))) {
       const inquiryInformationData = JSON.parse(localStorage.getItem("inquiryInformations"));
-      setUserInformation(inquiryInformationData.insured);
+      setInquiryInformations(inquiryInformationData);
     }
   }, [token]);
 
-  //userInformation bilgisi geldiğinde quotePolicy'i getiriyoruz.
+  //inquiryInformations bilgisi geldiğinde quotePolicy'i getiriyoruz.
   useEffect(() => {
-    if (userInformation) {
+    if (inquiryInformations) {
       let quotePolicyLocal = JSON.parse(localStorage.getItem("quotePolicy"));
       if (quotePolicyLocal) {
         setQuotePolicy(quotePolicyLocal);
       }
     }
-  }, [userInformation]);
+  }, [inquiryInformations]);
 
-  //quotePolicy bilgisi geldiğinde 3d ödeme için ticket'i getiriyoruz.
+  //quotePolicy bilgisi geldiğinde 3d ödeme için localden ticket'i getiriyoruz.
   useEffect(() => {
     if (quotePolicy) {
       let ticketLocal = JSON.parse(localStorage.getItem("ticket"));
@@ -78,14 +78,14 @@ const PaymentResult = () => {
     }
   }, [quotePolicy]);
 
-  //Sigorta şirketinin 3D ödeme sistemi olup olmadığının kontrolü.
+  //Ticket bilgisi geldikten sonra poliçeleştirme sonucunu getiriyoruz..
   useEffect(() => {
     if (ticket) {
       getPolicyResult();
     }
   }, [ticket]);
 
-  // //Ödeme işlem sonucu geldikten sonra getpolicy api'ını çağırma
+  //Poliçe result başarılı ise poliçe dokümanlarını getiriyoruz.
   useEffect(async () => {
     if (policyResult) {
       getPolicyDocuments();
@@ -134,9 +134,9 @@ const PaymentResult = () => {
         postUrl = "/api/policy/v1/traffic/gettrafficpolicy";
         break;
       case "tss":
-        postUrl = "/api/policy/v1/health/gethealthpolicy";
+        postUrl = "/api/policy/v1/tss/gettsspolicy";
         break;
-      case "travelhealth":
+      case "travel":
         postUrl = "/api/policy/v1/travel/gettravelpolicy";
         break;
       case "dask":
@@ -146,6 +146,9 @@ const PaymentResult = () => {
         postUrl = "/api/policy/v1/personelaccident/getpersonelaccidentpolicy";
         break;
     }
+
+    let inquiryInformationsData = inquiryInformations;
+    inquiryInformationsData.companyCode = Number(quotePolicy.companyCode);
 
     const bodyData = {
       companyCode: Number(quotePolicy.companyCode), //########
@@ -157,14 +160,11 @@ const PaymentResult = () => {
         expiryMonth: 0,
         expiryYear: 0,
       },
-      policy: {
-        quoteReference: quotePolicy.quoteReference.toString(), //########
-        revisionNumber: quotePolicy.revisionNumber.toString(), //########
+      quote: {
+        quoteReference: quotePolicy.quoteReference ? quotePolicy.quoteReference.toString() : null, //########
+        revisionNumber: quotePolicy.revisionNumber ? quotePolicy.revisionNumber.toString() : null, //########
       },
-      contact: {
-        phone: userInformation.contact.mobilePhone.toString(),
-        email: userInformation.contact.email,
-      },
+      quoteParameters: inquiryInformationsData,
       payment3DInfo: {
         isPay3dPost: true,
         orderNo: ticket.orderNo.toString(),
@@ -204,9 +204,9 @@ const PaymentResult = () => {
         postUrl = "/api/print/v1/traffic/printtrafficpolicy";
         break;
       case "tss":
-        postUrl = "/api/print/v1/health/printtsspolicy";
+        postUrl = "/api/print/v1/tss/printtsspolicy";
         break;
-      case "travelhealth":
+      case "travel":
         postUrl = "/api/print/v1/travel/printtravelpolicy";
         break;
       case "dask":

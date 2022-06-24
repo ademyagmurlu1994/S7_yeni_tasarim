@@ -1,16 +1,25 @@
 import { useState } from "react";
 import Link from "next/link";
-import { Traffic, Health, dask, HomeOwners, CarService, Pet, Family } from "../resources/images";
+import {
+  Traffic,
+  Health,
+  dask,
+  HomeOwners,
+  CarService,
+  Pet,
+  Travel,
+  Phone,
+} from "/resources/images";
 
 const Services = () => {
   const [featureList] = useState([
     {
-      title: "Trafik",
+      title: "TRAFİK",
       img: Traffic,
       url: "/insurance/traffic",
     },
     {
-      title: "Tamamlayıcı Sağlık",
+      title: "SAĞLIK",
       img: Health,
       url: "/insurance/health/complementary",
     },
@@ -20,7 +29,7 @@ const Services = () => {
       url: "/insurance/dask",
     },
     {
-      title: "Konut",
+      title: "KONUT",
       img: HomeOwners,
       url: "",
     },
@@ -30,15 +39,26 @@ const Services = () => {
       url: "/insurance/casco",
     },
     {
-      title: "Evcil Hayvan",
+      title: "EVCİL HAYVAN",
       img: Pet,
       url: "/insurance/pet",
+    },
+    {
+      title: "SEYAHAT",
+      img: Travel,
+      url: "/insurance/travel",
+    },
+    {
+      title: "TELEFON",
+      img: Phone,
+      url: "/insurance/phone",
     },
   ]);
 
   return (
     <>
       {/* Feature section start*/}
+      {/*Deneme Commit*/}
       <section className="services_section mt-5" style={{ marginBottom: "300px" }}>
         <div className="container" style={{ marginTop: "50px" }}>
           <div className="row text-center">

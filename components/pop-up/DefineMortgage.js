@@ -65,7 +65,7 @@ const NotificationConfirmation = ({ notificationCallback, show, id }) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form onSubmit={handleSubmit(dainiMurtehinAdd)}>
+            <form autoComplete="off" onSubmit={handleSubmit(dainiMurtehinAdd)}>
               <div className="modal-body">
                 <div className="row">
                   <div className="col-12 w-100">

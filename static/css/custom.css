@@ -1200,8 +1200,8 @@ select.invalid,
     background-color: white;
     border-radius: 15px;
     height: 100%;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
+    margin-top: 10px !important;
+    /* margin-bottom: 10px !important; */
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 
@@ -1754,4 +1754,72 @@ footer .widget_links li a:hover {
     -moz-box-flex: 0;
     flex: 0 0 14.285714285714285714285714285714% !important;
   }
+}
+
+/*08.06.22*/
+.modal-header .close {
+  padding: 0px;
+  margin: 0px;
+  position: static;
+}
+
+.modal-header .fa-info-circle {
+  font-size: 22pt;
+  color: var(--info);
+}
+
+.modal-dialog .modal-content {
+  border-radius: 20px;
+  box-shadow: rgba(255, 255, 255, 0.5) 0px 8px 24px;
+}
+
+.modal-dialog .modal-content .modal-body {
+  font-size: 12pt;
+  font-weight: 400;
+  padding: 30px 15px 30px 15px;
+}
+
+.modal-dialog .modal-content .modal-body.modal-info {
+  font-size: 14pt;
+}
+
+/*Soldan sağa stepper(Ajans)*/
+.stepContainer {
+  width: 73% !important;
+}
+
+@media (max-width: 768px) {
+  .stepContainer {
+    width: 100% !important;
+  }
+}
+
+/*23062022*/
+.react-calendar {
+  width: 100% !important;
+}
+.react-calendar__tile--now {
+  background: rgba(var(--main-color-rgb), 0.15) !important;
+}
+
+.react-calendar__tile--active {
+  background: var(--main-color) !important;
+}
+
+.react-calendar__tile:disabled {
+  background-color: #fbfbfb;
+  /* border: 1px solid red; */
+  opacity: 50%;
+}
+
+.react-calendar .react-calendar__tile {
+  border-bottom: 1px solid rgba(var(--main-color-rgb), 40%) !important;
+  border-left: 1px solid rgba(var(--main-color-rgb), 40%) !important;
+}
+
+.react-calendar .react-calendar__tile [type="button"]:not(:disabled):hover,
+.react-calendar .react-calendar__tile [type="reset"]:not(:disabled):hover,
+.react-calendar .react-calendar__tile [type="submit"]:not(:disabled):hover,
+.react-calendar .react-calendar__tile button:not(:disabled):hover {
+  background-color: rgba(var(--main-color-rgb), 40%) !important;
 }

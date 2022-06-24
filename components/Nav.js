@@ -103,6 +103,9 @@ const Nav = () => {
                               <Link href="/insurance/health/travel">
                                 <a className="dropdown-item">Seyahat Sağlık</a>
                               </Link>
+                              <Link href="/insurance/health/private">
+                                <a className="dropdown-item">Özel Sağlık</a>
+                              </Link>
                             </div>
                           </div>
                         </div>

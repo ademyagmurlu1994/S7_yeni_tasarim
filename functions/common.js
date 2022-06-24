@@ -201,6 +201,21 @@ export const getTodayDate = () => {
 
   return todayDate;
 };
+export const getDate = (date) => {
+  var todayDate = new Date(date);
+  var dd = todayDate.getDate();
+  var mm = todayDate.getMonth() + 1; //January is 0!
+  var yyyy = todayDate.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  todayDate = yyyy + "-" + mm + "-" + dd;
+
+  return todayDate;
+};
 
 export const numberToTrNumber = (number) => {
   let strNumber = Number(number).toString();
@@ -264,6 +279,13 @@ export const isValidRegex = (inputText, regexPattern) => {
   }
 };
 
+export const isValidPhoneNumber = (value) => {
+  return isValidRegex(
+    value.toString(),
+    /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/
+  );
+};
+
 export const isValidCreditCard = (value) => {
   // Accept only digits, dashes or spaces
   if (/[^0-9-\s]+/.test(value)) return false;
@@ -303,8 +325,8 @@ export const getClientIpAdress = async () => {
   }
 };
 
-export const addDaysToDate = (days, dates) => {
-  const date = new Date(dates);
+export const addDaysToDate = (days, dateVar) => {
+  const date = new Date(dateVar);
   date.setDate(date.getDate() + days);
 
   const day = date.getDate() < 10 ? "0" + date.getDate().toString() : date.getDate().toString();
@@ -397,4 +419,18 @@ export const separateLetterAndNumber = (value) => {
     returnValue += character;
   }
   return returnValue;
+};
+
+export const changeDateFormat = (value, format) => {
+  if (value) {
+    let pureDate = value.substring(0, 10);
+    if (format == "gg-aa-yyyy") {
+      let date = pureDate.split(".");
+      return date[2] + "-" + date[1] + "-" + date[0] + "T00:00:00";
+    } else if (format == "gg.aa.yyyy") {
+      let date = pureDate.split("-");
+      return date[2] + "." + date[1] + "." + date[0];
+    }
+  }
+  return value;
 };

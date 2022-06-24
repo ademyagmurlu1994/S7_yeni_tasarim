@@ -17,6 +17,17 @@ import PreFormLoader from "/components/PreFormLoader";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 
+//Step Components
+import StepLabelIcon from "../../../components/step/StepLabelIcon";
+
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+import StepConnector, { stepConnectorClasses } from "@mui/material/StepConnector";
+import { styled } from "@mui/material/styles";
+
 //fonksiyonlar
 import {
   isValidTcKimlik,
@@ -27,17 +38,50 @@ import {
 } from "/functions/common";
 
 const Inquiry = () => {
-  const router = useRouter();
+  /*Her Adımda ayrı form elemanı olduğu için ayrı ayrı control oluşturmamız gerekiyor,*/
   const {
-    control,
     register,
     handleSubmit,
     setValue,
     setError,
     clearErrors,
+    control,
     formState: { errors },
   } = useForm();
 
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    setValue: setValue2,
+    setError: setError2,
+    clearErrors: clearErrors2,
+    control: control2,
+    formState: { errors: errors2 },
+  } = useForm();
+
+  const {
+    register: register3,
+    handleSubmit: handleSubmit3,
+    setValue: setValue3,
+    setError: setError3,
+    clearErrors: clearErrors3,
+    control: control3,
+    formState: { errors: errors3 },
+  } = useForm();
+
+  const {
+    register: register4,
+    handleSubmit: handleSubmit4,
+    setValue: setValue4,
+    setError: setError4,
+    clearErrors: clearErrors4,
+    control: control4,
+    formState: { errors: errors4 },
+  } = useForm();
+
+  const router = useRouter();
+
+  const [activeStep, setActiveStep] = React.useState(0);
   const [state, setState] = useState({
     activeStep: 1,
     isExistPolicy: false,
@@ -139,7 +183,7 @@ const Inquiry = () => {
     //Telefon kod doğrulama başarılı ise diğer adıma geçiş yapıyoruz.
     if (isVerifySmsSingleCode) {
       setIsShowVerifySingleCodePopup(false);
-      setState({ ...state, activeStep: 3 });
+      setActiveStep(2);
     }
   }, [isVerifySmsSingleCode]);
 
@@ -229,7 +273,7 @@ const Inquiry = () => {
   //############# 3.step Watch methodları #################
   //Aktif step 3 olduktan sonra  getiriyoruz.
   useEffect(() => {
-    if (state.activeStep == 3) {
+    if (activeStep == 2) {
       getWhoMakesInsuranceList();
       if (state.isExistPolicy) {
         getDaskPolicyInfo();
@@ -241,7 +285,7 @@ const Inquiry = () => {
         getBuildingDamageStatusTypeList();
       }
     }
-  }, [state.activeStep]);
+  }, [activeStep]);
 
   //Daini Mürtehin Banka Seçildiğinde Bankaları getiriyor.
   useEffect(() => {
@@ -752,12 +796,12 @@ const Inquiry = () => {
 
   //##########  Normal fonksiyonlar ###########
   const validateStep = (data) => {
-    const forwardStep = state.activeStep + 1;
+    const forwardStep = activeStep + 1;
     switch (forwardStep) {
-      case 2:
-        setState({ ...state, activeStep: forwardStep });
+      case 1:
+        setActiveStep(forwardStep);
         break;
-      case 3:
+      case 2:
         //Bildirim check box'ı işaretli değilse pop-up gösteriliyor
         if (state.isCheckedNotification == false && notificationConfirmation == undefined) {
           setIsShowNotifyConfirmPopup(true);
@@ -768,11 +812,11 @@ const Inquiry = () => {
           setIsShowVerifySingleCodePopup(true);
         }
         break;
-      case 4:
-        setState({ ...state, activeStep: forwardStep });
+      case 3:
+        setActiveStep(forwardStep);
         break;
       //Son adımda bilgileri kaydedip teklif sayfasına yönlendirme yapıyoruz.
-      case 5:
+      case 4:
         saveInquiryInformations();
         break;
       default:
@@ -874,50 +918,703 @@ const Inquiry = () => {
   const singleCodeVerificationCallback = useCallback((isVerify) => {
     setIsVerifySmsSingleCode(isVerify);
   });
-  return (
-    <>
-      {/* Pop-up Notificiation Modal*/}
-      {isShowNotifyConfirmPopup && (
-        <NotificationConfirmation
-          isShow={isShowNotifyConfirmPopup}
-          notificationCallback={notificationConfirmationCallback}
-        />
-      )}
 
-      {/* Pop-up verification Single Code  */}
-      {isShowVerifySingleCodePopup == true && (
-        <SingleCodeVerification
-          singleCodeVerificationCallback={singleCodeVerificationCallback}
-          phoneNumber={state.phoneNumber}
-          isShow={isShowVerifySingleCodePopup}
-        />
-      )}
+  //step components
 
-      <section className="timeline_container mt-4">
-        {!state.token ? (
-          //Token Bilgisi gelene kadar loader Çalışıyor
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "500px" }}>
-            <div style={{ display: "block" }}>
-              <PreLoader></PreLoader>
+  const OneStep = () => {
+    return (
+      <Box
+        sx={{
+          mt: 5,
+          mb: 1,
+          mr: "auto",
+          ml: "auto",
+          p: "30px",
+          border: "2px solid #eeeeee",
+          borderRadius: "5px",
+        }}
+        className="animate__animated animate__fadeInRight stepContainer"
+      >
+        <div className={"timeline-inverted " + (state.activeStep > 1 ? "timeline-passed" : "")}>
+          <div className="timeline-badge success"></div>
+          <div className="timeline-panel">
+            <div className="timeline-heading">
+              <h4 className="timeline-title">Ulusal Adres Veritabanı (UAVT)</h4>
+            </div>
+            <div className="timeline-body animate__animated animate__fadeInUp  ">
+              {
+                <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
+                  {state.isKnowUavtNumber ? (
+                    <div className="uavt-no mt-2">
+                      <label className="form-check-label" htmlFor="uavtNo">
+                        UAVT
+                      </label>
+                      <i className="tip" data-tip-content="Name of your business">
+                        <div
+                          className="tip-content right"
+                          style={{ width: "400px", zIndex: "555500" }}
+                        >
+                          Ulusal Adres Veri Tabanı (UAVT) Kodu ülke sınırları içindeki tüm konutlara
+                          ait ayırt edici 10 haneli özel bir numaradır. Poliçe yaptırmak istediğiniz
+                          konuta ait UAVT kodunu öğrendikten sonra lütfen bu kutuya girişini yapın.
+                        </div>
+                      </i>
+
+                      <input
+                        type="number"
+                        id="uavtNo"
+                        maxLength={10}
+                        placeholder="Ulusal Adres Veritabanı (UAVT)"
+                        className={`form-control ${errors.ulusal_adres_veritabani && "invalid"}`}
+                        {...register("ulusal_adres_veritabani", {
+                          required: "Ulusal Adres Veritabani Zorunlu",
+                          max: {
+                            value: 9999999999,
+                            message: "Uavt kodu 10 hane olmak zorunda",
+                          },
+                          min: {
+                            value: 1000000000,
+                            message: "Uavt kodu 10 hane olmak zorunda",
+                          },
+                        })}
+                        onChange={(e) => {
+                          setState({ ...state, uavtNumber: e.target.value });
+                        }}
+                        value={state.uavtNumber}
+                      />
+                      <small className="text-danger">
+                        {errors["ulusal_adres_veritabani"]?.message}
+                      </small>
+                      <div className="dont-know-uavt mt-3 w-100">
+                        <div
+                          className="btn-sm btn-custom-outline w-100"
+                          onClick={() =>
+                            setState({
+                              ...state,
+                              isKnowUavtNumber: false,
+                              uavtNumber: null,
+                            })
+                          }
+                        >
+                          <i className="fas fa-exclamation-circle mr-2"></i> UAVT Kodumu Bilmiyorum
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        className="geri-button  color-main"
+                        onClick={() => setState({ ...state, isKnowUavtNumber: true })}
+                        style={{ fontWeight: "600", cursor: "pointer" }}
+                      >
+                        Geri
+                      </div>
+                      <div className="il-of-dask mt-4  ">
+                        <Autocomplete
+                          value={selectedBuildingCity}
+                          onChange={(event, newValue) => {
+                            setSelectedBuildingCity(newValue);
+                          }}
+                          options={buildingCities}
+                          getOptionLabel={(option) => option.aciklama}
+                          sx={{ width: "100%" }}
+                          size="small"
+                          loading={buildingCities.length > 0 ? false : true}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="İl"
+                              placeholder="İl Seçiniz"
+                              required={true}
+                              InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                  <React.Fragment>
+                                    {buildingCities.length == 0 ? (
+                                      <CircularProgress color="inherit" size={20} />
+                                    ) : null}
+                                    {params.InputProps.endAdornment}
+                                  </React.Fragment>
+                                ),
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
+                      {selectedBuildingCity && (
+                        <div className="ilce-of-dask mt-4  ">
+                          <Autocomplete
+                            name="district"
+                            value={selectedDistrict}
+                            onChange={(event, newValue) => {
+                              setSelectedDistrict(newValue);
+                            }}
+                            options={districtList}
+                            getOptionLabel={(option) => option.aciklama}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={districtList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="İlçe"
+                                placeholder="İlçe Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {districtList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
+                      )}
+
+                      {selectedDistrict && (
+                        <div className="belde-of-dask mt-4">
+                          <Autocomplete
+                            value={selectedTown}
+                            onChange={(event, newValue) => {
+                              setSelectedTown(newValue);
+                            }}
+                            options={townList}
+                            getOptionLabel={(option) => option.aciklama}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={townList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Belde"
+                                placeholder="Belde Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {townList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
+                      )}
+
+                      {selectedTown && (
+                        <div className="mahalle-of-dask mt-4  ">
+                          <Autocomplete
+                            value={selectedQuarter}
+                            onChange={(event, newValue) => {
+                              setSelectedQuarter(newValue);
+                            }}
+                            options={quarterList}
+                            getOptionLabel={(option) => option.aciklama}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={quarterList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Mahalle"
+                                placeholder="Mahalle Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {quarterList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
+                      )}
+
+                      {selectedQuarter && (
+                        <div className="sokak-of-dask mt-4  ">
+                          <Autocomplete
+                            value={selectedStreet}
+                            onChange={(event, newValue) => {
+                              setSelectedStreet(newValue);
+                            }}
+                            options={streetList}
+                            getOptionLabel={(option) => option.aciklama + " - " + option.diger}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={streetList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Sokak/Cadde/Bulvar"
+                                placeholder="Sokak/Cadde/Bulvar Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {streetList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
+                      )}
+
+                      {selectedStreet && (
+                        <div className="bina-of-dask mt-4  ">
+                          {errorMessage.building ? (
+                            <Alert severity="error" className="mt-4" style={{ fontSize: "11pt" }}>
+                              {errorMessage.building && errorMessage.building}
+                            </Alert>
+                          ) : (
+                            <Autocomplete
+                              value={selectedBuilding}
+                              onChange={(event, newValue) => {
+                                setSelectedBuilding(newValue);
+                              }}
+                              options={buildingList}
+                              getOptionLabel={(option) => option.diger}
+                              sx={{ width: "100%" }}
+                              size="small"
+                              loading={buildingList.length > 0 ? false : true}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Bina No"
+                                  placeholder="Bina No Seçiniz"
+                                  required={true}
+                                  InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                      <React.Fragment>
+                                        {buildingList.length == 0 ? (
+                                          <CircularProgress color="inherit" size={20} />
+                                        ) : null}
+                                        {params.InputProps.endAdornment}
+                                      </React.Fragment>
+                                    ),
+                                  }}
+                                />
+                              )}
+                            />
+                          )}
+                        </div>
+                      )}
+
+                      {selectedBuilding && (
+                        <div className="ic-kapi-no-of-dask mt-4  ">
+                          {errorMessage.apartment ? (
+                            <Alert severity="error" className="mt-4" style={{ fontSize: "11pt" }}>
+                              {errorMessage.apartment}
+                            </Alert>
+                          ) : (
+                            <Autocomplete
+                              value={selectedApartment}
+                              onChange={(event, newValue) => {
+                                setSelectedApartment(newValue);
+                                setState({
+                                  ...state,
+                                  uavtNumber: newValue ? newValue.diger : null,
+                                });
+                              }}
+                              options={apartmentList}
+                              getOptionLabel={(option) => option.aciklama}
+                              sx={{ width: "100%" }}
+                              size="small"
+                              loading={
+                                errorMessage.apartment && apartmentList.length > 0 ? false : true
+                              }
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Daire No"
+                                  placeholder="Daire No Seçiniz"
+                                  required={true}
+                                  InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                      <React.Fragment>
+                                        {apartmentList.length == 0 ? (
+                                          <CircularProgress color="inherit" size={20} />
+                                        ) : null}
+                                        {params.InputProps.endAdornment}
+                                      </React.Fragment>
+                                    ),
+                                  }}
+                                />
+                              )}
+                            />
+                          )}
+                        </div>
+                      )}
+
+                      {state.address && (
+                        <Alert severity="info" className="mt-4" style={{ fontSize: "11pt" }}>
+                          <b>Adres Bilgisi: </b>
+                          {state.address}
+                        </Alert>
+                      )}
+
+                      {state.uavtNumber && (
+                        <div className="uavt-kodu mt-3 p-3 bg-main-light text-center color-main">
+                          <b>UAVT Kodunuz: </b>
+                          {state.uavtNumber}
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  <input
+                    type="submit"
+                    className={`btn-custom btn-timeline-forward w-100 mt-4 text-center ${
+                      !state.uavtNumber && "passive"
+                    }`}
+                    value="Onayla"
+                  />
+
+                  {state.isConfirmLicence && (
+                    <div>
+                      <div
+                        className="uavt-home-address mt-3"
+                        style={{
+                          padding: "10px",
+                          backgroundColor: "var(--main-color-light)",
+                        }}
+                      >
+                        <b>Görünen Adres</b> <br />
+                        ***** MAH ***** SK No: 7 Daire: 2 Ada: 6920 / Pafta: / Parsel: 11 S********
+                        İSTANBUL
+                      </div>
+                      <input
+                        type="submit"
+                        className="btn-custom btn-timeline-forward w-100 mt-3"
+                        value=" İleri"
+                      />
+                    </div>
+                  )}
+                </form>
+              }
             </div>
           </div>
-        ) : (
-          <div className="container">
-            <ul className="timeline">
-              {/*Ulusal Adres Veri Tabanı (UAVT)*/}
-              {state.activeStep >= 1 && !state.isExistPolicy && (
-                <li
-                  className={"timeline-inverted " + (state.activeStep > 1 ? "timeline-passed" : "")}
-                >
-                  <div className="timeline-badge success"></div>
-                  <div className="timeline-panel">
-                    <div className="timeline-heading">
-                      <h4 className="timeline-title">Ulusal Adres Veritabanı (UAVT)</h4>
+        </div>
+      </Box>
+    );
+  };
+
+  const TwoStep = () => {
+    return (
+      <div className="animate__animated  animate__fadeInRight">
+        <Box
+          sx={{
+            mt: 5,
+            mb: 1,
+            mr: "auto",
+            ml: "auto",
+            p: "30px",
+            border: "2px solid #eeeeee",
+            borderRadius: "5px",
+          }}
+          className="stepContainer"
+        >
+          <div
+            className={
+              "timeline-inverted " +
+              (state.activeStep < 2 ? "timeline-passive" : "") +
+              (state.activeStep > 2 ? "timeline-passed" : "")
+            }
+          >
+            <div className="timeline-badge">
+              <b></b>
+            </div>
+            <div className="timeline-panel">
+              <div className="timeline-heading">
+                <h4 className="timeline-title">Kullanıcı Bilgileri</h4>
+              </div>
+              <div className="timeline-body animate__animated animate__fadeInUp  ">
+                <form autoComplete="off" onSubmit={handleSubmit2(validateStep)} id="secondStep">
+                  <div className="radio-is-register2ed-user mb-3">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="radioIsregister2edUser"
+                        id="radioregister2edUser"
+                        value={true}
+                        checked={state.isregister2edUser}
+                        onChange={() => setState({ ...state, isregister2edUser: true })}
+                      />
+                      <label className="form-check-label" htmlFor="radioregister2edUser">
+                        Kayıtlı Kullanıcı
+                      </label>
                     </div>
-                    <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      {
-                        <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
-                          {state.isKnowUavtNumber ? (
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="radioIsregister2edUser"
+                        id="radioNotregister2edUser"
+                        value={false}
+                        checked={!state.isregister2edUser}
+                        onChange={() => setState({ ...state, isregister2edUser: false })}
+                      />
+                      <label className="form-check-label" htmlFor="radioNotregister2edUser">
+                        Yeni Kullanıcı
+                      </label>
+                    </div>
+                  </div>
+
+                  {(() => {
+                    if (state.isregister2edUser) {
+                      return (
+                        <div className="register2ed-user">
+                          <div className="phone-number">
+                            <strong>Cep Telefonu: </strong>
+                            0532 123 ** **
+                          </div>
+                          <div className="email">
+                            <strong>E-posta adresi: </strong>
+                            ab***@hotmail.com
+                          </div>
+                          <div className="news-notification-confirmation mt-2">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={state.isCheckedNotification}
+                                id="flexCheckDefault"
+                                onChange={(e) =>
+                                  setState({
+                                    ...state,
+                                    isCheckedNotification: e.target.checked,
+                                  })
+                                }
+                              />
+                              <label className="form-check-label" htmlFor="flexCheckDefault">
+                                İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar olmak
+                                için tıklayınız.
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="unregister2ed-user">
+                          <div className="phone-number">
+                            Cep Telefonu
+                            <div
+                              className="input-form-with-prefix w-100"
+                              style={{ display: "flex" }}
+                            >
+                              <div className="bg-main text-white input-form-prefix px-2">+90</div>
+                              <div className="input-with-prefix">
+                                <input
+                                  type="tel"
+                                  id="phone"
+                                  className={`phoneNumber form-control ${
+                                    errors2.cepTelefonNo && "invalid"
+                                  }`}
+                                  {...register2("cepTelefonNo", {
+                                    required: "Cep telefonu numarası zorunlu",
+                                    pattern: {
+                                      value:
+                                        /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/,
+                                      message: "Geçersiz cep telefon numarası",
+                                    },
+                                  })}
+                                  value={state.phoneNumber}
+                                  onChange={(e) =>
+                                    setState({
+                                      ...state,
+                                      phoneNumber: e.target.value,
+                                    })
+                                  }
+                                  placeholder="(5xx) xxx xx xx"
+                                />
+                              </div>
+                            </div>
+                            <small className="text-danger">
+                              {errors2["cepTelefonNo"]?.message}
+                            </small>
+                          </div>
+                          <div className="email mt-2">
+                            E-posta adresi
+                            <div
+                              className="input-form-with-prefix w-100"
+                              style={{ display: "flex" }}
+                            >
+                              <div className="bg-main text-white input-form-prefix">
+                                <i className="far fa-envelope"></i>
+                              </div>
+                              <div className="input-with-prefix">
+                                <input
+                                  type="email"
+                                  id="emailAddress"
+                                  className={`form-control ${errors2.emailAddress && "invalid"}`}
+                                  {...register2("emailAddress", {
+                                    required: "E-mail adresi zorunlu",
+                                    pattern: {
+                                      value:
+                                        /^([\w-]{3,30}(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{1,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                                      message: "Geçersiz email adresi",
+                                    },
+                                  })}
+                                  value={state.email}
+                                  onChange={(e) => {
+                                    setState({ ...state, email: e.target.value });
+                                    clearErrors2("emailAddress");
+                                  }}
+                                />
+                              </div>
+                            </div>
+                            <small className="text-danger">
+                              {errors2["emailAddress"]?.message}
+                            </small>
+                          </div>
+                          <div className="news-notification-confirmation mt-2">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="check-notification-confirmation"
+                                {...register2("notification-confirmation", {})}
+                                value={state.isCheckedNotification}
+                                onChange={(e) =>
+                                  setState({
+                                    ...state,
+                                    isCheckedNotification: e.target.checked,
+                                  })
+                                }
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="check-notification-confirmation"
+                              >
+                                İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar olmak
+                                için tıklayınız.
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })()}
+                  <button className="btn-custom btn-timeline-forward w-100 mt-3">İleri</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </div>
+    );
+  };
+
+  const ThreeStep = () => {
+    return (
+      <div className="animate__animated  animate__fadeInRight">
+        <Box
+          sx={{
+            mt: 5,
+            mb: 1,
+            mr: "auto",
+            ml: "auto",
+            p: "30px",
+            border: "2px solid #eeeeee",
+            borderRadius: "5px",
+          }}
+          className="animate__animated  animate__fadeInRight stepContainer"
+        >
+          <div
+            className={
+              "timeline-inverted " +
+              (state.activeStep < 3 ? "timeline-passive" : "") +
+              (state.activeStep > 3 ? "timeline-passed" : "")
+            }
+          >
+            <div className="timeline-badge">
+              <b className="glyphicon glyphicon-credit-card"></b>
+            </div>
+            <div className="timeline-panel">
+              <div className="timeline-heading">
+                <h4 className="timeline-title">Konut Bilgisi </h4>
+              </div>
+              <div className="timeline-body animate__animated animate__fadeInUp  ">
+                <form autoComplete="off" onSubmit={handleSubmit3(validateStep)}>
+                  <>
+                    {state.isExistPolicy ? (
+                      <>
+                        {state.daskPolicyInfo && (
+                          <table className="table mt-3">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <strong>Bina Yapı Tarzı</strong>
+                                </td>
+                                <td>: {state.daskPolicyInfo.constructionType}</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <strong>Kullanım Tarzı</strong>
+                                </td>
+                                <td>: {state.daskPolicyInfo.constructionUsageType} </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <strong>Bina Yılı</strong>
+                                </td>
+                                <td>: {state.daskPolicyInfo.consturctionYear} </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <strong>Toplam Kat Sayısı</strong>
+                                </td>
+                                <td>: {state.daskPolicyInfo.floorCount} </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <strong>Daire Yüz Ölçümü</strong>
+                                </td>
+                                <td>: {state.daskPolicyInfo.squareMeter} </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        )}
+
+                        {!state.daskPolicyInfo && !errorMessage.policyInfoResponse && (
+                          <div style={{ display: "flex", justifyContent: "center" }}>
+                            <div style={{ display: "block" }}>
+                              <PreFormLoader />
+                            </div>
+                          </div>
+                        )}
+
+                        {!state.daskPolicyInfo && errorMessage.policyInfoResponse && (
+                          <>
+                            <Alert severity="error" className="mt-4" style={{ fontSize: "11pt" }}>
+                              {errorMessage.policyInfoResponse && errorMessage.policyInfoResponse}
+                            </Alert>
                             <div className="uavt-no mt-2">
                               <label className="form-check-label" htmlFor="uavtNo">
                                 UAVT
@@ -940,9 +1637,9 @@ const Inquiry = () => {
                                 maxLength={10}
                                 placeholder="Ulusal Adres Veritabanı (UAVT)"
                                 className={`form-control ${
-                                  errors.ulusal_adres_veritabani && "invalid"
+                                  errors3.ulusal_adres_veritabani && "invalid"
                                 }`}
-                                {...register("ulusal_adres_veritabani", {
+                                {...register3("ulusal_adres_veritabani", {
                                   required: "Ulusal Adres Veritabani Zorunlu",
                                   max: {
                                     value: 9999999999,
@@ -959,1220 +1656,613 @@ const Inquiry = () => {
                                 value={state.uavtNumber}
                               />
                               <small className="text-danger">
-                                {errors["ulusal_adres_veritabani"]?.message}
+                                {errors3["ulusal_adres_veritabani"]?.message}
                               </small>
-                              <div className="dont-know-uavt mt-3 w-100">
-                                <div
-                                  className="btn-sm btn-custom-outline w-100"
-                                  onClick={() =>
-                                    setState({
-                                      ...state,
-                                      isKnowUavtNumber: false,
-                                      uavtNumber: null,
-                                    })
-                                  }
-                                >
-                                  <i className="fas fa-exclamation-circle mr-2"></i> UAVT Kodumu
-                                  Bilmiyorum
-                                </div>
-                              </div>
                             </div>
-                          ) : (
-                            <>
-                              <div
-                                className="geri-button  color-main"
-                                onClick={() => setState({ ...state, isKnowUavtNumber: true })}
-                                style={{ fontWeight: "600", cursor: "pointer" }}
-                              >
-                                Geri
-                              </div>
-                              <div className="il-of-dask mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingCity}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingCity(newValue);
-                                  }}
-                                  options={buildingCities}
-                                  getOptionLabel={(option) => option.aciklama}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingCities.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      label="İl"
-                                      placeholder="İl Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingCities.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                    />
-                                  )}
-                                />
-                              </div>
-                              {selectedBuildingCity && (
-                                <div className="ilce-of-dask mt-4  ">
-                                  <Autocomplete
-                                    name="district"
-                                    value={selectedDistrict}
-                                    onChange={(event, newValue) => {
-                                      setSelectedDistrict(newValue);
-                                    }}
-                                    options={districtList}
-                                    getOptionLabel={(option) => option.aciklama}
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={districtList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label="İlçe"
-                                        placeholder="İlçe Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {districtList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                      />
-                                    )}
-                                  />
-                                </div>
-                              )}
-
-                              {selectedDistrict && (
-                                <div className="belde-of-dask mt-4">
-                                  <Autocomplete
-                                    value={selectedTown}
-                                    onChange={(event, newValue) => {
-                                      setSelectedTown(newValue);
-                                    }}
-                                    options={townList}
-                                    getOptionLabel={(option) => option.aciklama}
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={townList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label="Belde"
-                                        placeholder="Belde Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {townList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                      />
-                                    )}
-                                  />
-                                </div>
-                              )}
-
-                              {selectedTown && (
-                                <div className="mahalle-of-dask mt-4  ">
-                                  <Autocomplete
-                                    value={selectedQuarter}
-                                    onChange={(event, newValue) => {
-                                      setSelectedQuarter(newValue);
-                                    }}
-                                    options={quarterList}
-                                    getOptionLabel={(option) => option.aciklama}
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={quarterList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label="Mahalle"
-                                        placeholder="Mahalle Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {quarterList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                      />
-                                    )}
-                                  />
-                                </div>
-                              )}
-
-                              {selectedQuarter && (
-                                <div className="sokak-of-dask mt-4  ">
-                                  <Autocomplete
-                                    value={selectedStreet}
-                                    onChange={(event, newValue) => {
-                                      setSelectedStreet(newValue);
-                                    }}
-                                    options={streetList}
-                                    getOptionLabel={(option) =>
-                                      option.aciklama + " - " + option.diger
-                                    }
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={streetList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label="Sokak/Cadde/Bulvar"
-                                        placeholder="Sokak/Cadde/Bulvar Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {streetList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                      />
-                                    )}
-                                  />
-                                </div>
-                              )}
-
-                              {selectedStreet && (
-                                <div className="bina-of-dask mt-4  ">
-                                  {errorMessage.building ? (
-                                    <Alert
-                                      severity="error"
-                                      className="mt-4"
-                                      style={{ fontSize: "11pt" }}
-                                    >
-                                      {errorMessage.building && errorMessage.building}
-                                    </Alert>
-                                  ) : (
-                                    <Autocomplete
-                                      value={selectedBuilding}
-                                      onChange={(event, newValue) => {
-                                        setSelectedBuilding(newValue);
-                                      }}
-                                      options={buildingList}
-                                      getOptionLabel={(option) => option.diger}
-                                      sx={{ width: "100%" }}
-                                      size="small"
-                                      loading={buildingList.length > 0 ? false : true}
-                                      renderInput={(params) => (
-                                        <TextField
-                                          {...params}
-                                          label="Bina No"
-                                          placeholder="Bina No Seçiniz"
-                                          required={true}
-                                          InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                              <React.Fragment>
-                                                {buildingList.length == 0 ? (
-                                                  <CircularProgress color="inherit" size={20} />
-                                                ) : null}
-                                                {params.InputProps.endAdornment}
-                                              </React.Fragment>
-                                            ),
-                                          }}
-                                        />
-                                      )}
-                                    />
-                                  )}
-                                </div>
-                              )}
-
-                              {selectedBuilding && (
-                                <div className="ic-kapi-no-of-dask mt-4  ">
-                                  {errorMessage.apartment ? (
-                                    <Alert
-                                      severity="error"
-                                      className="mt-4"
-                                      style={{ fontSize: "11pt" }}
-                                    >
-                                      {errorMessage.apartment}
-                                    </Alert>
-                                  ) : (
-                                    <Autocomplete
-                                      value={selectedApartment}
-                                      onChange={(event, newValue) => {
-                                        setSelectedApartment(newValue);
-                                        setState({
-                                          ...state,
-                                          uavtNumber: newValue ? newValue.diger : null,
-                                        });
-                                      }}
-                                      options={apartmentList}
-                                      getOptionLabel={(option) => option.aciklama}
-                                      sx={{ width: "100%" }}
-                                      size="small"
-                                      loading={
-                                        errorMessage.apartment && apartmentList.length > 0
-                                          ? false
-                                          : true
-                                      }
-                                      renderInput={(params) => (
-                                        <TextField
-                                          {...params}
-                                          label="Daire No"
-                                          placeholder="Daire No Seçiniz"
-                                          required={true}
-                                          InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                              <React.Fragment>
-                                                {apartmentList.length == 0 ? (
-                                                  <CircularProgress color="inherit" size={20} />
-                                                ) : null}
-                                                {params.InputProps.endAdornment}
-                                              </React.Fragment>
-                                            ),
-                                          }}
-                                        />
-                                      )}
-                                    />
-                                  )}
-                                </div>
-                              )}
-
-                              {state.address && (
-                                <Alert
-                                  severity="info"
-                                  className="mt-4"
-                                  style={{ fontSize: "11pt" }}
-                                >
-                                  <b>Adres Bilgisi: </b>
-                                  {state.address}
-                                </Alert>
-                              )}
-
-                              {state.uavtNumber && (
-                                <div className="uavt-kodu mt-3 p-3 bg-main-light text-center color-main">
-                                  <b>UAVT Kodunuz: </b>
-                                  {state.uavtNumber}
-                                </div>
-                              )}
-                            </>
-                          )}
-
-                          <input
-                            type="submit"
-                            className={`btn-custom btn-timeline-forward w-100 mt-4 text-center ${
-                              !state.uavtNumber && "passive"
-                            }`}
-                            value="Onayla"
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <div className="bina-yuz-olcumu mt-4">
+                          <TextField
+                            {...register3("daire_metre_kare", {
+                              required: "Daire metre kare alanı zorunlu",
+                              min: {
+                                value: 10,
+                                message: "En az iki hane olmak zorunda",
+                              },
+                            })}
+                            type="number"
+                            value={state.buildingSquareMeter}
+                            onChange={(e) => {
+                              setState({
+                                ...state,
+                                buildingSquareMeter: e.target.value,
+                              });
+                            }}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            error={Boolean(errors3["daire_metre_kare"])}
+                            label="Daire Metre Kare"
+                            maxLength={4}
+                            name="daire_metre_kare"
                           />
-
-                          {state.isConfirmLicence && (
-                            <div>
-                              <div
-                                className="uavt-home-address mt-3"
-                                style={{
-                                  padding: "10px",
-                                  backgroundColor: "var(--main-color-light)",
-                                }}
-                              >
-                                <b>Görünen Adres</b> <br />
-                                ***** MAH ***** SK No: 7 Daire: 2 Ada: 6920 / Pafta: / Parsel: 11
-                                S******** İSTANBUL
-                              </div>
-                              <input
-                                type="submit"
-                                className="btn-custom btn-timeline-forward w-100 mt-3"
-                                value=" İleri"
-                              />
-                            </div>
-                          )}
-                        </form>
-                      }
-                    </div>
-                  </div>
-                </li>
-              )}
-
-              {/**Kimlik Bilgiler */}
-              {state.activeStep >= 2 && (
-                <li
-                  className={
-                    "timeline-inverted " +
-                    (state.activeStep < 2 ? "timeline-passive" : "") +
-                    (state.activeStep > 2 ? "timeline-passed" : "")
-                  }
-                >
-                  <div className="timeline-badge">
-                    <b></b>
-                  </div>
-                  <div className="timeline-panel">
-                    <div className="timeline-heading">
-                      <h4 className="timeline-title">Kullanıcı Bilgileri</h4>
-                    </div>
-                    <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      <form
-                        autocomplete="off"
-                        onSubmit={handleSubmit(validateStep)}
-                        id="secondStep"
-                      >
-                        <div className="radio-is-registered-user mb-3">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="radioIsRegisteredUser"
-                              id="radioRegisteredUser"
-                              value={true}
-                              checked={state.isRegisteredUser}
-                              onChange={() => setState({ ...state, isRegisteredUser: true })}
-                            />
-                            <label className="form-check-label" htmlFor="radioRegisteredUser">
-                              Kayıtlı Kullanıcı
-                            </label>
-                          </div>
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="radioIsRegisteredUser"
-                              id="radioNotRegisteredUser"
-                              value={false}
-                              checked={!state.isRegisteredUser}
-                              onChange={() => setState({ ...state, isRegisteredUser: false })}
-                            />
-                            <label className="form-check-label" htmlFor="radioNotRegisteredUser">
-                              Yeni Kullanıcı
-                            </label>
-                          </div>
+                          <small className="text-danger">
+                            {errors3["daire_metre_kare"]?.message}
+                          </small>
                         </div>
+                        <div className="bina-yapi-tarzi mt-4  ">
+                          <Autocomplete
+                            value={selectedBuildingConstructionType}
+                            onChange={(event, newValue) => {
+                              setSelectedBuildingConstructionType(newValue);
+                            }}
+                            options={buildingConstructionTypeList}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={buildingConstructionTypeList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                error={errors3.bina_yapi_tarzi}
+                                {...params}
+                                label="Bina Yapı"
+                                placeholder="Bina Yapı Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {buildingConstructionTypeList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                                {...register3("bina_yapi_tarzi", {
+                                  required: "Bina Yapı Tarzı alanı zorunlu",
+                                })}
+                              />
+                            )}
+                          />
+                          <small className="text-danger">
+                            {errors3["bina_yapi_tarzi"]?.message}
+                          </small>
+                        </div>
+                        <div className="bina-insaat-yili mt-4  ">
+                          <Autocomplete
+                            value={selectedBuildingConstructionYear}
+                            onChange={(event, newValue) => {
+                              setSelectedBuildingConstructionYear(newValue);
+                            }}
+                            options={buildingConstructionYearList}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={buildingConstructionYearList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                error={errors3.bina_insaat_yili}
+                                {...params}
+                                label="Bina İnşaat Yılı"
+                                placeholder="Bina İnşaat Yılı Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {buildingConstructionYearList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                                {...register3("bina_insaat_yili", {
+                                  required: "Bina İnşaat Yılı alanı zorunlu",
+                                })}
+                              />
+                            )}
+                          />
+                          <small className="text-danger">
+                            {errors3["bina_insaat_yili"]?.message}
+                          </small>
+                        </div>
+                        <div className="bina-kat-sayisi mt-4  ">
+                          <Autocomplete
+                            value={selectedBuildingFloorCount}
+                            onChange={(event, newValue) => {
+                              setSelectedBuildingFloorCount(newValue);
+                            }}
+                            options={buildingFloorCountList}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={buildingFloorCountList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                error={errors3.bina_kat_sayisi}
+                                {...params}
+                                label="Bina Kat Sayısı"
+                                placeholder="Bina Kat Sayısı Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {buildingFloorCountList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                                {...register3("bina_kat_sayisi", {
+                                  required: "Bina Kat Sayısı alanı zorunlu",
+                                })}
+                              />
+                            )}
+                          />
+                          <small className="text-danger">
+                            {errors3["bina_kat_sayisi"]?.message}
+                          </small>
+                        </div>
+                        <div className="bina-kullanim-tarzi mt-4  ">
+                          <Autocomplete
+                            value={selectedBuildingUsageType}
+                            onChange={(event, newValue) => {
+                              setSelectedBuildingUsageType(newValue);
+                            }}
+                            options={buildingUsageTypeList}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={buildingUsageTypeList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                error={errors3.bina_kullanim_tarzi}
+                                {...params}
+                                label="Bina Kullanım Tarzı"
+                                placeholder="Bina Kullanım Tarzı Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {buildingUsageTypeList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                                {...register3("bina_kullanim_tarzi", {
+                                  required: "Bina Kullanım Tarzı alanı zorunlu",
+                                })}
+                              />
+                            )}
+                          />
+                          <small className="text-danger">
+                            {errors3["bina_kullanim_tarzi"]?.message}
+                          </small>
+                        </div>
+                        <div className="bina-hasar-durumu mt-4  ">
+                          <Autocomplete
+                            value={selectedBuildingDamageStatusType}
+                            onChange={(event, newValue) => {
+                              setSelectedBuildingDamageStatusType(newValue);
+                            }}
+                            options={buildingDamageStatusTypeList}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: "100%" }}
+                            size="small"
+                            loading={buildingDamageStatusTypeList.length > 0 ? false : true}
+                            renderInput={(params) => (
+                              <TextField
+                                error={errors3.bina_hasar_durumu}
+                                {...params}
+                                label="Bina Hasar Durumu"
+                                placeholder="Bina Hasar Durumu Seçiniz"
+                                required={true}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <React.Fragment>
+                                      {buildingDamageStatusTypeList.length == 0 ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                  ),
+                                }}
+                                {...register3("bina_hasar_durumu", {
+                                  required: "Bina Durumu alanı zorunlu",
+                                })}
+                              />
+                            )}
+                          />
+                          <small className="text-danger">
+                            {errors3["bina_hasar_durumu"]?.message}
+                          </small>
+                        </div>
+                      </>
+                    )}
 
-                        {(() => {
-                          if (state.isRegisteredUser) {
-                            return (
-                              <div className="registered-user">
-                                <div className="phone-number">
-                                  <strong>Cep Telefonu: </strong>
-                                  0532 123 ** **
-                                </div>
-                                <div className="email">
-                                  <strong>E-posta adresi: </strong>
-                                  ab***@hotmail.com
-                                </div>
-                                <div className="news-notification-confirmation mt-2">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      value={state.isCheckedNotification}
-                                      id="flexCheckDefault"
-                                      onChange={(e) =>
-                                        setState({
-                                          ...state,
-                                          isCheckedNotification: e.target.checked,
-                                        })
-                                      }
-                                    />
-                                    <label className="form-check-label" htmlFor="flexCheckDefault">
-                                      İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar
-                                      olmak için tıklayınız.
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div className="unregistered-user">
-                                <div className="phone-number">
-                                  Cep Telefonu
-                                  <div
-                                    className="input-form-with-prefix w-100"
-                                    style={{ display: "flex" }}
-                                  >
-                                    <div className="bg-main text-white input-form-prefix px-2">
-                                      +90
-                                    </div>
-                                    <div className="input-with-prefix">
-                                      <input
-                                        type="tel"
-                                        id="phone"
-                                        className={`form-control ${
-                                          errors.cepTelefonNo && "invalid"
-                                        }`}
-                                        {...register("cepTelefonNo", {
-                                          required: "Cep telefonu numarası zorunlu",
-                                          pattern: {
-                                            value:
-                                              /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/,
-                                            message: "Geçersiz cep telefon numarası",
-                                          },
-                                        })}
-                                        value={state.phoneNumber}
-                                        onChange={(e) =>
-                                          setState({
-                                            ...state,
-                                            phoneNumber: e.target.value,
-                                          })
-                                        }
-                                        placeholder="(5xx) xxx xx xx"
-                                      />
-                                    </div>
-                                  </div>
-                                  <small className="text-danger">
-                                    {errors["cepTelefonNo"]?.message}
-                                  </small>
-                                </div>
-                                <div className="email mt-2">
-                                  E-posta adresi
-                                  <div
-                                    className="input-form-with-prefix w-100"
-                                    style={{ display: "flex" }}
-                                  >
-                                    <div className="bg-main text-white input-form-prefix">
-                                      <i className="far fa-envelope"></i>
-                                    </div>
-                                    <div className="input-with-prefix">
-                                      <input
-                                        type="email"
-                                        id="emailAddress"
-                                        className={`form-control ${
-                                          errors.emailAddress && "invalid"
-                                        }`}
-                                        {...register("emailAddress", {
-                                          required: "E-mail adresi zorunlu",
-                                          pattern: {
-                                            value:
-                                              /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-                                            message: "Geçersiz email adresi",
-                                          },
-                                        })}
-                                        value={state.email}
-                                        onChange={(e) => {
-                                          setState({ ...state, email: e.target.value });
-                                          clearErrors("emailAddress");
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
-                                  <small className="text-danger">
-                                    {errors["emailAddress"]?.message}
-                                  </small>
-                                </div>
-                                <div className="news-notification-confirmation mt-2">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id="check-notification-confirmation"
-                                      {...register("notification-confirmation", {})}
-                                      value={state.isCheckedNotification}
-                                      onChange={(e) =>
-                                        setState({
-                                          ...state,
-                                          isCheckedNotification: e.target.checked,
-                                        })
-                                      }
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="check-notification-confirmation"
-                                    >
-                                      İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar
-                                      olmak için tıklayınız.
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            );
+                    <div className="sigorta-yaptiranin-unvani mt-4">
+                      <Autocomplete
+                        value={selectedWhoMakesInsurance}
+                        onChange={(event, newValue) => {
+                          setSelectedWhoMakesInsurance(newValue);
+                        }}
+                        options={whoMakesInsuranceList}
+                        getOptionLabel={(option) => option.name}
+                        sx={{ width: "100%" }}
+                        size="small"
+                        loading={whoMakesInsuranceList.length > 0 ? false : true}
+                        renderInput={(params) => (
+                          <TextField
+                            error={errors3.sigorta_yaptiranin_unvani}
+                            {...params}
+                            label="Sigorta Yaptıranın Ünvanı"
+                            placeholder="Sigorta Yaptıranın Ünvanını Seçiniz"
+                            required={true}
+                            InputProps={{
+                              ...params.InputProps,
+                              endAdornment: (
+                                <React.Fragment>
+                                  {whoMakesInsuranceList.length == 0 ? (
+                                    <CircularProgress color="inherit" size={20} />
+                                  ) : null}
+                                  {params.InputProps.endAdornment}
+                                </React.Fragment>
+                              ),
+                            }}
+                            {...register3("sigorta_yaptiranin_unvani", {
+                              required: "Sigorta Yaptıranın Ünvani alanı zorunlu",
+                            })}
+                          />
+                        )}
+                      />
+                      <small className="text-danger">
+                        {errors3["sigorta_yaptiranin_unvani"]?.message}
+                      </small>
+                    </div>
+                  </>
+
+                  <input
+                    type="submit"
+                    className="btn-custom btn-timeline-forward w-100 mt-3"
+                    value=" İleri"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </div>
+    );
+  };
+
+  const FourStep = () => {
+    return (
+      <div className="animate__animated  animate__fadeInRight">
+        <Box
+          sx={{
+            mt: 5,
+            mb: 1,
+            mr: "auto",
+            ml: "auto",
+            p: "30px",
+            border: "2px solid #eeeeee",
+            borderRadius: "5px",
+          }}
+          className="animate__animated  animate__fadeInRight stepContainer"
+        >
+          <div
+            className={
+              "timeline-inverted " +
+              (state.activeStep < 4 ? "timeline-passive" : "") +
+              (state.activeStep > 4 ? "timeline-passed" : "")
+            }
+          >
+            <div className="timeline-badge">
+              <b className="glyphicon glyphicon-credit-card"></b>
+            </div>
+            <div className="timeline-panel">
+              <div className="timeline-heading">
+                <h4 className="timeline-title">Rehin Alacaklı Bilgisi </h4>
+              </div>
+              <div className="timeline-body animate__animated animate__fadeInUp  ">
+                <div className="radio-is-exist-rehin-alacakli mb-3">
+                  <div className="d-flex mb-3">
+                    <div className="w-50">
+                      <div className="custom-radio-button">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault1"
+                          checked={!state.isExistMortgage}
+                          value={false}
+                          onChange={(e) =>
+                            setState({
+                              ...state,
+                              isExistMortgage: false,
+                            })
                           }
-                        })()}
-                        <button className="btn-custom btn-timeline-forward w-100 mt-3">
-                          İleri
-                        </button>
-                      </form>
+                        />
+                        <label className="form-check-label" htmlFor="flexRadioDefault1">
+                          Rehin Alacaklı Yok
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              )}
+                    <div className="w-50">
+                      <div className="custom-radio-button">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault2"
+                          checked={state.isExistMortgage}
+                          value={true}
+                          onChange={(e) =>
+                            setState({
+                              ...state,
+                              isExistMortgage: true,
+                            })
+                          }
+                        />
 
-              {/**Bina Bilgileri */}
-              {state.activeStep >= 3 && (
-                <li
-                  className={
-                    "timeline-inverted " +
-                    (state.activeStep < 3 ? "timeline-passive" : "") +
-                    (state.activeStep > 3 ? "timeline-passed" : "")
-                  }
-                >
-                  <div className="timeline-badge">
-                    <b className="glyphicon glyphicon-credit-card"></b>
-                  </div>
-                  <div className="timeline-panel">
-                    <div className="timeline-heading">
-                      <h4 className="timeline-title">Konut Bilgisi </h4>
+                        <label className="form-check-label" htmlFor="flexRadioDefault2">
+                          Rehin Alacaklı Var
+                        </label>
+                      </div>
                     </div>
-                    <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
+                  </div>
+                </div>
+
+                <form autoComplete="off" onSubmit={handleSubmit4(validateStep)}>
+                  {state.isExistMortgage && (
+                    <>
+                      <div className="rehin-alacakli-radio">
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="radioIsDainiMurtehin"
+                            id="radioDainiMurtehinBank"
+                            checked={state.isMortgageBank}
+                            value={true}
+                            onChange={(e) =>
+                              setState({
+                                ...state,
+                                isMortgageBank: true,
+                              })
+                            }
+                          />
+                          <label className="form-check-label" htmlFor="radioDainiMurtehinBank">
+                            Rehin Alacaklı Banka
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="radioIsDainiMurtehin"
+                            id="radioDainiMurtehinFinans"
+                            checked={!state.isMortgageBank}
+                            value={false}
+                            onChange={(e) =>
+                              setState({
+                                ...state,
+                                isMortgageBank: false,
+                              })
+                            }
+                          />
+                          <label className="form-check-label" htmlFor="radioDainiMurtehinFinans">
+                            Rehin Alacaklı Finans Kuruluşu
+                          </label>
+                        </div>
+                      </div>
+                      {state.isMortgageBank ? (
                         <>
-                          {state.isExistPolicy ? (
-                            <>
-                              {state.daskPolicyInfo && (
-                                <table className="table mt-3">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <strong>Bina Yapı Tarzı</strong>
-                                      </td>
-                                      <td>: {state.daskPolicyInfo.constructionType}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <strong>Kullanım Tarzı</strong>
-                                      </td>
-                                      <td>: {state.daskPolicyInfo.constructionUsageType} </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <strong>Bina Yılı</strong>
-                                      </td>
-                                      <td>: {state.daskPolicyInfo.consturctionYear} </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <strong>Toplam Kat Sayısı</strong>
-                                      </td>
-                                      <td>: {state.daskPolicyInfo.floorCount} </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <strong>Daire Yüz Ölçümü</strong>
-                                      </td>
-                                      <td>: {state.daskPolicyInfo.squareMeter} </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              )}
-
-                              {!state.daskPolicyInfo && !errorMessage.policyInfoResponse && (
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                  <div style={{ display: "block" }}>
-                                    <PreFormLoader />
-                                  </div>
-                                </div>
-                              )}
-
-                              {!state.daskPolicyInfo && errorMessage.policyInfoResponse && (
-                                <>
-                                  <Alert
-                                    severity="error"
-                                    className="mt-4"
-                                    style={{ fontSize: "11pt" }}
-                                  >
-                                    {errorMessage.policyInfoResponse &&
-                                      errorMessage.policyInfoResponse}
-                                  </Alert>
-                                  <div className="uavt-no mt-2">
-                                    <label className="form-check-label" htmlFor="uavtNo">
-                                      UAVT
-                                    </label>
-                                    <i className="tip" data-tip-content="Name of your business">
-                                      <div
-                                        className="tip-content right"
-                                        style={{ width: "400px", zIndex: "555500" }}
-                                      >
-                                        Ulusal Adres Veri Tabanı (UAVT) Kodu ülke sınırları içindeki
-                                        tüm konutlara ait ayırt edici 10 haneli özel bir numaradır.
-                                        Poliçe yaptırmak istediğiniz konuta ait UAVT kodunu
-                                        öğrendikten sonra lütfen bu kutuya girişini yapın.
-                                      </div>
-                                    </i>
-
-                                    <input
-                                      type="number"
-                                      id="uavtNo"
-                                      maxLength={10}
-                                      placeholder="Ulusal Adres Veritabanı (UAVT)"
-                                      className={`form-control ${
-                                        errors.ulusal_adres_veritabani && "invalid"
-                                      }`}
-                                      {...register("ulusal_adres_veritabani", {
-                                        required: "Ulusal Adres Veritabani Zorunlu",
-                                        max: {
-                                          value: 9999999999,
-                                          message: "Uavt kodu 10 hane olmak zorunda",
-                                        },
-                                        min: {
-                                          value: 1000000000,
-                                          message: "Uavt kodu 10 hane olmak zorunda",
-                                        },
-                                      })}
-                                      onChange={(e) => {
-                                        setState({ ...state, uavtNumber: e.target.value });
-                                      }}
-                                      value={state.uavtNumber}
-                                    />
-                                    <small className="text-danger">
-                                      {errors["ulusal_adres_veritabani"]?.message}
-                                    </small>
-                                  </div>
-                                </>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              <div className="bina-yuz-olcumu mt-4">
-                                <TextField
-                                  {...register("daire_metre_kare", {
-                                    required: "Daire metre kare alanı zorunlu",
-                                    min: {
-                                      value: 10,
-                                      message: "En az iki hane olmak zorunda",
-                                    },
-                                  })}
-                                  type="number"
-                                  value={state.buildingSquareMeter}
-                                  onChange={(e) => {
-                                    setState({
-                                      ...state,
-                                      buildingSquareMeter: e.target.value,
-                                    });
-                                  }}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  error={Boolean(errors["daire_metre_kare"])}
-                                  label="Daire Metre Kare"
-                                  maxLength={4}
-                                  name="daire_metre_kare"
-                                />
-                                <small className="text-danger">
-                                  {errors["daire_metre_kare"]?.message}
-                                </small>
-                              </div>
-                              <div className="bina-yapi-tarzi mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingConstructionType}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingConstructionType(newValue);
-                                  }}
-                                  options={buildingConstructionTypeList}
-                                  getOptionLabel={(option) => option.name}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingConstructionTypeList.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      error={errors.bina_yapi_tarzi}
-                                      {...params}
-                                      label="Bina Yapı"
-                                      placeholder="Bina Yapı Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingConstructionTypeList.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                      {...register("bina_yapi_tarzi", {
-                                        required: "Bina Yapı Tarzı alanı zorunlu",
-                                      })}
-                                    />
-                                  )}
-                                />
-                                <small className="text-danger">
-                                  {errors["bina_yapi_tarzi"]?.message}
-                                </small>
-                              </div>
-                              <div className="bina-insaat-yili mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingConstructionYear}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingConstructionYear(newValue);
-                                  }}
-                                  options={buildingConstructionYearList}
-                                  getOptionLabel={(option) => option.name}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingConstructionYearList.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      error={errors.bina_insaat_yili}
-                                      {...params}
-                                      label="Bina İnşaat Yılı"
-                                      placeholder="Bina İnşaat Yılı Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingConstructionYearList.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                      {...register("bina_insaat_yili", {
-                                        required: "Bina İnşaat Yılı alanı zorunlu",
-                                      })}
-                                    />
-                                  )}
-                                />
-                                <small className="text-danger">
-                                  {errors["bina_insaat_yili"]?.message}
-                                </small>
-                              </div>
-                              <div className="bina-kat-sayisi mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingFloorCount}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingFloorCount(newValue);
-                                  }}
-                                  options={buildingFloorCountList}
-                                  getOptionLabel={(option) => option.name}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingFloorCountList.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      error={errors.bina_kat_sayisi}
-                                      {...params}
-                                      label="Bina Kat Sayısı"
-                                      placeholder="Bina Kat Sayısı Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingFloorCountList.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                      {...register("bina_kat_sayisi", {
-                                        required: "Bina Kat Sayısı alanı zorunlu",
-                                      })}
-                                    />
-                                  )}
-                                />
-                                <small className="text-danger">
-                                  {errors["bina_kat_sayisi"]?.message}
-                                </small>
-                              </div>
-                              <div className="bina-kullanim-tarzi mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingUsageType}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingUsageType(newValue);
-                                  }}
-                                  options={buildingUsageTypeList}
-                                  getOptionLabel={(option) => option.name}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingUsageTypeList.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      error={errors.bina_kullanim_tarzi}
-                                      {...params}
-                                      label="Bina Kullanım Tarzı"
-                                      placeholder="Bina Kullanım Tarzı Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingUsageTypeList.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                      {...register("bina_kullanim_tarzi", {
-                                        required: "Bina Kullanım Tarzı alanı zorunlu",
-                                      })}
-                                    />
-                                  )}
-                                />
-                                <small className="text-danger">
-                                  {errors["bina_kullanim_tarzi"]?.message}
-                                </small>
-                              </div>
-                              <div className="bina-hasar-durumu mt-4  ">
-                                <Autocomplete
-                                  value={selectedBuildingDamageStatusType}
-                                  onChange={(event, newValue) => {
-                                    setSelectedBuildingDamageStatusType(newValue);
-                                  }}
-                                  options={buildingDamageStatusTypeList}
-                                  getOptionLabel={(option) => option.name}
-                                  sx={{ width: "100%" }}
-                                  size="small"
-                                  loading={buildingDamageStatusTypeList.length > 0 ? false : true}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      error={errors.bina_hasar_durumu}
-                                      {...params}
-                                      label="Bina Hasar Durumu"
-                                      placeholder="Bina Hasar Durumu Seçiniz"
-                                      required={true}
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                          <React.Fragment>
-                                            {buildingDamageStatusTypeList.length == 0 ? (
-                                              <CircularProgress color="inherit" size={20} />
-                                            ) : null}
-                                            {params.InputProps.endAdornment}
-                                          </React.Fragment>
-                                        ),
-                                      }}
-                                      {...register("bina_hasar_durumu", {
-                                        required: "Bina Durumu alanı zorunlu",
-                                      })}
-                                    />
-                                  )}
-                                />
-                                <small className="text-danger">
-                                  {errors["bina_hasar_durumu"]?.message}
-                                </small>
-                              </div>
-                            </>
-                          )}
-
-                          <div className="sigorta-yaptiranin-unvani mt-4">
+                          <div className="banka-adi mt-4  ">
                             <Autocomplete
-                              value={selectedWhoMakesInsurance}
+                              value={selectedBank}
                               onChange={(event, newValue) => {
-                                setSelectedWhoMakesInsurance(newValue);
+                                setSelectedBank(newValue);
                               }}
-                              options={whoMakesInsuranceList}
+                              options={bankList}
                               getOptionLabel={(option) => option.name}
                               sx={{ width: "100%" }}
                               size="small"
-                              loading={whoMakesInsuranceList.length > 0 ? false : true}
+                              loading={bankList.length > 0 ? false : true}
                               renderInput={(params) => (
                                 <TextField
-                                  error={errors.sigorta_yaptiranin_unvani}
+                                  error={errors4.banka_adi}
                                   {...params}
-                                  label="Sigorta Yaptıranın Ünvanı"
-                                  placeholder="Sigorta Yaptıranın Ünvanını Seçiniz"
+                                  label="Banka Adı"
+                                  placeholder="Banka Adı Seçiniz"
                                   required={true}
                                   InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
                                       <React.Fragment>
-                                        {whoMakesInsuranceList.length == 0 ? (
+                                        {bankList.length == 0 ? (
                                           <CircularProgress color="inherit" size={20} />
                                         ) : null}
                                         {params.InputProps.endAdornment}
                                       </React.Fragment>
                                     ),
                                   }}
-                                  {...register("sigorta_yaptiranin_unvani", {
-                                    required: "Sigorta Yaptıranın Ünvani alanı zorunlu",
+                                  {...register4("banka_adi", {
+                                    required: "Banka Adı alanı zorunlu",
                                   })}
                                 />
                               )}
                             />
+                            <small className="text-danger">{errors4["banka_adi"]?.message}</small>
+                          </div>
+                          {selectedBank && (
+                            <div className="banka-sube mt-4  ">
+                              <Autocomplete
+                                value={selectedBankBranch}
+                                onChange={(event, newValue) => {
+                                  setSelectedBankBranch(newValue);
+                                }}
+                                options={bankBranchList}
+                                getOptionLabel={(option) => option.name}
+                                sx={{ width: "100%" }}
+                                size="small"
+                                loading={bankBranchList.length > 0 ? false : true}
+                                renderInput={(params) => (
+                                  <TextField
+                                    error={errors4.banka_sube}
+                                    {...params}
+                                    label="Banka Şubesi"
+                                    placeholder="Banka Şubesi Seçiniz"
+                                    required={true}
+                                    InputProps={{
+                                      ...params.InputProps,
+                                      endAdornment: (
+                                        <React.Fragment>
+                                          {bankBranchList.length == 0 ? (
+                                            <CircularProgress color="inherit" size={20} />
+                                          ) : null}
+                                          {params.InputProps.endAdornment}
+                                        </React.Fragment>
+                                      ),
+                                    }}
+                                    {...register4("banka_sube", {
+                                      required: "Banka Şube alanı zorunlu",
+                                    })}
+                                  />
+                                )}
+                              />
+                              <small className="text-danger">
+                                {errors4["banka_sube"]?.message}
+                              </small>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <div className="kurum-adi mt-4  ">
+                            <Autocomplete
+                              value={selectedFinancialCompany}
+                              onChange={(event, newValue) => {
+                                setSelectedFinancialCompany(newValue);
+                              }}
+                              options={financialCompanyList}
+                              getOptionLabel={(option) => option.name}
+                              sx={{ width: "100%" }}
+                              size="small"
+                              loading={financialCompanyList.length > 0 ? false : true}
+                              renderInput={(params) => (
+                                <TextField
+                                  error={errors4.finansal_kurum_adi}
+                                  {...params}
+                                  label="Finansal Kurum Adı"
+                                  placeholder="Finansal Kurum Adı Seçiniz"
+                                  required={true}
+                                  InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                      <React.Fragment>
+                                        {financialCompanyList.length == 0 ? (
+                                          <CircularProgress color="inherit" size={20} />
+                                        ) : null}
+                                        {params.InputProps.endAdornment}
+                                      </React.Fragment>
+                                    ),
+                                  }}
+                                  {...register4("finansal_kurum_adi", {
+                                    required: "Finansal Kurum Adı alanı zorunlu",
+                                  })}
+                                />
+                              )}
+                            />
+
                             <small className="text-danger">
-                              {errors["sigorta_yaptiranin_unvani"]?.message}
+                              {errors4["finansal_kurum_adi"]?.message}
                             </small>
                           </div>
                         </>
+                      )}
+                    </>
+                  )}
 
-                        <input
-                          type="submit"
-                          className="btn-custom btn-timeline-forward w-100 mt-3"
-                          value=" İleri"
-                        />
-                      </form>
-                    </div>
-                  </div>
-                </li>
-              )}
-              {/**Daini Mürtehin */}
-              {state.activeStep >= 4 && (
-                <li
-                  className={
-                    "timeline-inverted " +
-                    (state.activeStep < 4 ? "timeline-passive" : "") +
-                    (state.activeStep > 4 ? "timeline-passed" : "")
-                  }
-                >
-                  <div className="timeline-badge">
-                    <b className="glyphicon glyphicon-credit-card"></b>
-                  </div>
-                  <div className="timeline-panel">
-                    <div className="timeline-heading">
-                      <h4 className="timeline-title">Rehin Alacaklı Bilgisi </h4>
-                    </div>
-                    <div className="timeline-body animate__animated animate__fadeInUp  ">
-                      <div className="radio-is-exist-rehin-alacakli mb-3">
-                        <div className="d-flex mb-3">
-                          <div className="w-50">
-                            <div className="custom-radio-button">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                                checked={!state.isExistMortgage}
-                                value={false}
-                                onChange={(e) =>
-                                  setState({
-                                    ...state,
-                                    isExistMortgage: false,
-                                  })
-                                }
-                              />
-                              <label className="form-check-label" htmlFor="flexRadioDefault1">
-                                Rehin Alacaklı Yok
-                              </label>
-                            </div>
-                          </div>
-                          <div className="w-50">
-                            <div className="custom-radio-button">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault2"
-                                checked={state.isExistMortgage}
-                                value={true}
-                                onChange={(e) =>
-                                  setState({
-                                    ...state,
-                                    isExistMortgage: true,
-                                  })
-                                }
-                              />
+                  <input
+                    type="submit"
+                    className="btn-custom btn-timeline-forward w-100 mt-3"
+                    value="Dask Tekliflerini Getir"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </div>
+    );
+  };
 
-                              <label className="form-check-label" htmlFor="flexRadioDefault2">
-                                Rehin Alacaklı Var
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+  const steps = [OneStep(), TwoStep(), ThreeStep(), FourStep()];
 
-                      <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
-                        {state.isExistMortgage && (
-                          <>
-                            <div className="rehin-alacakli-radio">
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="radioIsDainiMurtehin"
-                                  id="radioDainiMurtehinBank"
-                                  checked={state.isMortgageBank}
-                                  value={true}
-                                  onChange={(e) =>
-                                    setState({
-                                      ...state,
-                                      isMortgageBank: true,
-                                    })
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="radioDainiMurtehinBank"
-                                >
-                                  Rehin Alacaklı Banka
-                                </label>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="radioIsDainiMurtehin"
-                                  id="radioDainiMurtehinFinans"
-                                  checked={!state.isMortgageBank}
-                                  value={false}
-                                  onChange={(e) =>
-                                    setState({
-                                      ...state,
-                                      isMortgageBank: false,
-                                    })
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="radioDainiMurtehinFinans"
-                                >
-                                  Rehin Alacaklı Finans Kuruluşu
-                                </label>
-                              </div>
-                            </div>
-                            {state.isMortgageBank ? (
-                              <>
-                                <div className="banka-adi mt-4  ">
-                                  <Autocomplete
-                                    value={selectedBank}
-                                    onChange={(event, newValue) => {
-                                      setSelectedBank(newValue);
-                                    }}
-                                    options={bankList}
-                                    getOptionLabel={(option) => option.name}
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={bankList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        error={errors.banka_adi}
-                                        {...params}
-                                        label="Banka Adı"
-                                        placeholder="Banka Adı Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {bankList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                        {...register("banka_adi", {
-                                          required: "Banka Adı alanı zorunlu",
-                                        })}
-                                      />
-                                    )}
-                                  />
-                                  <small className="text-danger">
-                                    {errors["banka_adi"]?.message}
-                                  </small>
-                                </div>
-                                {selectedBank && (
-                                  <div className="banka-sube mt-4  ">
-                                    <Autocomplete
-                                      value={selectedBankBranch}
-                                      onChange={(event, newValue) => {
-                                        setSelectedBankBranch(newValue);
-                                      }}
-                                      options={bankBranchList}
-                                      getOptionLabel={(option) => option.name}
-                                      sx={{ width: "100%" }}
-                                      size="small"
-                                      loading={bankBranchList.length > 0 ? false : true}
-                                      renderInput={(params) => (
-                                        <TextField
-                                          error={errors.banka_sube}
-                                          {...params}
-                                          label="Banka Şubesi"
-                                          placeholder="Banka Şubesi Seçiniz"
-                                          required={true}
-                                          InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                              <React.Fragment>
-                                                {bankBranchList.length == 0 ? (
-                                                  <CircularProgress color="inherit" size={20} />
-                                                ) : null}
-                                                {params.InputProps.endAdornment}
-                                              </React.Fragment>
-                                            ),
-                                          }}
-                                          {...register("banka_sube", {
-                                            required: "Banka Şube alanı zorunlu",
-                                          })}
-                                        />
-                                      )}
-                                    />
-                                    <small className="text-danger">
-                                      {errors["banka_sube"]?.message}
-                                    </small>
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                <div className="kurum-adi mt-4  ">
-                                  <Autocomplete
-                                    value={selectedFinancialCompany}
-                                    onChange={(event, newValue) => {
-                                      setSelectedFinancialCompany(newValue);
-                                    }}
-                                    options={financialCompanyList}
-                                    getOptionLabel={(option) => option.name}
-                                    sx={{ width: "100%" }}
-                                    size="small"
-                                    loading={financialCompanyList.length > 0 ? false : true}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        error={errors.finansal_kurum_adi}
-                                        {...params}
-                                        label="Finansal Kurum Adı"
-                                        placeholder="Finansal Kurum Adı Seçiniz"
-                                        required={true}
-                                        InputProps={{
-                                          ...params.InputProps,
-                                          endAdornment: (
-                                            <React.Fragment>
-                                              {financialCompanyList.length == 0 ? (
-                                                <CircularProgress color="inherit" size={20} />
-                                              ) : null}
-                                              {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                          ),
-                                        }}
-                                        {...register("finansal_kurum_adi", {
-                                          required: "Finansal Kurum Adı alanı zorunlu",
-                                        })}
-                                      />
-                                    )}
-                                  />
+  const QontoConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 28,
+      right: "calc(50% + 28px)",
+      left: "calc(-50% + 28px)",
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
+      borderTopWidth: 2,
+      borderRadius: 1,
+    },
+  }));
+  return (
+    <>
+      {/* Pop-up Notificiation Modal*/}
+      {isShowNotifyConfirmPopup && (
+        <NotificationConfirmation
+          isShow={isShowNotifyConfirmPopup}
+          notificationCallback={notificationConfirmationCallback}
+        />
+      )}
 
-                                  <small className="text-danger">
-                                    {errors["finansal_kurum_adi"]?.message}
-                                  </small>
-                                </div>
-                              </>
-                            )}
-                          </>
-                        )}
+      {/* Pop-up verification Single Code  */}
+      {isShowVerifySingleCodePopup == true && (
+        <SingleCodeVerification
+          singleCodeVerificationCallback={singleCodeVerificationCallback}
+          phoneNumber={state.phoneNumber}
+          isShow={isShowVerifySingleCodePopup}
+        />
+      )}
 
-                        <input
-                          type="submit"
-                          className="btn-custom btn-timeline-forward w-100 mt-3"
-                          value="Dask Tekliflerini Getir"
-                        />
-                      </form>
-                    </div>
-                  </div>
-                </li>
-              )}
-            </ul>
+      <section className="timeline_container dask-section mt-4">
+        {!state.token ? (
+          //Token Bilgisi gelene kadar loader Çalışıyor
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "500px" }}>
+            <div style={{ display: "block" }}>
+              <PreLoader></PreLoader>
+            </div>
+          </div>
+        ) : (
+          <div className="container-md" style={{ marginBottom: "400px" }}>
+            <Box>
+              <Stepper activeStep={activeStep} alternativeLabel connector={<QontoConnector />}>
+                {steps.map((label, index) => {
+                  return (
+                    <Step key={index}>
+                      <StepLabel StepIconComponent={StepLabelIcon}></StepLabel>
+                    </Step>
+                  );
+                })}
+              </Stepper>
+              <Box>{steps[activeStep]}</Box>
+            </Box>
           </div>
         )}
 

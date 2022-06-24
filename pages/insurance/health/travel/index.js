@@ -6,32 +6,53 @@ import { useRouter } from "next/router";
 import InsuranceIndexPageInformation from "/components/common/InsuranceIndexPageInformation";
 import TravelFAQ from "/components/faq/TravelFAQ";
 import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
+import Button from "/components/form/Button";
+
+//Mui Componentler
+import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 
 //fonksiyonlar
-import { isValidTcKimlik, getTodayDate, writeResponseError } from "/functions/common";
+import {
+  getTodayDate,
+  writeResponseError,
+  numberToTrNumber,
+  getNewToken,
+  isValidMaskedDate,
+  changeDateFormat,
+  isValidTcKimlikOrVergiKimlik,
+  isValidTcKimlik,
+} from "/functions/common";
+
+//styles
+import { inputStyle } from "/styles/custom";
 
 //images
 import { DaskInsuranceInformationPhoto, WhatIsTheDaskInsurance } from "/resources/images";
 
 export default function travelIndex() {
-  const [state, setState] = useState({});
+  const [state, setState] = useState({
+    identityShrink: undefined,
+    identityNo: undefined,
+  });
 
   const {
     register,
     handleSubmit,
     setError,
+    watch,
+    trigger,
     clearErrors,
     formState: { errors },
   } = useForm();
-
   const router = useRouter();
 
   const getTravelHealthOffers = (data) => {
     //store'daki değeri değiştiriyoruz.
     localStorage.setItem(
-      "travel_health_index",
+      "travelIndex",
       JSON.stringify({
-        tc_kimlik_numarasi: data.tc_kimlik_numarasi,
+        identityNo: state.identityNo,
       })
     );
     router.push("/insurance/health/travel/inquiry");
@@ -64,40 +85,66 @@ export default function travelIndex() {
                         <form autoComplete="off" onSubmit={handleSubmit(getTravelHealthOffers)}>
                           <div className="tckn-input-card">
                             <div className="tc-kimlik-no mt-4">
-                              <label htmlFor="tcKimlikNo">T.C. Kimlik Numarası</label>
-                              <input
-                                type="number"
-                                id="tcKimlikNo"
-                                maxLength={11}
-                                placeholder="T.C. Kimlik Numarası"
-                                className={`form-control ${
-                                  errors["tc_kimlik_numarasi"] && "invalid"
-                                }`}
-                                {...register("tc_kimlik_numarasi", {
+                              <TextField
+                                {...register("identityNo", {
                                   required: "T.C. Kimlik Numarası zorunlu",
                                   validate: isValidTcKimlik,
                                 })}
+                                onPaste={() => {
+                                  setState({ ...state, identityShrink: true });
+                                  clearErrors("identityNo");
+                                }}
+                                onChange={(e) => {
+                                  setState({ ...state, identityNo: e.target.value });
+                                  clearErrors("identityNo");
+                                }}
+                                value={state.identityNo}
+                                placeholder="T.C. Kimlik Numarası"
+                                variant="outlined"
+                                margin="none"
+                                label="T.C. Kimlik Numarası"
+                                error={errors && Boolean(errors["identityNo"])}
+                                inputProps={{
+                                  maxLength: "11",
+                                  type: "number",
+                                }}
+                                InputLabelProps={{
+                                  shrink: state.identityShrink,
+                                }}
+                                sx={inputStyle}
                               />
                               <small className="text-danger">
-                                {errors["tc_kimlik_numarasi"]?.message}
+                                {errors["identityNo"]?.message}
                                 {/**Validate Message */}
-                                {errors["tc_kimlik_numarasi"]
-                                  ? errors["tc_kimlik_numarasi"].type == "validate"
+                                {errors["identityNo"]
+                                  ? errors["identityNo"].type == "validate"
                                     ? "Geçersiz T.C. Kimlik Numarası"
                                     : ""
                                   : ""}
                               </small>
                             </div>
                             <div className="information-for-new-policy mt-3">
-                              TCKN size özel teklif üretebilmemiz için gerekmektedir.
+                              <Alert
+                                severity="info"
+                                style={{ fontSize: "11pt" }}
+                                sx={{ backgroundColor: "transparent", mx: "0px", px: "0px" }}
+                              >
+                                TCKN size özel teklif üretebilmemiz için gerekmektedir.
+                              </Alert>
                             </div>
                           </div>
 
-                          <input
+                          <Button
                             type="submit"
-                            className="btn-custom btn-timeline-forward w-100 mt-3"
-                            value="SEYAHAT SAĞLIK TEKLİFİ AL"
-                          />
+                            className="w-100 mt-3"
+                            disabled={
+                              (errors && Object.keys(errors).length) ||
+                              !state.identityNo ||
+                              (state.identityNo && state.identityNo.toString().length != 11)
+                            }
+                          >
+                            SEYAHAT SAĞLIK TEKLİFİ AL
+                          </Button>
                         </form>
                       }
                     </div>

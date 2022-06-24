@@ -49,4 +49,4 @@ COPY --from=builder /app/.env.local ./.env.local
 # Uncomment the following line in case you want to disable telemetry.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["node_modules/.bin/next", "start", "--", "--port=4008"]
+CMD ["node_modules/.bin/next", "start", "--", "--port=4006"]

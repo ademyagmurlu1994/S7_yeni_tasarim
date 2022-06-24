@@ -59,21 +59,26 @@ const Footer = () => {
                 <div className="widget widget_links">
                   <h3>Bilgi Merkezi</h3>
                   <ul>
+				  <li>
+                    <a href="/blog">Blog </a>
+                  </li>
                     <li>
-                      <DocumentScroller
-                        id="kvkkDocument"
-                        isShow={state.isShowKVKK}
-                        documentURL="/static/documents/footer/KVKK.pdf"
-                        title="KVKK Aydınlatma Metni"
-                      ></DocumentScroller>
-                      <a
-                        onClick={() => {
-                          $("#kvkkDocument").modal("show");
-                        }}
-                      >
-                        KVKK Aydınlatma Metni
-                      </a>
-                    </li>
+                    {/* <DocumentScroller
+                      id="kvkkDocument"
+                      isShow={state.isShowKVKK}
+                      documentURL="/static/documents/footer/KVKK.pdf"
+                      title="KVKK Aydınlatma Metni"
+                    ></DocumentScroller> */}
+                    <a
+                      // onClick={() => {
+                      //   $("#kvkkDocument").modal("show");
+                      // }}
+                      href="/static/documents/footer/KVKK.pdf"
+                      download={true}
+                    >
+                      KVKK Aydınlatma Metni
+                    </a>
+                  </li>
                     <li>
                       <a href="#">Gizlilik Çerez Politikası </a>
                     </li>

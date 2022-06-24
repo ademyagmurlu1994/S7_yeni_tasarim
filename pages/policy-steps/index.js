@@ -425,6 +425,8 @@ const PolicySteps = () => {
           </>
         </div>
       )}
+
+      <div className="clear-fix"></div>
     </section>
   );
 };

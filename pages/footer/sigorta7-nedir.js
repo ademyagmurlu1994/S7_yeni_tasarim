@@ -63,8 +63,8 @@ const Sigorta7Nedir = () => {
                   }}
                 >
                   <span style={{ fontSize: "16px", fontFamily: '"Arial",sans-serif' }}>
-                    Sigorta7.com kasko ve ****** sigortaları başta olmak üzere ******* şirketlerinin
-                    sunmakta olduğu ürünlerin prim ve diğer şartlarını çok kısa bir sü** içerisinde
+                    Sigorta7.com kasko ve trafik sigortaları başta olmak üzere sigorta şirketlerinin
+                    sunmakta olduğu ürünlerin prim ve diğer şartlarını çok kısa bir süre içerisinde
                     hazırlayarak kullanıcılarının dikkatine sunar.&nbsp;
                   </span>
                 </p>
@@ -95,19 +95,19 @@ const Sigorta7Nedir = () => {
                   </li>
                   <li>
                     <span style={{ fontFamily: '"Arial",sans-serif', fontSize: "12.0pt" }}>
-                      Sigorta şirketlerinin teklifleri ***** vermenizi kolaylaştırmak adına
+                      Sigorta şirketlerinin teklifleri karar vermenizi kolaylaştırmak adına
                       karşılaştırmalı olarak hazırlanır.&nbsp;
                     </span>
                   </li>
                   <li>
                     <span style={{ fontFamily: '"Arial",sans-serif', fontSize: "12.0pt" }}>
-                      En ileri *********** ** hızlı şekilde ********** zamandan tasarruf edersiniz.
+                      En ileri teknolojiyi en hızlı şekilde kullanarak zamandan tasarruf edersiniz.
                     </span>
                   </li>
                   <li>
                     <span style={{ fontFamily: '"Arial",sans-serif', fontSize: "12.0pt" }}>
-                      Sigorta7.com aracılığı*** aldığınız poliç****** hasarları ile uğraş*** zorunda
-                      kalmazsınız, hasar ekibimiz sizin adınıza dosyanızı takip eder **
+                      Sigorta7.com aracılığıyla aldığınız poliçelerin hasarları ile uğraşmak zorunda
+                      kalmazsınız, hasar ekibimiz sizin adınıza dosyanızı takip eder ve
                       sonuçlandırır.
                     </span>
                   </li>
@@ -206,7 +206,7 @@ const Sigorta7Nedir = () => {
                     marginLeft: "0cm",
                     fontSize: "15px",
                     fontFamily: '"Calibri",sans-serif',
-                    marginTop: "10px",
+                    marginTop: "10px !important",
                     marginBottom: ".0001pt",
                     lineHeight: "107%",
                     margin: "0cm",
@@ -214,8 +214,8 @@ const Sigorta7Nedir = () => {
                   }}
                 >
                   <span style={{ fontFamily: '"Arial",sans-serif' }}>
-                    Sigora7.*** platformuna gerekli bilgileri 5 adımda girdikten sonra kasko ve
-                    trafik sigortası poliçeniz iç** size sunulan tekliflerden birini seçer ve *****
+                    Sigora7.com platformuna gerekli bilgileri 5 adımda girdikten sonra kasko ve
+                    trafik sigortası poliçeniz için size sunulan tekliflerden birini seçer ve kredi
                     kartı bilgilerinizi girdikten sonra poliçenizi ister anında basabilir isterseniz
                     e-posta ile kendinize göndererek satın alma işleminizi çok hızlı şekilde
                     tamamlarsınız.&nbsp;
@@ -238,7 +238,7 @@ const Sigorta7Nedir = () => {
                 </p>
                 <h2
                   style={{
-                    marginTop: "30px",
+                    marginTop: "0cm",
                     marginRight: "0cm",
                     marginBottom: ".0001pt",
                     marginLeft: "0cm",
@@ -257,10 +257,9 @@ const Sigorta7Nedir = () => {
                         lineHeight: "107%",
                         fontFamily: '"Arial",sans-serif',
                         color: "windowtext",
-                        marginTop: "150px !important",
                       }}
                     >
-                      Sigorta7.com’dan Teklif Almak İçin ****** Ü** Olmak Gerekir mi?
+                      Sigorta7.com’dan Teklif Almak İçin Siteye Üye Olmak Gerekir mi?
                     </span>
                   </strong>
                 </h2>
@@ -270,7 +269,7 @@ const Sigorta7Nedir = () => {
                     marginLeft: "0cm",
                     fontSize: "15px",
                     fontFamily: '"Calibri",sans-serif',
-                    marginTop: "10px",
+                    marginTop: "10px !important",
                     marginBottom: ".0001pt",
                     lineHeight: "107%",
                     margin: "0cm",
@@ -278,7 +277,7 @@ const Sigorta7Nedir = () => {
                   }}
                 >
                   <span style={{ fontFamily: '"Arial",sans-serif' }}>Hayır gerekmez.&nbsp;</span>
-                  <a href="#">
+                  <a href="/insurance/casco">
                     <span
                       style={{
                         fontFamily: '"Arial",sans-serif',
@@ -290,7 +289,7 @@ const Sigorta7Nedir = () => {
                     </span>
                   </a>
                   <span style={{ fontFamily: '"Arial",sans-serif' }}>&nbsp;ve&nbsp;</span>
-                  <a href="#">
+                  <a href="/insurance/traffic">
                     <span
                       style={{
                         fontFamily: '"Arial",sans-serif',
@@ -354,7 +353,7 @@ const Sigorta7Nedir = () => {
                   <span style={{ fontFamily: '"Arial",sans-serif' }}>&nbsp;</span>
                 </p>
                 <ul
-                  style={{ marginBottom: "0cm", marginTop: "0cm", marginLeft: "30px" }}
+                  style={{ marginBottom: "0cm", marginTop: "0cm", marginLeft: "35px" }}
                   type="disc"
                 >
                   <li
@@ -370,7 +369,7 @@ const Sigorta7Nedir = () => {
                     }}
                   >
                     <span style={{ fontSize: "16px", fontFamily: '"Arial",sans-serif' }}>
-                      Kiş**** bilgilerinizi girin (Ad, Soyad, Telefon ** e-posta),
+                      Kişisel bilgilerinizi girin (Ad, Soyad, Telefon ve e-posta),
                     </span>
                   </li>
                   <li
@@ -403,7 +402,7 @@ const Sigorta7Nedir = () => {
                   >
                     <span style={{ fontSize: "16px", fontFamily: '"Arial",sans-serif' }}>
                       Aracın mülkiyetine sahip olup olmadığınızı belirtin (poliçe yenileme işlemi mi
-                      ***** yeni bir poliçe mi satın ***** istediğ***** belirtin),
+                      yoksa yeni bir poliçe mi satın almak istediğinizi belirtin),
                     </span>
                   </li>
                   <li
@@ -435,7 +434,7 @@ const Sigorta7Nedir = () => {
                     }}
                   >
                     <span style={{ fontSize: "16px", fontFamily: '"Arial",sans-serif' }}>
-                      Hazı****** tekliflerden tercihinizi yaparak poliçe satın alma iş******
+                      Hazırlanan tekliflerden tercihinizi yaparak poliçe satın alma işlemini
                       tamamlayın.
                     </span>
                   </li>
@@ -495,7 +494,7 @@ const Sigorta7Nedir = () => {
                     marginLeft: "0cm",
                     fontSize: "15px",
                     fontFamily: '"Calibri",sans-serif',
-                    marginTop: "0cm",
+                    marginTop: "10px !important",
                     marginBottom: ".0001pt",
                     lineHeight: "107%",
                     margin: "0cm",
@@ -503,7 +502,7 @@ const Sigorta7Nedir = () => {
                   }}
                 >
                   <span style={{ fontFamily: '"Arial",sans-serif' }}>
-                    Satın almış olduğunuz poliçenin teminatlarının yürürlüğe girmesi için poliç****
+                    Satın almış olduğunuz poliçenin teminatlarının yürürlüğe girmesi için poliçeniz
                     peşin prim ödemeliyse sigorta primin tamamının, taksitli ödeme seçeneği ile
                     düzenlenmişse ilk taksitinin poliçe yapılır yapılmaz ve en geç poliçenin teslimi
                     karşılığında ödenmiş olması gerekir. Ödemesi yapılmamış poliçenin teminatı

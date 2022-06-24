@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 //Components
+import InfoAlert from "/components/pop-up/InfoAlert";
 import InsuranceIndexPageInformation from "/components/common/InsuranceIndexPageInformation";
 import CascoFAQ from "/components/faq/CascoFAQ";
 import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
@@ -63,6 +64,12 @@ function CascoIndex() {
 
   return (
     <>
+      <InfoAlert show={true}>
+        <p style={{ fontWeight: "normal", textAlign: "justify" }}>
+          Avantajlı tekliflerimizi görebilmek için <b>araç ruhsat bilgilerinizi </b>
+          yanınızda bulundurunuz.
+        </p>
+      </InfoAlert>
       <section className="section">
         <div style={{ marginTop: "100px", marginBottom: "150px" }}>
           <div className="container">

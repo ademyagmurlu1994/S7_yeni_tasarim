@@ -13,7 +13,7 @@ setInterval(() => {
   }
 
   //Phone Number
-  const phoneMaskInputs = document.querySelectorAll("input[type=tel]");
+  const phoneMaskInputs = document.querySelectorAll(".phoneNumber");
   if (phoneMaskInputs) {
     const masksOptions = {
       phone: {
@@ -88,7 +88,7 @@ setInterval(() => {
           placeholder: {
             show: "always",
           },
-          lazy: true, //out masklenmiş biçimde döndürme
+          lazy: false, //out masklenmiş biçimde döndürme
         });
       }
     });
@@ -118,14 +118,14 @@ setInterval(() => {
           mask: Date,
           min: minDate
             ? new Date(Number(minDate[0]), Number(minDate[1]) - 1, Number(minDate[2]))
-            : new Date(1000, 1, 0),
+            : new Date(1000, 0, 1),
           max: maxDate
             ? new Date(Number(maxDate[0]), Number(maxDate[1]) - 1, Number(maxDate[2]))
-            : new Date(1000, 1, 0),
+            : new Date(2999, 0, 1),
           lazy: false,
         });
         item.value = "";
       }
     }
   }
-}, 2000);
+}, 100);

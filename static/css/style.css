@@ -77,7 +77,7 @@ a.dropdown-item.active {
 
 .section {
   padding-bottom: 80px;
-  padding-top: 80px;
+  padding-top: 100px;
   background-color: #fff;
   position: relative;
 }
@@ -185,9 +185,11 @@ a.dropdown-item.active {
 .btn-custom:focus,
 .btn-custom:hover,
 .open > .dropdown-toggle.btn-custom {
-  background-color: white;
+  /* background-color: white;
   border: 2px solid var(--main-color);
-  color: var(--main-color) !important;
+  color: var(--main-color) !important; */
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 }
 
 .border-radius-none {
@@ -266,9 +268,11 @@ a.dropdown-item.active {
 .btn-custom-outline:focus,
 .btn-custom-outline:hover,
 .open > .dropdown-toggle.btn-custom-outline {
-  background-color: var(--main-color);
+  /* background-color: var(--main-color);
   border: 2px solid var(--main-color);
-  color: #fff !important;
+  color: #fff !important; */
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 }
 
 /*=======================================
@@ -1686,6 +1690,70 @@ a.dropdown-item.active {
   color: #777;
 }
 
+/*FOOTER*/
+
+.footer_four {
+  background-color: #f8fbfd;
+  padding: 42px 0px 0px;
+  width: 100%;
+}
+
+.footer_four .footer_logo img {
+  height: 30px;
+}
+
+.footer_four .footer_four_menu li a {
+  color: rgb(255 255 255 / 50%);
+  transition: all 0.5s;
+}
+
+.footer_four .footer_four_menu li::after {
+  content: "-";
+  margin: 0 20px;
+  color: #fff;
+  position: relative;
+  top: 0px;
+}
+
+.footer_four .footer_four_menu li:last-child:after {
+  content: "";
+  margin: 0;
+}
+
+.footer_four .footer_four_menu li:hover a {
+  color: #fff;
+}
+
+.footer_four .social-icon {
+  border-radius: 50%;
+  background-color: rgb(255 255 255 / 6%);
+  transition: all 0.5s;
+  width: 38px;
+  color: #ffffff;
+  height: 38px;
+  display: block;
+  font-size: 18px;
+  line-height: 38px;
+  text-align: center;
+}
+
+.footer_four .social-icon:hover {
+  color: var(--main-color);
+  transform: translateY(-4px);
+}
+
+.footer_four .footer_divider {
+  height: 1px;
+  width: 100%;
+  background-color: rgb(255 255 255 / 8%);
+  margin: 50px 0 0;
+}
+
+.footer_four .copyright_content p,
+.footer_four .fot_social span {
+  color: rgb(255 255 255 / 73%);
+}
+
 /*==================================================
                 7.PAGES
 ====================================================*/
@@ -1751,7 +1819,18 @@ a.dropdown-item.active {
   background-color: var(--main-color-light);
   /*border: 10px solid ;*/
 }
-
+.carPriceInformation {
+  padding-bottom: 6%;
+  display: block;
+  margin: 0;
+  letter-spacing: -0.28px;
+}
+.carPriceInformationDetails {
+  padding: 10px;
+  font-size: 18px;
+  color: black;
+  margin-top: 10px;
+}
 .account_box {
   background-color: #fff;
   padding: 40px 32px;
@@ -1984,7 +2063,16 @@ a.dropdown-item.active {
   .cta_bg_four .cta_img_bg {
     padding: 80px 20px;
   }
-
+  .footer_four .footer_four_menu li::after {
+    display: none;
+  }
+  .footer_four .footer_four_menu li {
+    display: block;
+    margin: 10px 0;
+  }
+  .footer_four .footer_divider {
+    margin: 20px 0 0;
+  }
   .price_tab_detail {
     padding: 60px 30px;
   }
@@ -2034,6 +2122,12 @@ a.dropdown-item.active {
   }
   .about_desc_sec .features .features-desc {
     margin-left: 7% !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .footer_four .fot_social {
+    margin-top: 10px;
   }
 }
 

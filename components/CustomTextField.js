@@ -39,10 +39,10 @@ const TextInput = (props, register, error) => {
   );
 };
 
-TextInput.protoTypes = {
-  // react-select component class (e.g. Select, Creatable, Async)
-  register: UseFormRegister,
-  rules: RegisterOptions,
-};
+// TextInput.protoTypes = {
+//   // react-select component class (e.g. Select, Creatable, Async)
+//   register: UseFormRegister,
+//   rules: RegisterOptions,
+// };
 
 export default TextInput;
