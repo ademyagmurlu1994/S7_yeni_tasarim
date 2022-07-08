@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 //Components
-import InfoAlert from "/components/pop-up/InfoAlert";
+import PopupAlert from "/components/pop-up/PopupAlert";
 import InsuranceIndexPageInformation from "/components/common/InsuranceIndexPageInformation";
 import CascoFAQ from "/components/faq/CascoFAQ";
 import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
@@ -27,6 +27,7 @@ import { inputStyle } from "/styles/custom";
 
 //Images
 import { CascoInsuranceInformationPhoto, WhatIsTheCascoInsurance } from "/resources/images";
+import { fontSize } from "@mui/system";
 
 function CascoIndex() {
   const cities = useSelector((state) => state.usefull.cities);
@@ -43,6 +44,7 @@ function CascoIndex() {
     isExistPlate: true,
     tcOrTaxIdentityNo: "",
     plateNo: "",
+    plateShrink: undefined,
   });
 
   //AutoComplete Selected Variables
@@ -64,17 +66,18 @@ function CascoIndex() {
 
   return (
     <>
-      <InfoAlert show={true}>
+      <PopupAlert show={true}>
         <p style={{ fontWeight: "normal", textAlign: "justify" }}>
           Avantajlı tekliflerimizi görebilmek için <b>araç ruhsat bilgilerinizi </b>
           yanınızda bulundurunuz.
         </p>
-      </InfoAlert>
+      </PopupAlert>
+
       <section className="section">
-        <div style={{ marginTop: "100px", marginBottom: "150px" }}>
+        <div style={{ marginBottom: "150px" }}>
           <div className="container">
             <div className="row">
-              <div className=" col-xs-12 col-sm-12 col-md-6 col-lg-6 insuranceIndexPageInformation">
+              <div className=" col-xs-12 col-sm-12 col-md-6 col-lg-6 d-none d-md-block insuranceIndexPageInformation">
                 <InsuranceIndexPageInformation
                   title="Kasko Fiyatlarını Sorgulayın, Bütçenize Uygun Seçeneği Kolayca Bulun!"
                   photo={CascoInsuranceInformationPhoto}
@@ -89,7 +92,7 @@ function CascoIndex() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="contact_thir_form mx-auto">
-                      <form onSubmit={handleSubmit(getKaskoOffers)}>
+                      <form autoComplete="off" onSubmit={handleSubmit(getKaskoOffers)}>
                         {/* Plaka Var, Yok Kontrolü */}
                         <div className="d-flex mb-3">
                           <div className="w-50">
@@ -123,29 +126,46 @@ function CascoIndex() {
                         <div className="row">
                           {/**TC kimlik Numarası */}
                           <div className="col-12 mt-4">
-                            <div className="custom_textfield w-100">
-                              <input
-                                {...register("tcOrTaxIdentityNo", {
-                                  required: "T.C. veya Vergi Kimlik Numarası zorunlu",
-                                  validate: isValidTcKimlikOrVergiKimlik,
-                                })}
-                                value={state.tcOrTaxIdentityNo}
-                                onChange={(e) => {
-                                  setState({ ...state, tcOrTaxIdentityNo: e.target.value });
-                                  clearErrors("tcOrTaxIdentityNo");
-                                }}
-                                class={`form__input ${errors.tcOrTaxIdentityNo && "invalid"}`}
-                                name="tcOrTaxIdentityNo"
-                                id="tcOrTaxIdentityNo"
-                                placeholder=" "
-                                type="number"
-                                maxLength={11}
-                              />
-                              <label for="tcOrTaxIdentityNo" className="form__label">
-                                T.C. veya Vergi Kimlik No
-                              </label>
-                              <label className="legend">T.C. veya Vergi Kimlik No</label>
-                            </div>
+                            <TextField
+                              {...register("tcOrTaxIdentityNo", {
+                                required: "T.C. veya Vergi Kimlik Numarası zorunlu",
+                                validate: isValidTcKimlikOrVergiKimlik,
+                              })}
+                              value={state.tcOrTaxIdentityNo || ""}
+                              onChange={(e) => {
+                                setState({ ...state, tcOrTaxIdentityNo: e.target.value });
+                                clearErrors("tcOrTaxIdentityNo");
+                              }}
+                              onPaste={(event) => {
+                                setState({
+                                  ...state,
+                                  tcOrTaxIdentityNo: event.clipboardData
+                                    .getData("text/plain")
+                                    .trim()
+                                    .substring(0, 11),
+                                });
+                                clearErrors("tcOrTaxIdentityNo");
+                              }}
+                              InputProps={{
+                                inputProps: {
+                                  type: "number",
+                                  maxLength: "11",
+                                },
+                              }}
+                              sx={{
+                                ...inputStyle,
+                                input: {
+                                  fontSize: "15pt !important",
+                                  paddingTop: "13px",
+                                  paddingBottom: "13px",
+                                },
+                              }}
+                              size="large"
+                              error={errors && Boolean(errors["tcOrTaxIdentityNo"])}
+                              label=" T.C. veya Vergi Kimlik No *"
+                              autoComplete="off"
+                            />
+
                             <small className="text-danger">
                               {errors["tcOrTaxIdentityNo"]?.message}
                               {/**Validate Message */}
@@ -166,34 +186,48 @@ function CascoIndex() {
                                 style={{ display: "flex" }}
                               >
                                 <div className="bg-main text-white input-form-prefix">TR</div>
-                                <div className="input-with-prefix">
-                                  <div className="custom_textfield w-100">
-                                    <input
-                                      type="text"
-                                      class={`form__input plate uppercase ${
-                                        errors.tcOrTaxIdentityNo && "invalid"
-                                      }`}
-                                      {...register("carPlateNo", {
-                                        required: "Araç Plaka numarası zorunlu",
-                                        pattern: {
-                                          value:
-                                            /^(0[1-9]|[1-7][0-9]|8[01])((\s?[a-zA-Z]\s?)(\d{4,5})|(\s?[a-zA-Z]{2}\s?)(\d{3,4})|(\s?[a-zA-Z]{3}\s?)(\d{2,3}))$/,
-                                          message: "Geçersiz plaka numarası",
-                                        },
-                                      })}
-                                      name="carPlateNo"
-                                      id="carPlateNo"
-                                      placeholder="34 SGR 777"
-                                    />
-                                    <label for="carPlateNo" className="form__label">
-                                      Araç Plaka No
-                                    </label>
-                                    <label className="legend">Araç Plaka No</label>
-                                  </div>
-                                </div>
+                                <TextField
+                                  {...register("carPlateNo", {
+                                    required: "Araç Plaka Numarası Zorunlu",
+                                    pattern: {
+                                      value:
+                                        /^(0[1-9]|[1-7][0-9]|8[01])((\s?[a-zA-Z]\s?)(\d{4,5})|(\s?[a-zA-Z]{2}\s?)(\d{3,4})|(\s?[a-zA-Z]{3}\s?)(\d{2,3}))$/,
+                                      message: "Geçersiz Plaka Numarası",
+                                    },
+                                  })}
+                                  type="text"
+                                  placeholder="34 SGR 777"
+                                  variant="outlined"
+                                  margin="none"
+                                  label="Araç Plaka No"
+                                  error={!!errors.carPlateNo}
+                                  inputProps={{ className: "plate uppercase" }}
+                                  onPaste={() => {
+                                    clearErrors("carPlateNo");
+                                    setState({ ...state, plateShrink: true });
+                                  }}
+                                  onChange={(e) => {
+                                    clearErrors("carPlateNo");
+                                    !e.target.value &&
+                                      setState({ ...state, plateShrink: undefined });
+                                  }}
+                                  InputLabelProps={{
+                                    shrink: state.plateShrink,
+                                  }}
+                                  sx={{
+                                    ...inputStyle,
+                                    input: {
+                                      fontSize: "15pt !important",
+                                      paddingTop: "13px",
+                                      paddingBottom: "13px",
+                                    },
+                                  }}
+                                />
                               </div>
 
-                              <small className="text-danger">{errors["carPlateNo"]?.message}</small>
+                              <small className="text-danger">
+                                {errors && errors["carPlateNo"]?.message}
+                              </small>
                             </div>
                           ) : (
                             <div className="col-12 mt-4">
@@ -239,8 +273,8 @@ function CascoIndex() {
                 title="KASKO NEDİR? NE İŞE YARAR?"
                 topTitle="KAZALARA KARŞI ÖNLEMİNİZİ ALIN"
                 descriptionParagraphs={[
-                  "DASK (Doğal Afetler Sigortalar Kurumu) Zorunlu Deprem Sigortası; depremin ve deprem sonucu meydana gelen yangın, patlama, tsunami ile yer kaymasının doğrudan neden olacağı maddi zararları, sigorta poliçesinde belirtilen limitler kapsamında karşılayan bir sigorta türüdür.",
-                  "Zorunlu Deprem Sigortası yaptırdığınız zaman binanız tamamen ya da kısmen zarar gördüğünde teminat altına alınır. DASK yaptırmadığınız durumlarda ise bu yardımdan yararlanamazsınız.",
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
                   ,
                 ]}
               />

@@ -14,11 +14,11 @@ import { getNewToken, writeResponseError, numberToTrNumber } from "/functions/co
 //images
 import {
   AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  MapfreLogo,
+  SompoLogo,
+  ZurichLogo,
 } from "/resources/images";
 
 const TravelOffers = () => {
@@ -122,7 +122,7 @@ const TravelOffers = () => {
           );
           let offer_object = {
             companyCode: 110,
-            companyLogo: AnadoluSigortaLogo,
+            companyLogo: AnadoluLogo,
             brutPrim: brutPrim,
             quoteReference: undefined,
             revisionNumber: 0,
@@ -141,7 +141,7 @@ const TravelOffers = () => {
             let productName = data[0].risks[0].packageRiskInfoList[i].packageName;
             let offer_object = {
               companyCode: 120,
-              companyLogo: AllianzSigortaLogo,
+              companyLogo: AllianzLogo,
               brutPrim: brutPrim,
               productName: productName,
               quoteReference: undefined,
@@ -161,7 +161,7 @@ const TravelOffers = () => {
           let brutPrim = Number(data[0].primBilgileriWS.burutPrim);
           let offer_object = {
             companyCode: 160,
-            companyLogo: MapfreSigortaLogo,
+            companyLogo: MapfreLogo,
             brutPrim: brutPrim,
             quoteReference: undefined,
             revisionNumber: 0,
@@ -178,7 +178,7 @@ const TravelOffers = () => {
           let brutPrim = Number(data.payment.grosS_PREMIUM);
           let offer_object = {
             companyCode: 180,
-            companyLogo: SomboSigortaLogo,
+            companyLogo: SompoLogo,
             brutPrim: brutPrim,
             quoteReference: data.proposaL_NO,
             revisionNumber: 0,
@@ -196,7 +196,7 @@ const TravelOffers = () => {
           let brutPrim = Number(data[0].brutPrim);
           let offer_object = {
             companyCode: 200,
-            companyLogo: ZurichSigortaLogo,
+            companyLogo: ZurichLogo,
             brutPrim: brutPrim,
             quoteReference: undefined,
             revisionNumber: 0,

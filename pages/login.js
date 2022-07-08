@@ -213,7 +213,7 @@ const Login = () => {
                           type="tel"
                           id="phone"
                           name="phone"
-                          className={`form-control ${errors.phoneNumber && "invalid"}`}
+                          className={`form-control phoneNumber ${errors.phoneNumber && "invalid"}`}
                           {...register("phoneNumber", {
                             required: "Cep telefonu numarası zorunlu",
                             pattern: {

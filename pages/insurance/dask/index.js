@@ -12,9 +12,9 @@ import DaskFAQ from "/components/faq/DaskFAQ";
 import {
   DaskInsuranceInformationPhoto,
   WhatIsTheDaskInsurance,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  HdiSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  HdiLogo,
 } from "/resources/images";
 
 //fonksiyonlar
@@ -54,10 +54,10 @@ const Dask = () => {
   return (
     <>
       <section className="section">
-        <div style={{ marginTop: "5%" }}>
+        <div style={{}}>
           <div className="container">
-            <div className="row mb-5 mt-5">
-              <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div className="row mb-5 ">
+              <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 d-none d-md-block">
                 <InsuranceIndexPageInformation
                   title="Zorunlu Deprem Sigortası Fiyatları İçin Teklif Al!"
                   photo={DaskInsuranceInformationPhoto}
@@ -268,19 +268,19 @@ const Dask = () => {
                 className="col text-center  contracted-dask-company py-3"
                 style={{ boxShadow: "rgb(0 0 0 / 16%) 0px 1px 4px" }}
               >
-                <img src={AnadoluSigortaLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
+                <img src={AnadoluLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
               </div>
               <div
                 className="col  text-center contracted-dask-company py-3"
                 style={{ boxShadow: "rgb(0 0 0 / 16%) 0px 1px 4px" }}
               >
-                <img src={AllianzSigortaLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
+                <img src={AllianzLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
               </div>
               <div
                 className="col  text-center contracted-dask-company py-3"
                 style={{ boxShadow: "rgb(0 0 0 / 16%) 0px 1px 4px" }}
               >
-                <img src={HdiSigortaLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
+                <img src={HdiLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
               </div>
             </div>
           </div>

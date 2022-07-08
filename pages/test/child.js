@@ -114,7 +114,6 @@ const Counter = ({ parentCallback, phoneNumber }) => {
                 <div className="phone-number">
                   Cep Telefonu
                   <input
-                    className="form-control mr-2"
                     type="tel"
                     id="phone"
                     name="phone"

@@ -8,17 +8,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputAdornment from "@mui/material/InputAdornment";
 
 //fonksiyonlar
-import {
-  getTodayDate,
-  getDate,
-  writeResponseError,
-  numberToTrNumber,
-  getNewToken,
-  isValidMaskedDate,
-  changeDateFormat,
-  isValidTcKimlikOrVergiKimlik,
-  isValidTcKimlik,
-} from "/functions/common";
+import { getTodayDate, getDate, isValidMaskedDate, changeDateFormat } from "/functions/common";
 
 //styles
 import { inputStyle } from "/styles/custom";
@@ -30,7 +20,7 @@ export default function DatePicker(props) {
 
   const handleChange = (value) => {
     setTextFieldData(
-      changeDateFormat(JSON.stringify(getDate(value)).replaceAll('"', ""), "gg.aa.yyyy")
+      changeDateFormat(JSON.stringify(getDate(value)).replaceAll('"', ""), "dd.MM.yyyy")
     );
     setDate(value);
     closeDatePicker();
@@ -80,8 +70,8 @@ export default function DatePicker(props) {
             </InputAdornment>
           ),
         }}
-        defaultValue=""
-        value={textFieldData}
+        //defaultValue=""
+        value={textFieldData || ""}
         onKeyUp={(e) => {
           {
             setTextFieldData(e.target.value);

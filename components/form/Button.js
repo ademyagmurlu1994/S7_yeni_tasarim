@@ -22,7 +22,6 @@ const Button = (props) => {
 
   useEffect(() => {
     setButtonStyleByVariant();
-    setButtonSize();
   }, []);
 
   useEffect(() => {
@@ -70,25 +69,26 @@ const Button = (props) => {
     //alert("setStyle");
 
     let btnStyle = buttonStyle ? cloneDeep(buttonStyle) : style;
-    console.log(props.variant);
     switch (props.variant) {
       case "outlined":
-        console.log("a");
         btnStyle.color = "var(--main-color) !important";
         btnStyle.backgroundColor = "white !important";
         btnStyle.borderColor = "var(--main-color) !important";
         break;
       case "text":
-        console.log("b");
         btnStyle.color = "var(--main-color) !important";
         btnStyle.backgroundColor = "white !important";
         btnStyle.borderColor = "transparent !important";
+        btnStyle.boxShadow = "none !important";
+        btnStyle["&:hover"] = {
+          backgroundColor: "var(--main-color-light) !important",
+        };
         break;
       default:
-        console.log("c");
         btnStyle.color = "white !important";
         btnStyle.backgroundColor = "var(--main-color) !important";
         btnStyle.borderColor = "var(--main-color) !important";
+
         break;
     }
 
@@ -98,17 +98,27 @@ const Button = (props) => {
       btnStyle.opacity = "100% !important";
     }
 
+    switch (props.size) {
+      case "small":
+        btnStyle.fontSize = "10pt !important";
+        break;
+      case "large":
+        btnStyle.fontSize = "14pt !important";
+        break;
+      default:
+        btnStyle.fontSize = "12pt !important";
+        break;
+    }
+
     setButtonStyle(btnStyle);
   };
 
   const setButtonSize = () => {
-    //alert("setSize");
-
     if (buttonStyle) {
       let btnStyle = cloneDeep(buttonStyle);
       switch (props.size) {
         case "small":
-          btnStyle.fontSize = "10pt !important";
+          btnStyle.fontSize = "5pt !important";
           break;
         case "large":
           btnStyle.fontSize = "14pt !important";

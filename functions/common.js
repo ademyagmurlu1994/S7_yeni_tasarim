@@ -169,17 +169,17 @@ export const refreshToken = async () => {
 export const writeResponseError = (error) => {
   if (error.response) {
     // Request made and server responded
-    console.log(error.response.data);
+    console.log("Error Response:", error.response.data);
     console.log("Status Code:", error.response.status);
 
     //Eğer 401(Unauthorization) hatası gelirse refresh token yapıp sayfayı yeniliyoruz.
     if (error.response.status == 401) {
       refreshToken();
     }
-    console.log(error.response.headers);
+    console.log("Error Request Header: ", error.response.headers);
   } else if (error.request) {
     // The request was made but no response was received
-    console.log(error.request);
+    console.log("Error Request", error.request);
   } else {
     // Something happened in setting up the request that triggered an Error
     console.log("Error", error.message);
@@ -421,16 +421,21 @@ export const separateLetterAndNumber = (value) => {
   return returnValue;
 };
 
-export const changeDateFormat = (value, format) => {
+export const changeDateFormat = (value, outputFormat) => {
   if (value) {
     let pureDate = value.substring(0, 10);
-    if (format == "gg-aa-yyyy") {
+    if (outputFormat == "yyyy-MM-dd") {
       let date = pureDate.split(".");
       return date[2] + "-" + date[1] + "-" + date[0] + "T00:00:00";
-    } else if (format == "gg.aa.yyyy") {
+    } else if (outputFormat == "dd.MM.yyyy") {
       let date = pureDate.split("-");
       return date[2] + "." + date[1] + "." + date[0];
     }
   }
   return value;
+};
+
+export const setLoader = (value) => {
+  const dispatch = useDispatch();
+  dispatch(setLoading(Boolean(value)));
 };

@@ -503,7 +503,7 @@ export default function TravelHealthInsurance() {
                     if (state.activeStep > 1) {
                       return (
                         <form
-                          autocomplete="off"
+                          autoComplete="off"
                           onSubmit={handleSubmit(validateStep)}
                           id="secondStep"
                         >
@@ -517,11 +517,12 @@ export default function TravelHealthInsurance() {
                                 <div className="bg-main text-white input-form-prefix px-2">+90</div>
                                 <div className="input-with-prefix">
                                   <input
-                                    className="form-control mr-2"
                                     type="tel"
                                     id="phone"
                                     name="phone"
-                                    className={`form-control ${errors.cepTelefonNo && "invalid"}`}
+                                    className={`phoneNumber form-control ${
+                                      errors.cepTelefonNo && "invalid"
+                                    }`}
                                     {...register("cepTelefonNo", {
                                       required: "Cep telefonu numarası zorunlu",
                                       pattern: {
@@ -563,7 +564,7 @@ export default function TravelHealthInsurance() {
                                       required: "E-mail adresi zorunlu",
                                       pattern: {
                                         value:
-                                          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                                          /^([\w-]{3,30}(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{1,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
                                         message: "Geçersiz email adresi",
                                       },
                                     })}

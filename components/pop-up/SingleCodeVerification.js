@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import axios from "/instances/axios";
 
@@ -15,14 +15,7 @@ const SingleCodeVerification = ({
   isShow,
   isShowUpdateButton = true,
 }) => {
-  useEffect(() => {
-    if (isShow) {
-      $("#notificationModal").modal("show");
-    } else {
-      $("#notificationModal").modal("hide");
-    }
-  }, [isShow]);
-
+  const inputRef = useRef(null);
   const verificationTime = {
     minute: 2,
     second: 59,
@@ -60,6 +53,20 @@ const SingleCodeVerification = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
+
+  useEffect(() => {
+    if (isShow) {
+      $("#notificationModal").modal("show");
+    } else {
+      $("#notificationModal").modal("hide");
+    }
+  }, [isShow]);
+
   useEffect(async () => {
     if (verifySmsState.token) {
       try {
@@ -78,7 +85,7 @@ const SingleCodeVerification = ({
   useEffect(async () => {
     if (verifySmsState.ipAddress) {
       console.log("İp: ", verifySmsState.ipAddress);
-      // await sendSms();
+      //await sendSms();
     }
   }, [verifySmsState.ipAddress]);
 
@@ -125,7 +132,7 @@ const SingleCodeVerification = ({
       };
 
       await axios
-        .post("/api/quote/v1/Casco/sendsms", bodyData, {
+        .post("/api/quote/v1/sms/sendsms", bodyData, {
           headers: {
             Authorization: verifySmsState.token,
             "Content-Type": "application/json",
@@ -169,7 +176,7 @@ const SingleCodeVerification = ({
     //   };
 
     //   await axios
-    //     .post("/api/quote/v1/Casco/getsmsbymobileno", bodyData, {
+    //     .post("/api/quote/v1/sms/smsverify", bodyData, {
     //       headers: {
     //         Authorization: verifySmsState.token,
     //         "Content-Type": "application/json",
@@ -189,7 +196,7 @@ const SingleCodeVerification = ({
     //         isVerified = false;
     //       }
 
-    //       //Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
+    //       // Parent Component'e kodun doğrulanıp doğrulanmadığına dair bilgi gönderiyoruz.
     //       singleCodeVerificationCallback(isVerified);
     //     });
     // } catch (error) {
@@ -245,18 +252,10 @@ const SingleCodeVerification = ({
                       <label htmlFor="singleUseCode">Tek Kullanımlık Kod</label>
                       <input
                         type="number"
+                        id="singleCodeInput"
+                        ref={inputRef}
                         maxLength="4"
                         className={`form-control ${errors.singleVerifyCode && "invalid"}`}
-                        {...register("singleVerifyCode", {
-                          min: {
-                            value: 0,
-                            message: "Kod 4 hane olması gerekmektedir",
-                          },
-                          max: {
-                            value: 9999,
-                            message: "Kod 4 hane olması gerekmektedir",
-                          },
-                        })}
                         value={verifySmsState.inputValidationCode}
                         onChange={(e) =>
                           setVerifySmsState({
@@ -289,6 +288,7 @@ const SingleCodeVerification = ({
                       </button>
                     </div>
                   </div>
+
                   <div className="row mt-1 ">
                     <div className="col-12  text-center text-danger">
                       0{timer.minute}: {timer.second < 10 && 0}
@@ -314,12 +314,13 @@ const SingleCodeVerification = ({
                   {timer.minute == 0 && timer.second == 0 && (
                     <div className="row send-new-code">
                       <div className="col-12 ">
-                        <div
+                        <button
+                          type="button"
                           className="btn-custom-outline btn-timeline-forward w-100 mt-3"
                           onClick={() => sendSms()}
                         >
                           Yeni Kod Gönder
-                        </div>
+                        </button>
                       </div>
                     </div>
                   )}

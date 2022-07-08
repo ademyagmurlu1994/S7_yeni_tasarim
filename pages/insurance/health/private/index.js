@@ -1,20 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { cloneDeep, cloneDeepWith, clone } from "lodash-es";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 //Componentler
-import InfoAlert from "/components/pop-up/InfoAlert";
-import PreLoader from "/components/PreLoader";
-import BaseSelect from "react-select";
-import RequiredSelect from "/components/RequiredSelect";
-import ComplementaryFAQ from "/components/faq/ComplementaryFAQ";
+
+//import CircularProgress from "@mui/material/CircularProgress";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
-import PagePreLoader from "/components/common/PagePreLoader";
-import InsuranceIndexPageInformation from "/components/common/InsuranceIndexPageInformation";
+import Button from "/components/form/Button";
 import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
-import DateField from "/components/input/DateField";
-import Button from "@mui/material/Button";
+import ComplementaryFAQ from "/components/faq/ComplementaryFAQ";
+import PopupAlert from "/components/pop-up/PopupAlert";
+
+//mui components
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Checkbox from "@mui/material/Checkbox";
+
 import StepConnector, { stepConnectorClasses } from "@mui/material/StepConnector";
 import { styled } from "@mui/material/styles";
 
@@ -25,27 +29,28 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Typography from "@mui/material/Typography";
 
-//Fonksiyonlar
+//fonksiyonlar
 import {
-  isValidTcKimlik,
-  getNewToken,
   getTodayDate,
-  isValidMaskedDate,
   writeResponseError,
+  numberToTrNumber,
+  getNewToken,
+  isValidMaskedDate,
+  changeDateFormat,
+  isValidTcKimlikOrVergiKimlik,
+  isValidTcKimlik,
   addDaysToDate,
 } from "/functions/common";
+
+//styles
+import { inputStyle } from "/styles/custom";
+import { radioButtonSx } from "/styles/inputStyle";
 
 //images
 import { DaskInsuranceInformationPhoto, WhatIsTheDaskInsurance } from "/resources/images";
 
-//Styles
-//import { reactSelectStyles } from "functions/styles";
-
-const ComplementaryHealthInsurance = (props) => {
-  const Select = (props) => <RequiredSelect {...props} SelectComponent={BaseSelect} />;
-
+export default function TssInsurance() {
   /*Her Adımda ayrı form elemanı olduğu için ayrı ayrı control oluşturmamız gerekiyor,*/
   const {
     register,
@@ -53,8 +58,8 @@ const ComplementaryHealthInsurance = (props) => {
     setValue,
     setError,
     clearErrors,
-    control,
     resetField,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -71,41 +76,41 @@ const ComplementaryHealthInsurance = (props) => {
   const router = useRouter();
 
   const [activeStep, setActiveStep] = React.useState(0);
-
   const [state, setState] = useState({
     activeStep: 1,
-    phoneNumber: undefined,
+    isDestinationEuropeanCountry: true,
     isCheckedNotification: false,
     isAcceptNotification: false,
     isConfirmPhoneOrEmail: false,
     isShowedNotificationModal: false,
-    relationList: [
-      { value: 0, label: "Kendisi" },
-      { value: 1, label: "Eşi" },
-      { value: 2, label: "Çocuğu" },
-      { value: 3, label: "Tesisatçı" },
-    ],
-    selectedUsersRelation: [{ value: "0", label: "Kendisi" }],
-
-    professionList: [
-      { value: 0, label: "Memur" },
-      { value: 1, label: "Bilgisayar Mühendisi" },
-      { value: 2, label: "Yazılım Mühendisi" },
-      { value: 3, label: "Tesisatçı" },
-    ],
-    selectedUsersProfession: [],
-    userListForHealthInsurance: [
-      {
-        identityNo: undefined,
-        birthDate: "",
-        relation: 0,
-        profession: -1,
-      },
-    ], //Sağlık siğortası alınacak kişi listesi
+    goDate: "",
+    returnDate: "",
     name: "",
-    token: "",
+    phoneNumber: "",
+    email: "",
   });
-  const [token, setToken] = useState("");
+
+  const [relationList, setRelationList] = useState([
+    { value: 0, label: "Kendisi" },
+    { value: 1, label: "Eşi" },
+    { value: 2, label: "Çocuğu" },
+  ]);
+
+  const [professionList, setProfessionList] = useState([
+    { value: 0, label: "Memur" },
+    { value: 1, label: "Bilgisayar Mühendisi" },
+    { value: 2, label: "Yazılım Mühendisi" },
+    { value: 3, label: "Tesisatçı" },
+  ]);
+
+  const [userList, setUserList] = useState([
+    {
+      index: 0,
+      identityNo: undefined,
+      relation: relationList[0],
+      profession: "",
+    },
+  ]);
 
   const [isVerifySmsSingleCode, setIsVerifySmsSingleCode] = useState(undefined);
   const [isShowVerifySingleCodePopup, setIsShowVerifySingleCodePopup] = useState(false);
@@ -114,16 +119,7 @@ const ComplementaryHealthInsurance = (props) => {
 
   const [quoteReceivedSuccess, setQuoteReceivedSuccess] = useState(false);
 
-  // const { birthDateRef, ...birthDateProps } = register({
-  //   required: "Doğum Tarihi zorunlu",
-  // });
-
-  useEffect(async () => {
-    //Authorization için token çekiyoruz.
-    if (!Boolean(token)) {
-      await getNewToken().then((res) => setToken(res));
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   //notificationConfirmation datası değiştiğinde verify Single code pop-up tetikliyor.
   useEffect(() => {
@@ -150,7 +146,9 @@ const ComplementaryHealthInsurance = (props) => {
 
     switch (forwardStep) {
       case 1:
-        setActiveStep(forwardStep);
+        if (checkUserFormElements()) {
+          setActiveStep(forwardStep);
+        }
         break;
       case 2:
         //Bildirim check box'ı işaretli değilse pop-up gösteriliyor
@@ -164,29 +162,124 @@ const ComplementaryHealthInsurance = (props) => {
         }
         break;
       default:
-        //Kod gönderme componentini 3. adım hariç tüm adımlarda kapalı tutuyoruz.(sürekli sms gönderilmemesi için)
+        //Kod gönderme componentini 3 adım hariç tüm adımlarda kapalı tutuyoruz.(sürekli sms gönderilmemesi için)
         setIsShowVerifySingleCodePopup(false);
     }
+  };
+
+  const isExistTcKimlikNoInUserList = (identityNo) => {
+    return userList.some((item) => item.identityNo == identityNo);
+  };
+
+  const onChangeTcKimlikNumarasi = (e, index) => {
+    clearErrors("identityNo" + index);
+    setValue("identityNo", e.target.value);
+    if (e.target.value.toString().length == 11 && isExistTcKimlikNoInUserList(e.target.value)) {
+      setError("identityNo" + index, {
+        type: "manual",
+        message: "T.C. Kimlik Numarası listede var",
+      });
+    }
+
+    let userListClone = cloneDeep(userList);
+    let userIndex = userListClone.findIndex((value) => value.index == index);
+    userListClone[userIndex].identityNo = e.target.value;
+    setUserList(userListClone);
+  };
+
+  const onChangeYakinlikDerecesi = (value, index) => {
+    setValue("relation" + index, value);
+    clearErrors("relation" + index);
+
+    let userListClone = cloneDeep(userList);
+    let userIndex = userListClone.findIndex((value) => value.index == index);
+    userListClone[userIndex].relation = value;
+    setUserList(userListClone);
+  };
+
+  const onChangeMeslek = (value, index) => {
+    setValue("profession" + index, value);
+    clearErrors("profession" + index);
+
+    let userListClone = cloneDeep(userList);
+    let userIndex = userListClone.findIndex((value) => value.index == index);
+    userListClone[userIndex].profession = value;
+    setUserList(userListClone);
+  };
+
+  const checkUserFormElements = () => {
+    const lastUserIndex = userList.length - 1;
+    const lastUser = userList[lastUserIndex];
+
+    console.log("User List: ", userList);
+    console.log("Hatalar: ", errors);
+    console.log("TC: ", lastUser.identityNo);
+
+    if (lastUser.identityNo == null) {
+      setError("identityNo" + lastUserIndex, {
+        type: "manual",
+        message: "T.C. Kimlik Numarası Zorunlu",
+      });
+      return false;
+    } else if (!isValidTcKimlik(lastUser.identityNo.toString())) {
+      setError("identityNo" + lastUserIndex, {
+        type: "manual",
+        message: "T.C. Kimlik Numarası Geçersiz",
+      });
+
+      return false;
+    }
+
+    if (!lastUser.relation || lastUser.relation == "" || lastUser.relation.value == -1) {
+      setError("relation" + lastUserIndex, {
+        type: "manual",
+        message: "Yakınlık Derecesi Zorunlu",
+      });
+      return false;
+    }
+
+    if (!Object.keys(errors).length) {
+      return true;
+    }
+  };
+
+  const onAddUser = () => {
+    if (checkUserFormElements()) {
+      let userListClone = cloneDeep(userList);
+      userListClone.push({
+        index: userListClone.slice(-1)[0].index + 1,
+        identityNo: "",
+        relation: "",
+        profession: "",
+      });
+      setUserList(userListClone);
+    }
+  };
+
+  const onRemoveUser = (index) => {
+    let userListClone = cloneDeep(userList);
+    let userIndex = userListClone.findIndex((value) => value.index == index);
+    userListClone.splice(userIndex, 1);
+    setUserList(userListClone);
+
+    resetField("identityNo" + index);
+    clearErrors();
   };
 
   const saveInquiryInformations = () => {
     let ownInfo = {};
     let familyMembersInfo = [];
 
-    for (var i = 0; i < state.userListForHealthInsurance.length; i++) {
-      let birthDateParts = state.userListForHealthInsurance[i].birthDate.split(".");
-      let birthDate = birthDateParts[2] + "-" + birthDateParts[1] + "-" + birthDateParts[0];
+    for (var i = 0; i < userList.length; i++) {
       if (i == 0) {
-        ownInfo.identityNo = state.userListForHealthInsurance[i].identityNo.toString();
-        ownInfo.birthDate = birthDate + "T11:27:55.042Z";
+        ownInfo.identityNo = userList[i].identityNo.toString();
         ownInfo.relation = 0;
-        ownInfo.profession = state.userListForHealthInsurance[i].profession.toString();
+        ownInfo.profession = userList[i].profession?.value?.toString() || "";
       } else {
         let singleMember = {
-          identityNo: state.userListForHealthInsurance[i].identityNo.toString(),
-          birthDate: birthDate + "T11:27:55.042Z",
-          relation: state.userListForHealthInsurance[i].relation,
-          profession: state.userListForHealthInsurance[i].profession.toString(),
+          identityNo: userList[i].identityNo.toString(),
+          relation: userList[i].relation.value,
+          profession: userList[i].profession?.value?.toString() || "",
         };
         familyMembersInfo.push(singleMember);
       }
@@ -210,132 +303,6 @@ const ComplementaryHealthInsurance = (props) => {
 
     console.log(inquiryInformations);
     localStorage.setItem("inquiryInformations", JSON.stringify(inquiryInformations));
-  };
-
-  const isExistTcKimlikNoInUserList = (identityNo) => {
-    for (var i = 0; i < state.userListForHealthInsurance.length; i++) {
-      if (state.userListForHealthInsurance[i].identityNo == identityNo) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const onChangeTcKimlikNumarasi = (e, index) => {
-    clearErrors();
-
-    let { userListForHealthInsurance } = state;
-    userListForHealthInsurance[index].identityNo = e.target.value;
-    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-  };
-
-  const onChangeDogumTarihi = (e, index) => {
-    setValue("birthDate" + index, e.target.value.toString());
-    console.log(e.target.value);
-    clearErrors();
-    let { userListForHealthInsurance } = state;
-    userListForHealthInsurance[index].birthDate = e.target.value.toString();
-    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-  };
-
-  const onChangeYakinlikDerecesi = (e, index) => {
-    clearErrors();
-
-    //Select User Relation
-    let { selectedUsersRelation } = state;
-    selectedUsersRelation[index] = e;
-    setState({ ...state, selectedUsersRelation: selectedUsersRelation });
-
-    //Update UserList
-    let { userListForHealthInsurance } = state;
-    userListForHealthInsurance[index].relation = e.value;
-    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-  };
-
-  const onChangeMeslek = (e, index) => {
-    console.log(e);
-    clearErrors();
-    //Select User Proffession
-    let { selectedUsersProfession } = state;
-    selectedUsersProfession[index] = e;
-    setState({ ...state, selectedUsersProfession: selectedUsersProfession });
-
-    //UserList Update
-    let { userListForHealthInsurance } = state;
-    userListForHealthInsurance[index].profession = e.value;
-    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-  };
-
-  const checkUserFormElements = () => {
-    let { userListForHealthInsurance } = state;
-    const lastUserIndex = userListForHealthInsurance.length - 1;
-    const lastUser = userListForHealthInsurance[lastUserIndex];
-
-    console.log("User List: ", userListForHealthInsurance);
-    console.log("Hatalar: ", errors);
-
-    /*if (isExistTcKimlikNoInUserList(lastUser.identityNo)) {
-      setError("identityNo_" + lastUserIndex, {
-        type: "manual",
-        message: "T.C. Kimlik Numarası Kullanılmış",
-      });
-    }*/
-
-    // if (lastUser.birthDate == "") {
-    //   setError("birthDate" + lastUserIndex, {
-    //     type: "manual",
-    //     message: "Dogum Tarihi Zorunlu",
-    //   });
-    // }
-
-    if (lastUser.relation == -1) {
-      setError("relation" + lastUserIndex, {
-        type: "manual",
-        message: "Yakınlık Derecesi Zorunlu",
-      });
-    }
-
-    if (lastUser.identityNo == null) {
-      setError("identityNo" + lastUserIndex, {
-        type: "manual",
-        message: "T.C. Kimlik Numarası Zorunlu",
-      });
-      return false;
-    } else if (!isValidTcKimlik(lastUser.identityNo.toString())) {
-      setError("identityNo" + lastUserIndex, {
-        type: "manual",
-        message: "T.C. Kimlik Numarası Geçersiz",
-      });
-
-      return false;
-    } else if (!Object.keys(errors).length) {
-      return true;
-    }
-  };
-
-  const onAddUserForHealthInsurance = () => {
-    if (checkUserFormElements()) {
-      let { userListForHealthInsurance } = state;
-
-      userListForHealthInsurance.push({
-        identityNo: undefined,
-        relation: -1,
-        profession: -1,
-        birthDate: "",
-      });
-      setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-    }
-  };
-
-  const onRemoveUserForHealthInsurance = (index) => {
-    let { userListForHealthInsurance } = state;
-    userListForHealthInsurance.splice(index, 1);
-    setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-    resetField("identityNo" + index);
-    resetField("birthDate" + index);
-    resetField("relation" + index);
-    resetField("profession" + index);
-    clearErrors();
   };
 
   const quoteReceived = (value) => {
@@ -372,151 +339,177 @@ const ComplementaryHealthInsurance = (props) => {
         }}
         className="animate__animated animate__fadeInRight stepContainer"
       >
-        {/*Kimlik, Dogum Tarihi, Yakınlık ve Meslek Bilgisi*/}
-        <div className="timeline-inverted">
+        {/*Kimlik, Yakınlık Bilgisi*/}
+        <div className={"timeline-inverted " + (state.activeStep > 1 ? "timeline-passed" : "")}>
+          <div className="timeline-badge success">
+            <b></b>
+          </div>
           <div className="timeline-panel">
             <div className="timeline-heading">
-              <h4 className="timeline-title">Temel Bilgiler</h4>
+              <h4 className="timeline-title"></h4>
             </div>
             <div className="timeline-body">
-              {(() => {
-                if (state.activeStep == 1) {
-                  return (
-                    <form autoComplete="off" onSubmit={handleSubmit(validateStep)} id="firstStep">
-                      {state.userListForHealthInsurance.map((user, index) => (
-                        <div
-                          className="user-list-for-health-insurance-wrapper mt-2  py-1"
-                          key={index}
-                        >
-                          <div className="row">
-                            <div className="col-12 col-md-6 col-lg-4 mt-2 tc-kimlik-no">
-                              <label className="">T.C. Kimlik Numarası</label>
-                              <input
-                                type="number"
-                                id={"tcInput" + index}
-                                maxLength="11"
-                                placeholder="T.C. Kimlik Numarası"
-                                className={`form-control ${
-                                  errors["identityNo" + index] && "invalid"
-                                }`}
-                                {...register("identityNo" + index, {
-                                  required: "T.C. Kimlik Numarası zorunlu",
-                                  validate: isValidTcKimlik,
-                                })}
-                                onChange={(e) => onChangeTcKimlikNumarasi(e, index)}
-                                value={user.identityNo}
-                              />
-                              <small className="text-danger">
-                                {errors["identityNo" + index]?.message}
-                                {/**Validate Message */}
-                                {errors["identityNo" + index]
-                                  ? errors["identityNo" + index].type == "validate"
-                                    ? "Geçersiz T.C. Kimlik Numarası"
-                                    : ""
-                                  : ""}
-                              </small>
-                            </div>
+              {/* {JSON.stringify(userList)} */}
+              <form autoComplete="off" onSubmit={handleSubmit(validateStep)}>
+                {userList.map((user, index) => (
+                  <div className="user-list-for-health-insurance-wrapper" key={index}>
+                    <div className="row">
+                      <div className="col-12 col-md-6 col-lg-4 mt-3 mb-2 tc-kimlik-no">
+                        <Controller
+                          control={control}
+                          name={"identityNo" + user.index}
+                          rules={{
+                            required: "T.C. Kimlik Numarası Zorunlu",
+                            validate: isValidTcKimlik,
+                          }}
+                          defaultValue={user.identityNo} // 👈 set defaultValue to ""
+                          render={({
+                            field: { onChange, onBlur, value, name, ref },
+                            fieldState: { invalid, isTouched, isDirty, error },
+                            formState,
+                          }) => (
+                            <TextField
+                              type="number"
+                              name={"identityNo" + user.index}
+                              onChange={(e) => {
+                                onChangeTcKimlikNumarasi(e, user.index);
+                                setValue("identityNo" + user.index, e.target.value);
+                              }}
+                              value={user.identityNo || ""}
+                              sx={inputStyle}
+                              size="small"
+                              error={Boolean(errors["identityNo" + user.index])}
+                              label="T.C. Kimlik Numarası *"
+                              maxLength={11}
+                            />
+                          )}
+                        />
 
-                            {/* <div className="col-12 col-md-6 col-lg-3 mt-2 dogum-tarihi">
-                              <label className="">Doğum Tarihi</label>
-                              <input
-                                type="text"
-                                id="birthDate"
-                                className={`form-control date-mask ${
-                                  errors["birthDate" + index] && "invalid"
-                                }`}
-                                placeholder="gg.aa.yyyy"
-                                {...register("birthDate" + index, {
-                                  required: "Doğum Tarihi zorunlu",
-                                  validate: isValidMaskedDate,
-                                })}
-                                onKeyUp={(e) => onChangeDogumTarihi(e, index)}
-                                value={user.birthDate}
-                                max={getTodayDate()}
-                                autocomplete="off"
-                              />
+                        <small className="text-danger">
+                          {errors["identityNo" + user.index]?.message}
+                          {/**Validate Message */}
+                          {errors["identityNo" + user.index] &&
+                            errors["identityNo" + user.index].type == "validate" &&
+                            "Geçersiz T.C. Kimlik Numarası"}
+                        </small>
+                      </div>
 
-                              <small className="text-danger">
-                                {errors["birthDate" + index]?.message}
-                                {errors["birthDate" + index]
-                                  ? errors["birthDate" + index].type == "validate"
-                                    ? "Geçersiz Doğum Tarihi"
-                                    : ""
-                                  : ""}
-                              </small>
-                            </div> */}
+                      <div className="col-12 col-md-6 col-lg-4 mt-3 select-yakinlik-derecesi">
+                        <Controller
+                          name={"relation" + user.index}
+                          control={control}
+                          rules={
+                            index != 0 && {
+                              required: "Yakınlık Derecesi Zorunlu",
+                            }
+                          }
+                          render={(props) => (
+                            <Autocomplete
+                              value={
+                                userList[userList.findIndex((value) => value.index == user.index)]
+                                  .relation || { label: "", value: -1 }
+                              }
+                              onChange={(_, newValue) => {
+                                onChangeYakinlikDerecesi(newValue, user.index);
+                              }}
+                              options={relationList}
+                              getOptionLabel={(option) => option.label}
+                              sx={{ width: "100%" }}
+                              size="small"
+                              disabled={index == 0}
+                              {...props}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Yakınlık Derecesi"
+                                  placeholder="Yakınlık Derecesi"
+                                  error={Boolean(errors["relation" + user.index])}
+                                  sx={inputStyle}
+                                  required={true}
+                                  InputProps={{
+                                    ...params.InputProps,
+                                  }}
+                                />
+                              )}
+                            />
+                          )}
+                        />
+                        <small className="text-danger">
+                          {errors["relation" + user.index]?.message}
+                        </small>
+                      </div>
 
-                            <div className="col-12 col-md-6 col-lg-4 mt-2 select-yakinlik-derecesi">
-                              <label className="">Yakınlık Derecesi</label>
-                              <Select
-                                id="yakinlikDerecesi"
-                                className={` ${errors["relation" + index] && "invalid"}`}
-                                options={state.relationList}
-                                value={state.selectedUsersRelation[index]}
-                                onChange={(e) => {
-                                  onChangeYakinlikDerecesi(e, index);
-                                }}
-                                placeholder="Yakınlık Derecesi"
-                                required
-                                isDisabled={index == 0}
-                              />
-                              <small className="text-danger">
-                                {errors["relation" + index]?.message}
-                              </small>
-                            </div>
-
-                            <div className="col-12 col-md-6 col-lg-4 mt-2 select-meslek">
-                              <label className="">Meslek</label>
-                              <Select
-                                options={state.professionList}
-                                value={state.selectedUsersProfession[index]}
-                                onChange={(e) => {
-                                  onChangeMeslek(e, index);
-                                }}
-                                placeholder="Meslek Seçiniz"
-                              />
+                      <div className="col-12 col-md-6 col-lg-4 mt-3 select-meslek">
+                        <Controller
+                          name={"profession" + user.index}
+                          control={control}
+                          render={(props) => (
+                            <Autocomplete
+                              value={
+                                userList[userList.findIndex((value) => value.index == user.index)]
+                                  .profession || { label: "", value: -1 }
+                              }
+                              onChange={(_, newValue) => {
+                                onChangeMeslek(newValue, user.index);
+                              }}
+                              options={professionList}
+                              getOptionLabel={(option) => option.label}
+                              sx={{ width: "100%" }}
+                              size="small"
+                              {...props}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Meslek"
+                                  placeholder="Meslek Seçiniz"
+                                  //error={Boolean(errors["profession" + user.index])}
+                                  sx={inputStyle}
+                                  InputProps={{
+                                    ...params.InputProps,
+                                  }}
+                                />
+                              )}
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
+                    {(() => {
+                      if (userList.length > 1 && user.index != 0) {
+                        return (
+                          <div className="row remove-person mt-2">
+                            <div className="col">
+                              <a href="#" onClick={() => onRemoveUser(user.index)}>
+                                <i className="far fa-trash-alt" style={{ color: "red" }}></i> Kişiyi
+                                Çıkar
+                              </a>
                             </div>
                           </div>
-                          {(() => {
-                            if (state.userListForHealthInsurance.length > 1 && index != 0) {
-                              return (
-                                <div className="row remove-person mt-2">
-                                  <div className="col">
-                                    <a
-                                      href="#"
-                                      onClick={() => onRemoveUserForHealthInsurance(index)}
-                                    >
-                                      <i className="far fa-trash-alt" style={{ color: "red" }}></i>{" "}
-                                      Kişiyi Çıkar
-                                    </a>
-                                  </div>
-                                </div>
-                              );
-                            }
-                          })()}
-                          <hr />
-                        </div>
-                      ))}
-                      <div className="row add-new-person mt-2">
-                        <div className="col">
-                          <a href="#" onClick={() => onAddUserForHealthInsurance()}>
-                            <i className="fas fa-plus fa-lg"></i> Kişi Ekle
-                          </a>
-                        </div>
-                      </div>
-                      <div className="row forward-button">
-                        <div className="col-12 col-md-6 col-lg-6">
-                          <input
-                            type="submit"
-                            className="btn-custom btn-timeline-forward w-100 mt-3"
-                            value="İleri"
-                          />
-                        </div>
-                      </div>
-                    </form>
-                  );
-                }
-              })()}
+                        );
+                      }
+                    })()}
+                    <hr />
+                  </div>
+                ))}
+                <div className="row add-new-person mt-2">
+                  <div className="col">
+                    <a href="#" onClick={() => onAddUser()}>
+                      <i className="fas fa-plus fa-lg"></i> Kişi Ekle
+                    </a>
+                  </div>
+                </div>
+                <div className="row forward-button">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className="w-100 mt-3"
+                      disabled={Boolean(Object.keys(errors).length)}
+                    >
+                      İleri
+                    </Button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -536,8 +529,9 @@ const ComplementaryHealthInsurance = (props) => {
           border: "2px solid #eeeeee",
           borderRadius: "5px",
         }}
-        className="stepContainer animate__animated  animate__fadeInRight"
+        className="stepContainer  animate__animated  animate__fadeInRight"
       >
+        {/*İletişim bilgileri*/}
         <div
           className={
             "timeline-inverted " +
@@ -545,101 +539,116 @@ const ComplementaryHealthInsurance = (props) => {
             (state.activeStep > 2 ? "timeline-passed" : "")
           }
         >
+          <div className="timeline-badge">
+            <b className="glyphicon glyphicon-credit-card"></b>
+          </div>
           <div className="timeline-panel">
             <div className="timeline-heading">
               <h4 className="timeline-title">İletişim Bilgileri</h4>
             </div>
-
             <div className="timeline-body">
               <form autoComplete="off" onSubmit={handleSubmit2(validateStep)} id="secondStep">
-                <div className="unregistered-user">
-                  <div className="row phone-number">
-                    <div className="col-12 col-md-6 col-lg-6">
-                      Cep Telefonu
-                      <div className="input-form-with-prefix w-100" style={{ display: "flex" }}>
-                        <div className="bg-main text-white input-form-prefix px-2">+90</div>
-                        <div className="input-with-prefix">
-                          <input
-                            type="tel"
-                            className={`phoneNumber form-control mr-2 ${
-                              errors2.cep_telefon_no && "invalid"
-                            }`}
-                            {...register2("cep_telefon_no", {
-                              required: "Cep telefonu numarası zorunlu",
-                              pattern: {
-                                value:
-                                  /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/,
-                                message: "Geçersiz cep telefon numarası",
-                              },
-                            })}
-                            onChange={(e) =>
-                              setState({
-                                ...state,
-                                phoneNumber: e.target.value,
-                              })
-                            }
-                            value={state.phoneNumber}
-                            placeholder="(5xx) xxx xx xx"
-                          />
-                        </div>
+                <div className="unregister2ed-user mt-4">
+                  <div className="phone-number">
+                    <div className="input-form-with-prefix w-100" style={{ display: "flex" }}>
+                      <div className="bg-main text-white input-form-prefix px-2">+90</div>
+                      <div className="input-with-prefix">
+                        <TextField
+                          {...register2("cepTelefonNo", {
+                            required: "Cep telefonu numarası Zorunlu",
+                            pattern: {
+                              value:
+                                /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/,
+                              message: "Geçersiz cep telefon numarası",
+                            },
+                          })}
+                          value={state.phoneNumber}
+                          onChange={(e) =>
+                            setState({
+                              ...state,
+                              phoneNumber: e.target.value,
+                            })
+                          }
+                          placeholder="(5xx) xxx xx xx"
+                          type="tel"
+                          InputProps={{
+                            inputProps: {
+                              className: "phoneNumber",
+                            },
+                          }}
+                          id="phone"
+                          sx={inputStyle}
+                          size="small"
+                          error={errors2 && Boolean(errors2["cepTelefonNo"])}
+                          label="Cep Telefonu"
+                        />
                       </div>
-                      <small className="text-danger">{errors2["cep_telefon_no"]?.message}</small>
                     </div>
+                    <small className="text-danger">
+                      {errors2 && errors2["cepTelefonNo"]?.message}
+                    </small>
                   </div>
-                  <div className="row email mt-2">
-                    <div className="col-12 col-md-6 col-lg-6">
-                      E-posta adresi
-                      <div className="input-form-with-prefix w-100" style={{ display: "flex" }}>
-                        <div className="bg-main text-white input-form-prefix">
-                          <i className="far fa-envelope"></i>
-                        </div>
-                        <div className="input-with-prefix">
-                          <input
-                            type="email"
-                            className={`form-control mr-2 ${errors2.email && "invalid"}`}
-                            {...register2("email", {
-                              required: "E-mail adresi zorunlu",
-                              pattern: {
-                                value:
-                                  /^([\w-]{3,30}(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{1,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
-                                message: "Geçersiz email adresi",
-                              },
-                            })}
-                            onChange={(e) => {
-                              setState({ ...state, email: e.target.value });
-                              setValue2("email", e.target.value);
-                            }}
-                            value={state.email}
-                          />
-                        </div>
+                  <div className="email mt-4">
+                    <div className="input-form-with-prefix w-100" style={{ display: "flex" }}>
+                      <div className="bg-main text-white input-form-prefix">
+                        <i className="far fa-envelope"></i>
                       </div>
-                      <small className="text-danger">{errors2["email"]?.message}</small>
+                      <div className="input-with-prefix">
+                        <TextField
+                          {...register2("emailAddress", {
+                            required: "E-mail adresi Zorunlu",
+                            pattern: {
+                              value:
+                                /^([\w-]{3,30}(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{1,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                              message: "Geçersiz email adresi",
+                            },
+                          })}
+                          value={state.email}
+                          onChange={(e) => {
+                            setState({ ...state, email: e.target.value });
+                            setValue2("emailAddress", e.target.value);
+                          }}
+                          type="email"
+                          id="emailAddress"
+                          sx={inputStyle}
+                          size="small"
+                          error={errors2 && Boolean(errors2["emailAddress"])}
+                          label="E-posta adresi"
+                        />
+                      </div>
                     </div>
+                    <small className="text-danger">
+                      {errors2 && errors2["emailAddress"]?.message}
+                    </small>
                   </div>
-
                   <div className="news-notification-confirmation mt-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value={state.isCheckedNotification}
-                        id="flexCheckDefault"
+                    <div className="form-chec">
+                      <Checkbox
+                        id="notificationCheckbox"
+                        sx={{
+                          padding: "0px 8px 0px 0px",
+                          "&.Mui-checked": {
+                            color: "var(--main-color)",
+                          },
+                        }}
                         onChange={(e) =>
                           setState({
                             ...state,
                             isCheckedNotification: e.target.checked,
                           })
                         }
+                        value={state.isCheckedNotification}
                       />
-                      <label className="form-check-label" htmlFor="flexCheckDefault">
+                      <label htmlFor="notificationCheckbox">
                         İndirimler, Avantajlar, Fiyatlar ve Kampanyalardan haberdar olmak için
                         tıklayınız.
                       </label>
                     </div>
                   </div>
                 </div>
+
                 <div className="row forward-button">
-                  <div className="col-12 col-md-6 col-lg-6">
+                  <div className="col-12">
                     <input
                       type="submit"
                       className="btn-custom btn-timeline-forward w-100 mt-3"
@@ -654,6 +663,7 @@ const ComplementaryHealthInsurance = (props) => {
       </Box>
     );
   };
+
   const steps = [OneStep(), TwoStep()];
 
   const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -668,7 +678,6 @@ const ComplementaryHealthInsurance = (props) => {
       borderRadius: 1,
     },
   }));
-
   return (
     <>
       {/* Pop-up Notificiation Modal*/}
@@ -687,9 +696,8 @@ const ComplementaryHealthInsurance = (props) => {
           isShow={isShowVerifySingleCodePopup}
         />
       )}
-      {/*Teklifleri Getire Bastığında çıkacak olan popup*/}
 
-      <InfoAlert show={quoteReceivedSuccess} onClose={(value) => quoteReceived(value)}>
+      <PopupAlert show={quoteReceivedSuccess} onClose={(value) => quoteReceived(value)}>
         <p style={{ fontWeight: "normal", textAlign: "justify" }}>
           <h4 className="text-center mb-3">
             <i className="fas fa-check-circle fa-lg text-main"></i> <b>Talebiniz Başarılı</b>
@@ -697,59 +705,45 @@ const ComplementaryHealthInsurance = (props) => {
           En kısa sürede sizinle iletişime geçerek en avantajlı fiyatlarla sağlık sigortası
           tekliflerimizi ulaştıracağız.
         </p>
-      </InfoAlert>
+      </PopupAlert>
 
-      {/* */}
-      {!Boolean(token) ? (
-        <>
-          <PagePreLoader />
-        </>
-      ) : (
-        <section className="complementary-health-section timeline_container section">
-          <div>
-            <div className="container" style={{ marginBottom: "400px" }}>
-              <div className=" col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center mt-3 mb-4">
-                <h4>Sigorta 7 ile en uygun ve ihtiyacınıza yönelik Özel Sağlık Sigortası</h4>
-              </div>
-
-              <Box>
-                <Stepper activeStep={activeStep} alternativeLabel connector={<QontoConnector />}>
-                  {steps.map((label, index) => {
-                    return (
-                      <Step key={index}>
-                        <StepLabel StepIconComponent={StepLabelIcon}></StepLabel>
-                      </Step>
-                    );
-                  })}
-                </Stepper>
-                <Box>{steps[activeStep]}</Box>
-              </Box>
-            </div>
-
-            {/*Seyahat Sağlık Sigortası Nedir?*/}
-            <div className="row">
-              <div className="col-12">
-                <WhatIsTheXInsurance
-                  photo={WhatIsTheDaskInsurance}
-                  title="TAMAMLAYICI SAĞLIK SİGORTASI NEDİR? NE İŞE YARAR?"
-                  topTitle="HASTALIKLARA KARŞI ÖNLEMİNİZİ ALIN"
-                  descriptionParagraphs={[
-                    "DASK (Doğal Afetler Sigortalar Kurumu) Zorunlu Deprem Sigortası; depremin ve deprem sonucu meydana gelen yangın, patlama, tsunami ile yer kaymasının doğrudan neden olacağı maddi zararları, sigorta poliçesinde belirtilen limitler kapsamında karşılayan bir sigorta türüdür.",
-                    "Zorunlu Deprem Sigortası yaptırdığınız zaman binanız tamamen ya da kısmen zarar gördüğünde teminat altına alınır. DASK yaptırmadığınız durumlarda ise bu yardımdan yararlanamazsınız.",
-                    ,
-                  ]}
-                />
-              </div>
-            </div>
-
-            <div className="container" style={{ marginTop: "100px" }}>
-              <ComplementaryFAQ topic="TAMAMLAYICI SAĞLIK" />
-            </div>
+      <section className="section mt-5">
+        <div className="container" style={{ marginBottom: "100px", width: "100% !important" }}>
+          <div className="w-100 text-center  mb-4">
+            <h4>Sigorta 7 ile en uygun ve ihtiyacınıza yönelik Özel Sağlık Sigortası</h4>
           </div>
-        </section>
-      )}
+          <Box>
+            <Stepper activeStep={activeStep} alternativeLabel connector={<QontoConnector />}>
+              {steps.map((label, index) => {
+                return (
+                  <Step key={index}>
+                    <StepLabel StepIconComponent={StepLabelIcon}></StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            <Box>{steps[activeStep]}</Box>
+          </Box>
+        </div>
+        {/*Tamamlayıcı Sağlık Sigortası Nedir?*/}
+        <div className="row">
+          <div className="col-12">
+            <WhatIsTheXInsurance
+              title="ÖZEL SAĞLIK SİGORTASI NEDİR? NE İŞE YARAR?"
+              topTitle="HASTALIKLARA KARŞI ÖNLEMİNİZİ ALIN"
+              descriptionParagraphs={[
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                ,
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* <div className="container" style={{ marginTop: "100px" }}>
+          <ComplementaryFAQ topic="TAMAMLAYICI SAĞLIK" />
+        </div> */}
+      </section>
     </>
   );
-};
-
-export default ComplementaryHealthInsurance;
+}

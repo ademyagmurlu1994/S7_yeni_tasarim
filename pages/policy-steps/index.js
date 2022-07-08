@@ -14,12 +14,12 @@ import GetQuotePrint from "/components/common/GetQuotePrint";
 
 import {
   AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
-  HdiSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  MapfreLogo,
+  SompoLogo,
+  ZurichLogo,
+  HdiLogo,
 } from "/resources/images";
 
 //fonksiyonlar
@@ -139,22 +139,22 @@ const PolicySteps = () => {
           setCompanyLogo(AkSigortaLogo);
           break;
         case 110:
-          setCompanyLogo(AnadoluSigortaLogo);
+          setCompanyLogo(AnadoluLogo);
           break;
         case 120:
-          setCompanyLogo(AllianzSigortaLogo);
+          setCompanyLogo(AllianzLogo);
           break;
         case 150:
-          setCompanyLogo(HdiSigortaLogo);
+          setCompanyLogo(HdiLogo);
           break;
         case 160:
-          setCompanyLogo(MapfreSigortaLogo);
+          setCompanyLogo(MapfreLogo);
           break;
         case 180:
-          setCompanyLogo(SomboSigortaLogo);
+          setCompanyLogo(SompoLogo);
           break;
         case 200:
-          setCompanyLogo(ZurichSigortaLogo);
+          setCompanyLogo(ZurichLogo);
           break;
       }
 

@@ -61,13 +61,13 @@ export default function travelIndex() {
   return (
     <>
       <section className="section">
-        <div style={{ marginTop: "100px" }}>
+        <div style={{}}>
           <div className="container">
-            <div className="row mb-5 mt-5">
-              <div className=" col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div className="row mb-5">
+              <div className=" col-xs-12 col-sm-12 col-md-6 col-lg-6 d-none d-md-block">
                 <InsuranceIndexPageInformation
                   title="En uygun Seyahat Sağlık poliçesini , 1 Dakika içinde seçerek alabilirsiniz!"
-                  photo={DaskInsuranceInformationPhoto}
+                  photo={""}
                   detailParagraphs={[
                     "En iyi sigorta şirketlerinin tekliflerini karşılaştırın",
                     "İnternete özel ek indirimlerle seyahat sağlık sigortası yaptırın!",
@@ -158,12 +158,11 @@ export default function travelIndex() {
           <div className="row">
             <div className="col-12">
               <WhatIsTheXInsurance
-                photo={WhatIsTheDaskInsurance}
                 title="SEYAHAT SAĞLIK SİGORTASI NEDİR? NE İŞE YARAR?"
                 topTitle="HASTALIKLARA KARŞI ÖNLEMİNİZİ ALIN"
                 descriptionParagraphs={[
-                  "DASK (Doğal Afetler Sigortalar Kurumu) Zorunlu Deprem Sigortası; depremin ve deprem sonucu meydana gelen yangın, patlama, tsunami ile yer kaymasının doğrudan neden olacağı maddi zararları, sigorta poliçesinde belirtilen limitler kapsamında karşılayan bir sigorta türüdür.",
-                  "Zorunlu Deprem Sigortası yaptırdığınız zaman binanız tamamen ya da kısmen zarar gördüğünde teminat altına alınır. DASK yaptırmadığınız durumlarda ise bu yardımdan yararlanamazsınız.",
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
                   ,
                 ]}
               />

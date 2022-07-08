@@ -18,7 +18,7 @@ const HomeFold = () => {
         }}
       >
         <div className="container-fluid">
-          <div className="row topfold-text ">
+          {/* <div className="row topfold-text ">
             <div className="col-10 col-lg-12 text-center">
               <h2>Hayatınıza Dair Her Şeyi Garantiye Alın!</h2>
               <h5 className="d-none d-lg-block">Tüm kampanyalarımız için sizi bilgilendirelim.</h5>
@@ -26,7 +26,7 @@ const HomeFold = () => {
                 <button className="btn-home-fold-banner">HEMEN BAŞVURUN</button>
               </Link>
             </div>
-          </div>
+          </div> */}
           <div className="row">
             <div className="col-12 d-none d-md-block">
               <video autoPlay muted loop playsInline id="myVideo" style={{ width: "100%" }}>

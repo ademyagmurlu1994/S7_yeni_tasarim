@@ -7,7 +7,7 @@ const Nav = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top horizontal-nav" id="navbar">
-        <div className="container">
+        <div className="container-fluid " style={{ padding: "0px 10%" }}>
           <Link href="/">
             <div className="navbar-brand navbar-brand-mobile">
               <img src={logo} alt="" />
@@ -32,18 +32,20 @@ const Nav = () => {
               <div className="navbar-left-side h-100">
                 <li className="nav-item">
                   <a href="#">
-                    <span>
-                      <i className="fas fa-phone-alt color-main"></i> 0 850 212 12 12
+                    <span className="d-flex">
+                      <i className="fas fa-phone-alt color-main mr-1"></i> 0 850 212 12 12
                     </span>
                   </a>
                 </li>
                 <div className="vertical-divider mr-4 ml-4"></div>
                 <li className="nav-item">
-                  <a href="#">
-                    <span>
-                      <i className="fas fa-envelope color-main"></i> Teklif Alın
-                    </span>
-                  </a>
+                  <Link href="/services">
+                    <a href="#">
+                      <span className="d-flex">
+                        <i className="fas fa-envelope color-main mr-1"></i> Teklif Alın
+                      </span>
+                    </a>
+                  </Link>
                 </li>
               </div>
 
@@ -79,7 +81,7 @@ const Nav = () => {
                     <div className="dropdown-menu-wrapper">
                       <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div className="row">
-                          <div className="col-12 col-md-6 col-lg-6 mb-4">
+                          <div className="col-12 col-md-6 col-lg-6">
                             <div className="similar-service-wrapper">
                               <h3>
                                 <i className="fas fa-car"></i> Arabanız
@@ -90,9 +92,12 @@ const Nav = () => {
                               <Link href="/insurance/traffic">
                                 <a className="dropdown-item"> Trafik</a>
                               </Link>
+                              <Link href="#">
+                                <a className="dropdown-item">Mini Kasko</a>
+                              </Link>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-6 mb-4">
+                          <div className="col-12 col-md-6 col-lg-6 ">
                             <div className="similar-service-wrapper">
                               <h3>
                                 <i className="fas fa-heartbeat"></i> Sağlığınız
@@ -106,11 +111,20 @@ const Nav = () => {
                               <Link href="/insurance/health/private">
                                 <a className="dropdown-item">Özel Sağlık</a>
                               </Link>
+                              <Link href="#">
+                                <a className="dropdown-item">Ferdi Kaza</a>
+                              </Link>
+                              <Link href="#">
+                                <a className="dropdown-item">Yaşam Terapi</a>
+                              </Link>
+                              <Link href="#">
+                                <a className="dropdown-item">Yabancı Sağlık</a>
+                              </Link>
                             </div>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-12 col-md-6 col-lg-6 mb-4">
+                          <div className="col-12 col-md-6 col-lg-6">
                             <div className="similar-service-wrapper">
                               <h3>
                                 <i className="fas fa-home"></i> Eviniz
@@ -118,12 +132,12 @@ const Nav = () => {
                               <Link href="/insurance/dask">
                                 <a className="dropdown-item">Dask</a>
                               </Link>
-                              {/* <Link href="/insurance/traffic">
-                                <a className="dropdown-item"> Trafik</a>
-                              </Link> */}
+                              <Link href="#">
+                                <a className="dropdown-item">Konut</a>
+                              </Link>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-6 mb-4">
+                          <div className="col-12 col-md-6 col-lg-6">
                             <div className="similar-service-wrapper">
                               <h3>
                                 <i className="fas fa-ellipsis-h"></i> Diğer Sigortalarınız
@@ -141,13 +155,54 @@ const Nav = () => {
                     </div>
                   </li>
 
-                  <div className="vertical-divider mr-lg-3 ml-lg-3  mr-md-1 ml-md-1 h-60"></div>
-                  <li className="nav-item">
-                    <Link href="/register">Üye Ol</Link>
-                  </li>
                   <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
                   <li className="nav-item">
                     <Link href="/login">Hesabım</Link>
+                  </li>
+                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
+                  <li className="nav-item scroll dropdown small-dropdown">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                      <span>Bize Ulaşın</span>
+                    </a>
+                    <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
+                      <div className="dropdown-menu text-white" aria-labelledby="navbarDropdown">
+                        <Link href="/iletisim?option=0">
+                          <a className="dropdown-item">İptal İşlemleri</a>
+                        </Link>
+
+                        <Link href="/iletisim">
+                          <a className="dropdown-item">İletişim</a>
+                        </Link>
+                      </div>
+                    </div>
+                  </li>
+                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
+                  <li className="nav-item scroll dropdown small-dropdown">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                      <span>Hasar İşlemleri</span>
+                    </a>
+                    <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
+                      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <Link href="/">
+                          <a className="dropdown-item text-danger">
+                            <b>
+                              <i class="fas fa-bullhorn mr-1"></i> ACİL YARDIM
+                            </b>
+                          </a>
+                        </Link>
+                        <Link href="/">
+                          <a className="dropdown-item">Hasar Bildirimi</a>
+                        </Link>
+                        <Link href="/">
+                          <a className="dropdown-item">Hasar Takibi</a>
+                        </Link>
+                      </div>
+                    </div>
+                  </li>
+
+                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
+                  <li className="nav-item">
+                    <Link href="/blog">Blog</Link>
                   </li>
                 </div>
 

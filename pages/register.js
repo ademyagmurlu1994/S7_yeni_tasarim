@@ -6,6 +6,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 //Componentler
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
+import Checkbox from "@mui/material/Checkbox";
 
 //fonksiyonlar
 import {
@@ -238,7 +239,9 @@ const Register = () => {
                             type="tel"
                             id="individualPhone"
                             name="individualPhoneNumber"
-                            className={`form-control ${errors.individualPhoneNumber && "invalid"}`}
+                            className={`form-control phoneNumber ${
+                              errors.individualPhoneNumber && "invalid"
+                            }`}
                             {...register("individualPhoneNumber", {
                               required: "Cep telefonu numarası zorunlu",
                               pattern: {
@@ -405,7 +408,9 @@ const Register = () => {
                             type="tel"
                             id="foundationPhone"
                             name="foundationPhoneNumber"
-                            className={`form-control ${errors.foundationPhoneNumber && "invalid"}`}
+                            className={`form-control phoneNumber ${
+                              errors.foundationPhoneNumber && "invalid"
+                            }`}
                             {...register("foundationPhoneNumber", {
                               required: "Cep telefonu numarası zorunlu",
                               pattern: {
@@ -491,27 +496,62 @@ const Register = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-12 mt-3">
-                    <div className="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="customCheck1"
-                        className={`form-control custom-control-input ${
-                          errors.agreement && "invalid"
-                        }`}
+                  <div className="col-lg-12 mt-4">
+                    <div
+                      className="w-100 m-0 p-0"
+                      style={{ display: "flex", alignItems: "flex-start" }}
+                    >
+                      <Checkbox
                         {...register("agreement", {
-                          required: "Devam etmeden önce üyelik sözleşmesini kabul etmelisiniz",
+                          required: "Devam etmeden önce Üyelik Sözleşmesini kabul etmelisiniz",
                         })}
+                        id="agreement"
+                        sx={{
+                          padding: "0px 8px 0px 0px",
+                          "&.Mui-checked": {
+                            color: "var(--main-color)",
+                          },
+                        }}
                       />
-                      <small className="text-danger">{errors["agreement"]?.message}</small>
-
-                      <label className="custom-control-label text-dark" htmlFor="customCheck1">
-                        <a href="#" className="text-custom">
+                      <label htmlFor="agreement">
+                        <a href="#" className="text-main">
                           Üyelik sözleşmesini{" "}
                         </a>
                         kabul ediyorum
                       </label>
                     </div>
+                    <small className="text-danger">{errors["agreement"]?.message}</small>
+                  </div>
+
+                  <div className="col-lg-12 mt-1">
+                    <div
+                      className="w-100 m-0 p-0"
+                      style={{ display: "flex", alignItems: "flex-start" }}
+                    >
+                      <Checkbox
+                        {...register("kvkkCheck", {
+                          required: "Devam etmeden önce KVKK Aydınlatma Metnini kabul etmelisiniz",
+                        })}
+                        id="kvkk"
+                        sx={{
+                          padding: "0px 8px 0px 0px",
+                          "&.Mui-checked": {
+                            color: "var(--main-color)",
+                          },
+                        }}
+                      />
+                      <label htmlFor="kvkk">
+                        <a
+                          href="/static/documents/footer/KVKK.pdf"
+                          target="_blank"
+                          className="text-main"
+                        >
+                          KVKK Aydınlatma metnini{" "}
+                        </a>{" "}
+                        okudum
+                      </label>
+                    </div>
+                    <small className="text-danger">{errors["kvkkCheck"]?.message}</small>
                   </div>
 
                   <input

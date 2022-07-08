@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useCallback } from "react";
 
 //Componentler
+import WhatIsTheXInsurance from "/components/common/WhatIsTheXInsurance";
+import ComplementaryFAQ from "/components/faq/ComplementaryFAQ";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 import Button from "@mui/material/Button";
@@ -39,7 +41,13 @@ import {
 import { inputStyle, MainButtonLarge } from "/styles/custom";
 
 //Images
-import { PhoneIcon, PhoneInsurancePackageOne, PhoneInsurancePackageTwo } from "/resources/images";
+import {
+  PhoneIcon,
+  PhoneInsurancePackageOne,
+  PhoneInsurancePackageTwo,
+  DaskInsuranceInformationPhoto,
+  WhatIsTheDaskInsurance,
+} from "/resources/images";
 
 function PhoneIndex() {
   const {
@@ -613,7 +621,7 @@ function PhoneIndex() {
         />
       )}
       <section className="section">
-        <div className="container" style={{ marginBottom: "400px" }}>
+        <div className="container" style={{ marginBottom: "100px" }}>
           <div className=" col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center mt-3 mb-4">
             <h4>Telefonunuzu Sigorta ile güvenceye alın.</h4>
           </div>
@@ -630,6 +638,25 @@ function PhoneIndex() {
             <Box>{steps[activeStep]}</Box>
           </Box>
         </div>
+
+        {/*Tamamlayıcı Sağlık Sigortası Nedir?*/}
+        <div className="row">
+          <div className="col-12">
+            <WhatIsTheXInsurance
+              title="TELEFON SİGORTASI NEDİR? NE İŞE YARAR?"
+              topTitle="TELEFONUNUZU KAZALARA KARŞI ÖNLEM ALIN"
+              descriptionParagraphs={[
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illum reprehenderit iste dolorem optio id ipsa eligendi similique animi voluptatem laborum, tempora perferendis labore consequuntur facere aperiam quas consequatur officiis!",
+                ,
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* <div className="container" style={{ marginTop: "100px" }}>
+          <ComplementaryFAQ topic="TAMAMLAYICI SAĞLIK" />
+        </div> */}
       </section>
     </>
   );

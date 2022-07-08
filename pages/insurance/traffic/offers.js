@@ -12,12 +12,12 @@ import GetQuotePrint from "/components/common/GetQuotePrint";
 
 import {
   AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
-  HdiSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  MapfreLogo,
+  SompoLogo,
+  ZurichLogo,
+  HdiLogo,
 } from "/resources/images";
 
 //fonksiyonlar
@@ -39,7 +39,7 @@ const VehicleInsuranceOffers = () => {
     verilerGetiriliyor: false,
     token: "",
     teklifFiyatlari: [],
-    insuranceCompanies: [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
+    insuranceCompanies: [100, 110, 120, 150, 160, 180],
   });
 
   useEffect(async () => {
@@ -136,7 +136,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 110,
             quoteReference: data.data.asosCreateProposalResponseANDLIVO.policyKey.proposalNumber,
             revisionNumber: data.data.asosCreateProposalResponseANDLIVO.policyKey.revisionNumber,
-            companyLogo: AnadoluSigortaLogo,
+            companyLogo: AnadoluLogo,
             brutPrim: brutPrim,
             customerName: "",
           };
@@ -156,7 +156,7 @@ const VehicleInsuranceOffers = () => {
               companyCode: 120,
               quoteReference: data.policyBase.quoteReference.toString().split("/")[0],
               revisionNumber: data.policyBase.quoteReference.toString().split("/")[1],
-              companyLogo: AllianzSigortaLogo,
+              companyLogo: AllianzLogo,
               brutPrim: brutPrim,
               productName: productName,
               customerName: "",
@@ -178,7 +178,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 150,
             quoteReference: data.ReferansNo,
             revisionNumber: data.OncekiPoliceYenilemeNo,
-            companyLogo: HdiSigortaLogo,
+            companyLogo: HdiLogo,
             brutPrim: brutPrim,
             productName: productName,
             customerName: data.tcKmAd + "-" + data.tcKmSyAd,
@@ -198,7 +198,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 160,
             quoteReference: data.polPoliceNo,
             revisionNumber: 0,
-            companyLogo: MapfreSigortaLogo,
+            companyLogo: MapfreLogo,
             brutPrim: brutPrim,
             customerName: "",
           };
@@ -216,7 +216,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 180,
             quoteReference: data.proposaL_NO,
             revisionNumber: 0,
-            companyLogo: SomboSigortaLogo,
+            companyLogo: SompoLogo,
             brutPrim: brutPrim,
             customerName: "",
           };
@@ -235,7 +235,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 200,
             quoteReference: data.teklifNo,
             revisionNumber: data.maxRevizeNo,
-            companyLogo: ZurichSigortaLogo,
+            companyLogo: ZurichLogo,
             brutPrim: brutPrim,
             customerName: "",
           };

@@ -31,25 +31,36 @@ loopFunction(1000, function () {
   }
 });
 
+// //Mobil görünümde herhangi bir linke tıklandığında navbarı kapatma
+// if (!window.matchMedia("(min-width: 992px)").matches) {
+//   // const navbarToggle = document.getElementsByClassName("navbar-toggler")[0];
+//   // const navLinks = document.querySelectorAll(".nav-item");
+//   // navLinks.push(document.querySelectorAll(".dropdown-item"));
+//   // navLinks.forEach((l) => {
+//   //   l.addEventListener("click", () => {
+//   //     navbarToggle.click();
+//   //   });
+//   // });
+
+//   // const links = document.getElementsByTagName("a");
+//   // const navbarNav = document.getElementById("navbarNav");
+
+//   // for (const link of links) {
+//   //   link.addEventListener("click", () => {
+//   //     navbarNav.classList.remove("show");
+//   //   });
+//   // }
+// }
+
 //Mobil görünümde herhangi bir linke tıklandığında navbarı kapatma
 if (!window.matchMedia("(min-width: 992px)").matches) {
-  // const navbarToggle = document.getElementsByClassName("navbar-toggler")[0];
-  // const navLinks = document.querySelectorAll(".nav-item");
-  // navLinks.push(document.querySelectorAll(".dropdown-item"));
-  // navLinks.forEach((l) => {
-  //   l.addEventListener("click", () => {
-  //     navbarToggle.click();
-  //   });
-  // });
-
-  const links = document.getElementsByTagName("a");
-  const navbarNav = document.getElementById("navbarNav");
-
-  for (const link of links) {
-    link.addEventListener("click", () => {
-      navbarNav.classList.remove("show");
+  const navbarToggle = document.getElementsByClassName("navbar-toggler")[0];
+  const navLinks = document.querySelectorAll(".nav-item");
+  navLinks.forEach((l) => {
+    l.addEventListener("click", () => {
+      navbarToggle.click();
     });
-  }
+  });
 }
 
 //Sonsuz Döngü

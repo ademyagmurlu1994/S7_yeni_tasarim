@@ -12,14 +12,14 @@ import {
 } from "/resources/images";
 
 const Services = () => {
-  const [featureList] = useState([
+  const [serviceList] = useState([
     {
       title: "TRAFİK",
       img: Traffic,
       url: "/insurance/traffic",
     },
     {
-      title: "SAĞLIK",
+      title: "TAMAMLAYICI SAĞLIK",
       img: Health,
       url: "/insurance/health/complementary",
     },
@@ -53,13 +53,66 @@ const Services = () => {
       img: Phone,
       url: "/insurance/phone",
     },
+    {
+      title: "FERDİ KAZA",
+      img: Health,
+      url: "#",
+    },
+    {
+      title: "ÖZEL SAĞLIK",
+      img: Health,
+      url: "#",
+    },
+    {
+      title: "MİNİ KASKO",
+      img: CarService,
+      url: "#",
+    },
+    {
+      title: "YAŞAM TERAPİ",
+      img: Health,
+      url: "#",
+    },
+    {
+      title: "YABANCI SAĞLIK",
+      img: Health,
+      url: "#",
+    },
   ]);
 
   return (
     <>
       {/* Feature section start*/}
       {/*Deneme Commit*/}
-      <section className="services_section mt-5" style={{ marginBottom: "300px" }}>
+      <section
+        className="home-topfold-services bg-white"
+        style={{ paddingBottom: "0px", marginTop: "85px", marginBottom: "400px" }}
+      >
+        <div className="container">
+          <div className="row justify-content-center row-seven-column">
+            {serviceList.map((service, index) => {
+              return (
+                <div className="col-4 col-md-4 col-seven-1 topfold-services" key={index}>
+                  <Link href={service.url}>
+                    <div className="service-wrapper text-center">
+                      <div className="service-circle-wrapper">
+                        <div className="service-circle">
+                          <div>
+                            <img src={service.img} alt="" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="service-name">{service.title}</div>
+                    </div>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+      {/* <section className="services_section mt-5" style={{ marginBottom: "300px" }}>
         <div className="container" style={{ marginTop: "50px" }}>
           <div className="row text-center">
             <div className="col">
@@ -98,7 +151,7 @@ const Services = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       {/* Feature section end*/}
     </>
   );

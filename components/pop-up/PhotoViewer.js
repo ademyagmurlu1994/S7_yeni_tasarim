@@ -1,7 +1,8 @@
+import { Translate } from "@mui/icons-material";
 import React, { useState, useEffect, useCallback } from "react";
 import { uuid } from "uuidv4";
 
-const InfoAlert = ({ show, children, onClose }) => {
+const PhotoViewer = ({ show, photo, onClose }) => {
   const [popUpId, setPopUpId] = useState("deneme");
   const [showPopup, setShowPopup] = useState(false);
   const [counter, setCounter] = useState(0);
@@ -36,26 +37,22 @@ const InfoAlert = ({ show, children, onClose }) => {
         tabIndex="-1"
         aria-labelledby={`modal-${popUpId}`}
         aria-hidden="true"
+        onBlur={() => setShowPopup(false)}
       >
-        <div className="modal-dialog" style={{ maxWidth: "600px" }}>
+        <div
+          className="modal-dialog"
+          style={{
+            maxWidth: "500px",
+          }}
+        >
           <div className="modal-content animate__animated animate__fadeInDown">
             <div className="modal-header">
-              <h5 className="modal-title d-flex justify-content-center" id={`modal-${popUpId}`}>
-                <i className="fas fa-info-circle"></i>
-              </h5>
               <button type="button" className="close" onClick={() => setShowPopup(false)}>
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body modal-info">{children}</div>
-            <div className="modal-footer">
-              <button
-                className="btn-main-outline"
-                type="button"
-                onClick={() => setShowPopup(false)}
-              >
-                Tamam
-              </button>
+            <div className="modal-body">
+              <img src={photo} alt="" style={{ maxWidth: "100%", height: "auto", width: "100%" }} />
             </div>
           </div>
         </div>
@@ -64,4 +61,4 @@ const InfoAlert = ({ show, children, onClose }) => {
   );
 };
 
-export default InfoAlert;
+export default PhotoViewer;

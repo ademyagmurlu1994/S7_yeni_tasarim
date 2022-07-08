@@ -35,7 +35,7 @@ const HomeFold = () => {
         url: "/insurance/casco/",
       },
       {
-        name: "SAĞLIK",
+        name: "TAMAMLAYICI SAĞLIK",
         icon: Health,
         url: "/insurance/health/complementary",
       },
@@ -64,7 +64,7 @@ const HomeFold = () => {
         style={{ paddingBottom: "0px", marginTop: "85px" }}
       >
         <div className="container">
-          <div className="row justify-content-center">
+          <div className="row justify-content-center row-seven-column">
             {state.itemList.map((service, index) => {
               return (
                 <div className="col-4 col-md-4 col-seven-1 topfold-services" key={index}>

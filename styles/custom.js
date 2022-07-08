@@ -4,6 +4,9 @@ import Button from "@mui/material/Button";
 
 export const inputStyle = {
   width: "100%",
+  "label.Mui-focused": {
+    color: "var(--main-color) !important",
+  },
   "& .MuiOutlinedInput-root": {
     backgroundColor: "white",
     "&.MuiInputLabel": {
@@ -15,15 +18,12 @@ export const inputStyle = {
     "&:hover fieldset": {
       borderColor: "var(--main-color)",
       borderWidth: "1px",
-      //backgroundColor: "var(--main-color-light)",
     },
-    "&.Mui-focused fieldset": {
-      borderColor: "var(--main-color)",
-      borderWidth: "1px",
-    },
-    "&.Mui-focused MuiInputLabel-shrink": {
-      color: "red",
-      backgroundColor: "green",
+    "&.Mui-focused": {
+      fieldset: {
+        borderColor: "var(--main-color)",
+        borderWidth: "1px",
+      },
     },
   },
 

@@ -10,16 +10,17 @@ import PageMessage from "/components/PageMessage";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import GetQuotePrint from "/components/common/GetQuotePrint";
+import QuoteErrorList from "/components/pop-up/QuoteErrorList";
 
 //images
 import {
   AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
-  HdiSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  MapfreLogo,
+  SompoLogo,
+  ZurichLogo,
+  HdiLogo,
 } from "/resources/images";
 
 //fonksiyonlar
@@ -41,7 +42,7 @@ const VehicleInsuranceOffers = () => {
     verilerGetiriliyor: false,
     token: "",
     teklifFiyatlari: [],
-    insuranceCompanies: [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
+    insuranceCompanies: [100, 110, 120, 150, 160, 180, 200],
   });
 
   useEffect(async () => {
@@ -103,8 +104,6 @@ const VehicleInsuranceOffers = () => {
   };
 
   const mapOffersByCompanyCode = (companyCode, data) => {
-    data = Array.isArray(data) ? data[0] : data;
-
     switch (companyCode) {
       case 100:
         if (data.primBilgileri[0].prim) {
@@ -133,7 +132,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 110,
             quoteReference: data.data.asosCreateProposalResponseANDLIVO.policyKey.proposalNumber,
             revisionNumber: data.data.asosCreateProposalResponseANDLIVO.policyKey.revisionNumber,
-            companyLogo: AnadoluSigortaLogo,
+            companyLogo: AnadoluLogo,
             brutPrim: brutPrim,
             customerName: "",
           };
@@ -153,7 +152,7 @@ const VehicleInsuranceOffers = () => {
               companyCode: 120,
               quoteReference: data.policyBase.quoteReference.toString().split("/")[0],
               revisionNumber: data.policyBase.quoteReference.toString().split("/")[1],
-              companyLogo: AllianzSigortaLogo,
+              companyLogo: AllianzLogo,
               brutPrim: brutPrim,
               productName: productName,
               customerName: "",
@@ -175,7 +174,7 @@ const VehicleInsuranceOffers = () => {
             companyCode: 150,
             quoteReference: data.PoliceNo,
             revisionNumber: data.YenilemeNo,
-            companyLogo: HdiSigortaLogo,
+            companyLogo: HdiLogo,
             brutPrim: brutPrim,
             productName: productName,
             customerName: data.tcKmAd + "-" + data.tcKmSyAd,
@@ -189,59 +188,68 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 160:
-        if (data.primBilgileriWS.burutPrim) {
-          let brutPrim = Number(data.primBilgileriWS.burutPrim);
-          let offerObject = {
-            companyCode: 160,
-            quoteReference: data.polPoliceNo,
-            revisionNumber: 0,
-            companyLogo: MapfreSigortaLogo,
-            brutPrim: brutPrim,
-            customerName: "",
-          };
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].primBilgileriWS.burutPrim) {
+            let brutPrim = Number(data[i].primBilgileriWS.burutPrim);
+            let offerObject = {
+              companyCode: 160,
+              quoteReference: data[i].polPoliceNo,
+              revisionNumber: 0,
+              companyLogo: MapfreLogo,
+              brutPrim: brutPrim,
+              customerName: "",
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
+
         break;
       case 180:
-        if (data.payment.grosS_PREMIUM) {
-          let brutPrim = Number(data.payment.grosS_PREMIUM);
-          let offerObject = {
-            companyCode: 180,
-            quoteReference: data.proposaL_NO,
-            revisionNumber: 0,
-            companyLogo: SomboSigortaLogo,
-            brutPrim: brutPrim,
-            customerName: "",
-          };
+        for (var i = 0; i < data.length; i++) {
+          if (!data[i].error && data[i].quote?.payment?.grosS_PREMIUM) {
+            let brutPrim = Number(data[i].quote.payment.grosS_PREMIUM);
+            let offerObject = {
+              companyCode: 180,
+              quoteReference: data[i].quote.proposaL_NO,
+              revisionNumber: 0,
+              companyLogo: SompoLogo,
+              brutPrim: brutPrim,
+              productName: data[i].plan,
+              customerName: "",
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
 
         break;
       case 200:
-        if (data.brutPrim) {
-          let brutPrim = Number(data.brutPrim);
-          let offerObject = {
-            companyCode: 200,
-            quoteReference: data.teklifNo,
-            revisionNumber: data.maxRevizeNo,
-            companyLogo: ZurichSigortaLogo,
-            brutPrim: brutPrim,
-            customerName: "",
-          };
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].brutPrim) {
+            let brutPrim = Number(data[i].brutPrim);
+            let offerObject = {
+              companyCode: 200,
+              quoteReference: data[i].teklifNo,
+              revisionNumber: data[i].maxRevizeNo,
+              companyLogo: ZurichLogo,
+              brutPrim: brutPrim,
+              customerName: "",
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
+
         break;
       default:
       // code block
@@ -266,6 +274,23 @@ const VehicleInsuranceOffers = () => {
 
   return (
     <>
+      {/* <QuoteErrorList
+        show={false}
+        quoteErrors={[
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+        ]}
+      /> */}
       <section className="section vehicle_insurrance_container mt-4">
         <div className="container" style={{ marginTop: "-1px" }}>
           <button id="getOffers" onClick={() => getAllOffers()} style={{ visibility: "hidden" }}>

@@ -25,13 +25,6 @@ import FamilyImage from "/static/img/homefold_banner_images/second/family-image.
 import ClientFeedbackIcon from "/static/img/client-feedback-icon.png";
 import CommunicationImage from "/static/img/communication-image.png";
 /*===================================*/
-import AkSigortaLogo from "../static/img/ak-sigorta-logo.png";
-import AnadoluSigortaLogo from "../static/img/anadolu-sigorta-logo.png";
-import AllianzSigortaLogo from "../static/img/allianz-logo.png";
-import HdiSigortaLogo from "../static/img/hdi-logo.png";
-import MapfreSigortaLogo from "../static/img/mapfre-logo.png";
-import SomboSigortaLogo from "../static/img/sompo-logo.svg";
-import ZurichSigortaLogo from "../static/img/zurich-logo.png";
 import VektorDeneme from "../static/img/homefold_icons/01.svg";
 import HomeFoldTopContentBackground from "../static/img/home_fold_top_content_background.png";
 import YanginIcon from "../static/img/About/yangin_icon.png";
@@ -61,6 +54,29 @@ import WhatIsTheDaskInsurance from "../static/img/insurance/dask/what-is-the-das
 import DaskInsuranceInformationPhoto from "../static/img/insurance/dask/dask-insurance-index-page-information-photo.png";
 import CascoInsuranceInformationPhoto from "../static/img/insurance/casco/casco-insurance-index-page-information-photo.png";
 
+/*27062022*/
+//import AttachIcon from "/static/img/attach.svg";
+
+/*060722*/
+import AkSigortaLogo from "/static/img/companies/Logo/AkSigortaLogo.png";
+import AnadoluLogo from "/static/img/companies/Logo/AnadoluLogo.png";
+import AllianzLogo from "/static/img/companies/Logo/AllianzLogo.png";
+import AveonGlobalLogo from "/static/img/companies/Logo/AveonGlobalLogo.png";
+import AxaLogo from "/static/img/companies/Logo/AxaLogo.png";
+import EurekoLogo from "/static/img/companies/Logo/EurekoLogo.png";
+import GroupamaLogo from "/static/img/companies/Logo/GroupamaLogo.png";
+import HdiLogo from "/static/img/companies/Logo/HdiLogo.png";
+import KoruLogo from "/static/img/companies/Logo/KoruLogo.png";
+import MapfreLogo from "/static/img/companies/Logo/MapfreLogo.png";
+import NeovaLogo from "/static/img/companies/Logo/NeovaLogo.png";
+import PriveLogo from "/static/img/companies/Logo/PriveLogo.png";
+import QuickLogo from "/static/img/companies/Logo/QuickLogo.png";
+import SompoLogo from "/static/img/companies/Logo/SompoLogo.png";
+import TurkiyeSigortaLogo from "/static/img/companies/Logo/TurkiyeSigortaLogo.png";
+import TurkNipponLogo from "/static/img/companies/Logo/TurkNipponLogo.png";
+import ZurichLogo from "/static/img/companies/Logo/ZurichLogo.png";
+//=========================================================================
+import ImageLogo from "/static/img/common/ImageLogo.jpg";
 export {
   logo,
   homefoldBackground,
@@ -88,13 +104,6 @@ export {
   CommunicationImage,
   /**/
 
-  AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  HdiSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
   VektorDeneme,
   HomeFoldTopContentBackground,
   YanginIcon,
@@ -118,4 +127,26 @@ export {
   /*=== */
   DaskInsuranceInformationPhoto,
   CascoInsuranceInformationPhoto,
+  /**/
+  //AttachIcon,
+  /**06072022 */
+  AkSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  AveonGlobalLogo,
+  AxaLogo,
+  EurekoLogo,
+  GroupamaLogo,
+  HdiLogo,
+  KoruLogo,
+  MapfreLogo,
+  NeovaLogo,
+  PriveLogo,
+  QuickLogo,
+  SompoLogo,
+  TurkiyeSigortaLogo,
+  TurkNipponLogo,
+  ZurichLogo,
+  //===============
+  ImageLogo,
 };

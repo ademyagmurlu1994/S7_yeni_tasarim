@@ -1182,7 +1182,10 @@ select.invalid,
 /*Masaüstü ve Middle Görünüm*/
 @media (min-width: 992px) {
   .horizontal-nav .dropdown {
-    position: static !important;
+    position: relative !important;
+  }
+  .horizontal-nav .dropdown.small-dropdown {
+    position: relative !important;
   }
 
   .horizontal-nav .dropdown .dropdown-item {
@@ -1198,11 +1201,14 @@ select.invalid,
   .horizontal-nav .dropdown .similar-service-wrapper {
     padding: 10px;
     background-color: white;
-    border-radius: 15px;
+    border-radius: 10px;
     height: 100%;
-    margin-top: 10px !important;
     /* margin-bottom: 10px !important; */
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+
+  .horizontal-nav .dropdown .dropdown-menu-wrapper .row:nth-child(1) {
+    margin-bottom: 30px;
   }
 
   /*DropDown Menünün üstüne gelindiğinde açma Start*/
@@ -1218,21 +1224,32 @@ select.invalid,
     position: absolute;
     padding-top: 25px;
     margin-top: 0px !important;
-    width: 100% !important;
-    left: 0px;
+    width: 700px !important;
+    left: calc(100% - 350px);
   }
+  .horizontal-nav .horizontal-menu .dropdown .dropdown-menu-wrapper.small-dropdown-menu-wrapper {
+    width: 350px !important;
+    left: calc(100% - 350px);
+  }
+
+  .horizontal-nav .horizontal-menu .small-dropdown .dropdown-menu {
+    background-color: white !important;
+    padding: 15px 15px !important;
+  }
+
   .horizontal-nav .horizontal-menu .dropdown .dropdown-menu {
     position: static;
     width: 100% !important;
-    padding: 15px 15px;
-    /* background-color: var(--main-color-light-dark); */
+    padding: 30px 30px;
+    background-color: var(--main-color-light-dark);
+    border-radius: 10px;
     /* background: linear-gradient(90deg, var(--main-color-light-dark), var(--main-color-light)); */
-    background: linear-gradient(
+    /* background: linear-gradient(
       324deg,
       var(--main-color),
       var(--main-color-light-dark),
       var(--main-color)
-    );
+    ); */
     /*margin-top: 20px;*/
   }
   .horizontal-nav .dropdown:hover .dropdown-menu-wrapper {
@@ -1703,7 +1720,12 @@ footer .widget_links li a:hover {
 }
 
 .what-is-the-x-insurance .content-wrapper .description {
-  padding: 10px 30px;
+  padding: 10px 0px;
+  font-size: 13pt;
+}
+
+.what-is-the-x-insurance .content-wrapper .insurance-photo {
+  margin-right: 30px;
   font-size: 13pt;
 }
 
@@ -1748,11 +1770,18 @@ footer .widget_links li a:hover {
 /*Eski Tasarım Sonrası yeni tasarımdak yapılan değişiklikler*/
 /*==============Seven Cols============*/
 @media (min-width: 960px) {
+  .row-seven-column {
+    color: white;
+    margin-right: -6px !important;
+    margin-left: -6px !important;
+  }
   .col-seven-1 {
     width: 14.285714285714285714285714285714% !important;
     -webkit-flex: 0 0 14.285714285714285714285714285714% !important;
     -moz-box-flex: 0;
     flex: 0 0 14.285714285714285714285714285714% !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
 }
 
@@ -1822,4 +1851,70 @@ footer .widget_links li a:hover {
 .react-calendar .react-calendar__tile [type="submit"]:not(:disabled):hover,
 .react-calendar .react-calendar__tile button:not(:disabled):hover {
   background-color: rgba(var(--main-color-rgb), 40%) !important;
+}
+
+/*27062022*/
+
+.tssStepContainer {
+  width: 100% !important;
+}
+
+.iletisim-form-wrapper {
+  display: flex;
+  justify-content: center !important;
+}
+
+.iletisim-form-wrapper .iletisim-form {
+  width: 100% !important;
+  max-width: 600px !important;
+}
+
+textarea.invalid {
+  border-color: red !important;
+}
+
+/* .anlasmalı-sirketler-wrapper .row {
+  margin-right: -20px !important;
+  margin-left: -20px !important;
+}*/
+
+.anlasmalı-sirketler-wrapper .row .col {
+  margin-top: 30px !important;
+  display: grid;
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket {
+  padding: 19px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  text-align: center;
+  position: relative;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket img {
+  max-height: 60px;
+  width: auto;
+  max-width: 100%;
+  filter: grayscale(100%);
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket button {
+  bottom: 10px !important;
+  position: absolute;
+  left: 5%;
+  width: 90%;
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket a {
+  color: var(--main-color) !important;
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket:hover {
+  box-shadow: rgba(var(--main-color-rgb), 0.25) 0px 14px 28px,
+    rgba(var(--main-color-rgb), 0.22) 0px 10px 10px;
+}
+
+.anlasmalı-sirketler-wrapper .anlasmali-sirket:hover img {
+  filter: grayscale(0%);
 }

@@ -49,7 +49,9 @@ const Footer = () => {
                       <a href="/footer/sigorta7-nedir">Sigorta 7 nedir?</a>
                     </li>
                     <li>
-                      <a href="#">İletişim</a>
+                      <Link href="/iletisim">
+                        <a>İletişim</a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -59,28 +61,23 @@ const Footer = () => {
                 <div className="widget widget_links">
                   <h3>Bilgi Merkezi</h3>
                   <ul>
-				  <li>
-                    <a href="/blog">Blog </a>
-                  </li>
                     <li>
-                    {/* <DocumentScroller
-                      id="kvkkDocument"
-                      isShow={state.isShowKVKK}
-                      documentURL="/static/documents/footer/KVKK.pdf"
-                      title="KVKK Aydınlatma Metni"
-                    ></DocumentScroller> */}
-                    <a
-                      // onClick={() => {
-                      //   $("#kvkkDocument").modal("show");
-                      // }}
-                      href="/static/documents/footer/KVKK.pdf"
-                      download={true}
-                    >
-                      KVKK Aydınlatma Metni
-                    </a>
-                  </li>
+                      <Link href="/blog">
+                        <a>Blog</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <a href="/static/documents/footer/KVKK.pdf" download={true}>
+                        KVKK Aydınlatma Metni
+                      </a>
+                    </li>
                     <li>
                       <a href="#">Gizlilik Çerez Politikası </a>
+                    </li>
+                    <li>
+                      <Link href="/footer/anlasmali-sirketler">
+                        <a>Anlaşmalı Şirketler</a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -129,6 +126,16 @@ const Footer = () => {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/insurance/health/private">
+                        <a>Özel Sağlık</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/insurance/health/travel">
+                        <a>Seyahat Sağlık</a>
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/insurance/pet">
                         <a>Evcil Hayvan</a>
                       </Link>
@@ -138,6 +145,26 @@ const Footer = () => {
                         <a>Mobil Cihaz - Cep Telefonu</a>
                       </Link>
                     </li>
+                    {/* <li>
+                      <Link href="#">
+                        <a>Ferdi Kaza</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#">
+                        <a>Mini Kasko</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#">
+                        <a>Yaşam Terapi</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#">
+                        <a>Yabancı Sağlık</a>
+                      </Link>
+                    </li> */}
                   </ul>
                 </div>
                 {/* widget_address */}

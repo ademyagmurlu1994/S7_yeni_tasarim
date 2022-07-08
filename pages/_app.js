@@ -27,10 +27,13 @@ import Layout from "../components/Layout";
 
 import store from "../stores/index.js";
 import { Provider } from "react-redux";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+//Componentler
 import AddBlockWarning from "/components/pop-up/AddBlockWarning";
+import PagePreLoader from "/components/common/PagePreLoader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //fonksiyonlar
 import { writeResponseError, getNewToken, getClientIpAdress } from "/functions/common";
@@ -61,9 +64,20 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <AddBlockWarning isShow={isShowAddBlockWarn} />
-      {/*Jquery'yi önce yüklenmesi için üsste tanımlıyoruz.*/}
-      {/*Static css dosyalarını bu kısımda projeye dahil ediyoruz*/}
+      {/* <AddBlockWarning isShow={isShowAddBlockWarn} /> */}
+      {/* <ToastPopup /> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={9999999}
+        hideProgressBar={false}
+        newestOnTop={false}
+        theme={"colored"}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Head>
         <link rel="icon" type="image/x-icon" href="#" />
         <title>Sigorta7 {basePath}</title>

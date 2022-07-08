@@ -85,14 +85,6 @@ export default function TravelHealthInsurance() {
     isShowedNotificationModal: false,
     goDate: "",
     returnDate: "",
-    userListForHealthInsurance: [
-      {
-        index: 0,
-        identityNo: undefined,
-        relation: 0,
-      },
-    ], //Sağlık siğortası alınacak kişi listesi
-    selectedUsersRelation: [{ index: 0, value: "0", label: "Kendisi" }],
     name: "",
     phoneNumber: "",
     email: "",
@@ -122,8 +114,8 @@ export default function TravelHealthInsurance() {
 
     //   // setState({
     //   //   ...state,
-    //   //   goDate: changeDateFormat(getTodayDate(), "gg.aa.yyyy"),
-    //   //   returnDate: changeDateFormat(getTodayDate(), "gg.aa.yyyy"),
+    //   //   goDate: changeDateFormat(getTodayDate(), "dd.MM.yyyy"),
+    //   //   returnDate: changeDateFormat(getTodayDate(), "dd.MM.yyyy"),
     //   // });
     // }, 2000);
     // setTimeout(() => {
@@ -279,33 +271,6 @@ export default function TravelHealthInsurance() {
     setUserList(userListClone);
   };
 
-  const onChangeYakinlikDerecesi = (e, index) => {
-    // clearErrors("relation" + index);
-    // let userIndex = userList.findIndex((value) => value.index == index);
-    // console.log(e);
-    // if (e) {
-    //   //Select User Relation
-    //   let { selectedUsersRelation } = state;
-    //   selectedUsersRelation[userIndex] = e;
-    //   selectedUsersRelation.index = index;
-    //   setState({ ...state, selectedUsersRelation: selectedUsersRelation });
-    //   //Update UserList
-    //   let { userListForHealthInsurance } = state;
-    //   userListForHealthInsurance.find((value) => value.index == index).relation = e.value;
-    //   setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-    // } else {
-    //   //Select User Relation
-    //   let { selectedUsersRelation } = state;
-    //   selectedUsersRelation[userIndex] = "";
-    //   selectedUsersRelation.index = index;
-    //   setState({ ...state, selectedUsersRelation: selectedUsersRelation });
-    //   //Update UserList
-    //   let { userListForHealthInsurance } = state;
-    //   userListForHealthInsurance.find((value) => value.index == index).relation = -1;
-    //   setState({ ...state, userListForHealthInsurance: userListForHealthInsurance });
-    // }
-  };
-
   const checkUserFormElements = () => {
     const lastUserIndex = userList.length - 1;
     const lastUser = userList[lastUserIndex];
@@ -313,14 +278,6 @@ export default function TravelHealthInsurance() {
     console.log("User List: ", userList);
     console.log("Hatalar: ", errors);
     console.log("TC: ", lastUser.identityNo);
-
-    if (lastUser.birthDate.trim().replaceAll("_", "").replaceAll(".", "").length != 8) {
-      setError("birthDate" + lastUserIndex, {
-        type: "manual",
-        message: "Doğum Tarihi Zorunlu",
-      });
-      return false;
-    }
 
     if (lastUser.identityNo == null) {
       setError("identityNo" + lastUserIndex, {
@@ -335,7 +292,17 @@ export default function TravelHealthInsurance() {
       });
 
       return false;
-    } else if (!Object.keys(errors).length) {
+    }
+
+    if (lastUser.birthDate.trim().replaceAll("_", "").replaceAll(".", "").length != 8) {
+      setError("birthDate" + lastUserIndex, {
+        type: "manual",
+        message: "Doğum Tarihi Zorunlu",
+      });
+      return false;
+    }
+
+    if (!Object.keys(errors).length) {
       return true;
     }
   };
@@ -488,11 +455,13 @@ export default function TravelHealthInsurance() {
                           onChange={(value) => {
                             clearErrors("goDate");
                             setValue("goDate", value);
-                            console.log(value);
                             onChangeGidisTarihi(value);
                           }}
                           minDate={getTodayDate()}
-                          textFieldProps={{ error: errors && Boolean(errors["goDate"]) }}
+                          textFieldProps={{
+                            error: errors && Boolean(errors["goDate"]),
+                            label: "Gidiş Tarihi",
+                          }}
                         />
                       )}
                     />
@@ -508,7 +477,7 @@ export default function TravelHealthInsurance() {
                   <div className="col-12 col-md-6 col-lg-6 form-group mt-2">
                     <Controller
                       name="returnDate"
-                      rules={{ required: "Geliş Tarihi Zorunlu" }}
+                      rules={{ required: "Dönüş Tarihi Zorunlu" }}
                       control={control}
                       defaultValue="" // 👈 set defaultValue to ""
                       render={({ field: { onChange, value } }) => (
@@ -516,11 +485,13 @@ export default function TravelHealthInsurance() {
                           onChange={(value) => {
                             clearErrors("returnDate");
                             setValue("returnDate", value);
-                            console.log(value);
                             onChangeDonusTarihi(value);
                           }}
                           minDate={getTodayDate()}
-                          textFieldProps={{ error: errors && Boolean(errors["returnDate"]) }}
+                          textFieldProps={{
+                            error: errors && Boolean(errors["returnDate"]),
+                            label: "Dönüş Tarihi",
+                          }}
                         />
                       )}
                     />
@@ -827,6 +798,7 @@ export default function TravelHealthInsurance() {
                           value={state.email}
                           onChange={(e) => {
                             setState({ ...state, email: e.target.value });
+                            setValue2("emailAddress", e.target.value);
                           }}
                           type="email"
                           id="emailAddress"

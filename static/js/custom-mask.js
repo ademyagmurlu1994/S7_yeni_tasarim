@@ -13,7 +13,7 @@ setInterval(() => {
   }
 
   //Phone Number
-  const phoneMaskInputs = document.querySelectorAll(".phoneNumber");
+  const phoneMaskInputs = document.querySelectorAll("input[type=tel].phoneNumber");
   if (phoneMaskInputs) {
     const masksOptions = {
       phone: {
@@ -128,4 +128,4 @@ setInterval(() => {
       }
     }
   }
-}, 100);
+}, 500);

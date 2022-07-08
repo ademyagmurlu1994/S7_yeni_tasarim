@@ -11,12 +11,12 @@ import GetQuotePrint from "/components/common/GetQuotePrint";
 //images
 import {
   AkSigortaLogo,
-  AnadoluSigortaLogo,
-  AllianzSigortaLogo,
-  MapfreSigortaLogo,
-  SomboSigortaLogo,
-  ZurichSigortaLogo,
-  HdiSigortaLogo,
+  AnadoluLogo,
+  AllianzLogo,
+  MapfreLogo,
+  SompoLogo,
+  ZurichLogo,
+  HdiLogo,
 } from "/resources/images";
 
 //fonksiyonlar
@@ -137,7 +137,7 @@ const DaskOffers = () => {
               data.data.asosCreateProposalResponseANDLIVO.referencePolicy.policyNumber,
             revisionNumber:
               data.data.asosCreateProposalResponseANDLIVO.referencePolicy.renewalNumber,
-            companyLogo: AnadoluSigortaLogo,
+            companyLogo: AnadoluLogo,
             brutPrim: brutPrim,
           };
 
@@ -156,7 +156,7 @@ const DaskOffers = () => {
               companyCode: 120,
               quoteReference: data.policyBase.quoteReference.toString().split("/")[0],
               revisionNumber: data.policyBase.quoteReference.toString().split("/")[1],
-              companyLogo: AllianzSigortaLogo,
+              companyLogo: AllianzLogo,
               brutPrim: brutPrim,
               productName: productName,
             };
@@ -177,7 +177,7 @@ const DaskOffers = () => {
             companyCode: 150,
             quoteReference: data.PoliceBilgileri.PoliceNo,
             revisionNumber: data.PoliceBilgileri.YenilemeNo,
-            companyLogo: HdiSigortaLogo,
+            companyLogo: HdiLogo,
             brutPrim: brutPrim,
             productName: productName,
           };
@@ -196,7 +196,7 @@ const DaskOffers = () => {
             companyCode: 160,
             quoteReference: data[0].polPoliceNo,
             revisionNumber: 0,
-            companyLogo: MapfreSigortaLogo,
+            companyLogo: MapfreLogo,
             brutPrim: brutPrim,
           };
 
@@ -213,7 +213,7 @@ const DaskOffers = () => {
             companyCode: 180,
             quoteReference: data.proposaL_NO,
             revisionNumber: 0,
-            companyLogo: SomboSigortaLogo,
+            companyLogo: SompoLogo,
             brutPrim: brutPrim,
           };
 
@@ -231,7 +231,7 @@ const DaskOffers = () => {
             companyCode: 200,
             quoteReference: data[0].teklifNo,
             revisionNumber: data[0].maxRevizeNo,
-            companyLogo: ZurichSigortaLogo,
+            companyLogo: ZurichLogo,
             brutPrim: brutPrim,
           };
 

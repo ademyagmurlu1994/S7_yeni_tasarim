@@ -10,7 +10,7 @@ header {
   padding: 0;
 }
 .navbar-brand img {
-  width: 130px;
+  width: 140px;
   height: auto;
 }
 .navbar-nav {
@@ -89,12 +89,12 @@ header {
 .horizontal-nav .container-fluid {
   position: relative;
 }
-.horizontal-nav .dropdown-toggle::after {
+/* .horizontal-nav .dropdown-toggle::after {
   width: inherit;
   height: inherit;
   border: 0;
   margin: 0;
-}
+} */
 .horizontal-nav .dropdown {
   position: relative;
 }
@@ -375,10 +375,10 @@ header {
   .horizontal-nav .navbar-collapse {
     overflow-y: auto !important;
   }
-  .horizontal-nav .mega-menu-col .mega-menu-col-title,
+  /* .horizontal-nav .mega-menu-col .mega-menu-col-title,
   .horizontal-nav .dropdown .dropdown-toggle {
     padding: 12px 30px 12px 12px;
-  }
+  } */
   .horizontal-nav .mega-menu-col .mega-menu-col-title:after,
   .horizontal-nav .dropdown .dropdown-toggle:after {
     float: right;
@@ -387,6 +387,7 @@ header {
     font-size: 14px;
     position: absolute;
     right: 8px;
+    border-top: 0px;
   }
   .horizontal-nav .mega-menu-col.on .mega-menu-col-title:after,
   .horizontal-nav .dropdown.on > .dropdown-toggle:after {
@@ -568,7 +569,7 @@ header {
   }
 
   .navbar-nav .navbar-left-side i {
-    font-size: 15pt;
+    font-size: 18pt;
     margin-right: 2px;
   }
 
