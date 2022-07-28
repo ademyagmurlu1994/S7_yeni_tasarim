@@ -31,7 +31,7 @@ const Services = () => {
     {
       title: "KONUT",
       img: HomeOwners,
-      url: "",
+      url: "/insurance/house",
     },
     {
       title: "KASKO",
@@ -46,7 +46,7 @@ const Services = () => {
     {
       title: "SEYAHAT",
       img: Travel,
-      url: "/insurance/travel",
+      url: "/insurance/health/travel",
     },
     {
       title: "TELEFON",
@@ -61,7 +61,7 @@ const Services = () => {
     {
       title: "ÖZEL SAĞLIK",
       img: Health,
-      url: "#",
+      url: "/insurance/health/private",
     },
     {
       title: "MİNİ KASKO",

@@ -128,4 +128,19 @@ setInterval(() => {
       }
     }
   }
+
+  //only-number-input
+  //Plate
+  var onlyNumberInputs = document.getElementsByClassName("only-number-mask");
+  if (onlyNumberInputs && onlyNumberInputs.length) {
+    Array.prototype.forEach.call(onlyNumberInputs, function (item) {
+      if (inputList.indexOf(item) == -1) {
+        inputList.push(item);
+        new IMask(item, {
+          mask: Number,
+          thousandsSeparator: ".",
+        });
+      }
+    });
+  }
 }, 500);

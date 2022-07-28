@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "/instances/axios";
 import { useRouter } from "next/router";
 
-import VehicleInsurancePaymentOptions from "./VehicleInsurancePaymentOptions";
-import VehicleInsurancePolicyCustomization from "./VehicleInsurancePolicyCustomization";
+//Components
 import PreLoader from "/components/PreLoader";
 import PageMessage from "/components/PageMessage";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import GetQuotePrint from "/components/common/GetQuotePrint";
+import QuoteErrorList from "/components/pop-up/QuoteErrorList";
 
+//images
 import {
   AkSigortaLogo,
   AnadoluLogo,
@@ -40,7 +41,7 @@ const VehicleInsuranceOffers = () => {
     verilerGetiriliyor: false,
     token: "",
     teklifFiyatlari: [],
-    insuranceCompanies: [100, 110, 120, 150, 160, 180],
+    insuranceCompanies: [100, 110, 120, 150, 160, 180, 200],
   });
 
   useEffect(async () => {
@@ -59,18 +60,12 @@ const VehicleInsuranceOffers = () => {
   }, [state.token]);
 
   useEffect(() => {
-    if (inquiryInformations) {
+    if (inquiryInformations && state.offers.length == 0) {
       if (state.counter.length != state.insuranceCompanies.length) {
         getAllOffers();
       }
     }
   }, [inquiryInformations]);
-
-  const getAllOffers = async () => {
-    for (const companyCode of state.insuranceCompanies) {
-      getOffersFromCompany(companyCode);
-    }
-  };
 
   const getOffersFromCompany = async (companyCode) => {
     const bodyData = inquiryInformations;
@@ -78,7 +73,7 @@ const VehicleInsuranceOffers = () => {
     console.log(bodyData);
 
     await axios
-      .post("/api/quote/v1/Traffic/gettrafficquote", bodyData, {
+      .post("/api/quote/v1/house/gethousequote", bodyData, {
         headers: {
           Authorization: state.token,
           "Content-Type": "application/json",
@@ -133,7 +128,7 @@ const VehicleInsuranceOffers = () => {
         break;
       case 110:
         for (let item of data) {
-          if (!item.error.statu && item.quote?.policySummary?.premiumInfo?.grossPremium) {
+          if (!item.error?.statu && item.quote?.policySummary?.premiumInfo?.grossPremium) {
             let brutPrim = Number(item.quote.policySummary.premiumInfo.grossPremium);
             let offerObject = {
               companyCode: 110,
@@ -144,6 +139,7 @@ const VehicleInsuranceOffers = () => {
               productName: item.plan,
               customerName: "",
             };
+
             let { offers, teklifFiyatlari } = state;
             offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
@@ -165,6 +161,7 @@ const VehicleInsuranceOffers = () => {
               productName: item.plan,
               customerName: "",
             };
+
             let { offers, teklifFiyatlari } = state;
             offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
@@ -175,17 +172,18 @@ const VehicleInsuranceOffers = () => {
         break;
       case 150:
         for (let item of data) {
-          if (!item.error?.statu && item.quote?.BrutPrimTRF) {
-            let brutPrim = Number(item.quote.BrutPrimTRF);
+          if (!item.error?.statu && item.quote?.OdenecekPrim) {
+            let brutPrim = Number(item.quote.OdenecekPrim);
             let offerObject = {
               companyCode: 150,
-              quoteReference: item.quote.ReferansNo,
-              revisionNumber: item.quote.OncekiPoliceYenilemeNo,
+              quoteReference: item.quote.PoliceNo,
+              revisionNumber: item.quote.YenilemeNo,
               companyLogo: HdiLogo,
               brutPrim: brutPrim,
               productName: item.plan,
-              customerName: "",
+              customerName: item.quote.tcKmAd + "-" + item.quote.tcKmSyAd,
             };
+
             let { offers, teklifFiyatlari } = state;
             offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
@@ -207,12 +205,14 @@ const VehicleInsuranceOffers = () => {
               productName: item.plan,
               customerName: "",
             };
+
             let { offers, teklifFiyatlari } = state;
             offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
             setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
           }
         }
+
         break;
       case 180:
         for (let item of data) {
@@ -227,6 +227,7 @@ const VehicleInsuranceOffers = () => {
               productName: item.plan,
               customerName: "",
             };
+
             let { offers, teklifFiyatlari } = state;
             offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
@@ -235,23 +236,69 @@ const VehicleInsuranceOffers = () => {
         }
 
         break;
+      case 200:
+        for (let item of data) {
+          console.log("Zurich İtem: ", item);
+          if (!item.error?.statu && item.quote?.brutPrim) {
+            let brutPrim = Number(item.quote.brutPrim);
+            let offerObject = {
+              companyCode: 200,
+              quoteReference: item.quote.teklifNo,
+              revisionNumber: item.quote.maxRevizeNo,
+              companyLogo: ZurichLogo,
+              brutPrim: brutPrim,
+              productName: item.plan,
+              customerName: "",
+            };
+
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
+        }
+
+        break;
+      default:
       // code block
+    }
+  };
+
+  const getAllOffers = async () => {
+    for (const companyCode of state.insuranceCompanies) {
+      getOffersFromCompany(companyCode);
     }
   };
 
   const gotoQuotePolicy = (index) => {
     //teklif poliçeleştirme sayfasına gitmeden önce teklif bilgilerini kaydediyoruz.
     let quote = state.offers[index];
-    quote.service = "traffic";
+    quote.service = "casco";
     quote.companyLogo = "";
 
     localStorage.setItem("quotePolicy", JSON.stringify(quote));
-
     window.open("/policy-steps?quoteReference=" + quote.quoteReference, "_blank");
   };
 
   return (
     <>
+      {/* <QuoteErrorList
+        show={false}
+        quoteErrors={[
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+          { companyName: "", errorMessage: "" },
+        ]}
+      /> */}
       <section className="section vehicle_insurrance_container mt-4">
         <div className="container" style={{ marginTop: "-1px" }}>
           <button id="getOffers" onClick={() => getAllOffers()} style={{ visibility: "hidden" }}>
@@ -508,20 +555,20 @@ const VehicleInsuranceOffers = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="row">
+                              {/* <div className="row">
                                 <div className="col-12">
                                   <VehicleInsurancePaymentOptions />
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
-                            <div
+                            {/* <div
                               id={"customize-policy" + index}
                               role="tabpanel"
                               aria-labelledby="customize-policy-tab"
                               className="tab-pane fade px-2 py-5"
                             >
                               <VehicleInsurancePolicyCustomization />
-                            </div>
+                            </div> */}
                           </div>
                           {/*<!-- End rounded tabs -->*/}
                         </div>
@@ -546,11 +593,12 @@ const VehicleInsuranceOffers = () => {
                           </button>
                           <GetQuotePrint
                             token={state.token}
-                            service="traffic"
+                            service="casco"
                             companyCode={offer.companyCode}
                             quoteReference={offer.quoteReference}
                             revisionNumber={offer.revisionNumber}
                           />
+
                           <div className="card-text mt-3 mb-2 text-center w-100">
                             <div className="call-now">
                               HEMEN ARA <br />

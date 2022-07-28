@@ -14,6 +14,7 @@ import {
   WhatIsTheDaskInsurance,
   AnadoluLogo,
   AllianzLogo,
+  SompoLogo,
   HdiLogo,
 } from "/resources/images";
 
@@ -274,7 +275,7 @@ const Dask = () => {
                 className="col  text-center contracted-dask-company py-3"
                 style={{ boxShadow: "rgb(0 0 0 / 16%) 0px 1px 4px" }}
               >
-                <img src={AllianzLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
+                <img src={SompoLogo} alt="" style={{ width: "auto", maxHeight: "55px" }} />
               </div>
               <div
                 className="col  text-center contracted-dask-company py-3"

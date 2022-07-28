@@ -5,7 +5,6 @@ import ".//../static/css/menu.css";
 import ".//../static/css/font-awe/css/all.css";
 import ".//../static/css/animate.min.css";
 import ".//../static/css/colors.css";
-import ".//../static/css/footerInformationModal.css";
 import ".//../static/css/timeline.css";
 import ".//../static/css/style.css";
 import ".//../static/css/custom.css";
@@ -68,7 +67,7 @@ function MyApp({ Component, pageProps }) {
       {/* <ToastPopup /> */}
       <ToastContainer
         position="top-center"
-        autoClose={9999999}
+        autoClose={10000}
         hideProgressBar={false}
         newestOnTop={false}
         theme={"colored"}
@@ -88,7 +87,7 @@ function MyApp({ Component, pageProps }) {
       {/*Static js dosyalarını bu kısımda projeye dahil ediyoruz*/}
       <script src="/static/js/jquery.min.js"></script>
       <script src="/static/js/bootstrap.bundle.min.js"></script>
-      <script src="//api.backendless.com/sdk/js/latest/backendless.js"></script>
+      {/* <script src="//api.backendless.com/sdk/js/latest/backendless.js"></script> */}
       <script src="/static/js/imask.min.js"></script>
       <script src="/static/js/payment.js"></script>
       <script src="/static/js/custom-mask.js"></script>

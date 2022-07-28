@@ -3,6 +3,7 @@ const withImages = require("next-images");
 module.exports = {
   publicRuntimeConfig: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_SECRET: process.env.NEXT_PUBLIC_SECRET,
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

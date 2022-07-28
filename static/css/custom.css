@@ -1859,6 +1859,10 @@ footer .widget_links li a:hover {
   width: 100% !important;
 }
 
+.stepContainer.cascoStepContainer {
+  width: 85% !important;
+}
+
 .iletisim-form-wrapper {
   display: flex;
   justify-content: center !important;
@@ -1917,4 +1921,13 @@ textarea.invalid {
 
 .anlasmalı-sirketler-wrapper .anlasmali-sirket:hover img {
   filter: grayscale(0%);
+}
+
+/*2007222*/
+
+#__next,
+#__next > .content {
+  position: absolute !important;
+  min-height: 100% !important;
+  width: 100% !important;
 }

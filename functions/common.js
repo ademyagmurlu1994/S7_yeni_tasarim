@@ -435,7 +435,13 @@ export const changeDateFormat = (value, outputFormat) => {
   return value;
 };
 
-export const setLoader = (value) => {
-  const dispatch = useDispatch();
-  dispatch(setLoading(Boolean(value)));
+export const sortList = (list, sortKey, sortType) => {
+  if (list && list.length > 0 && sortKey) {
+    list.sort((a, b) => {
+      if (sortType == "desc") return a[sortKey] - b[sortKey];
+      else return b[sortKey] - a[sortKey];
+    });
+  }
+
+  return list;
 };

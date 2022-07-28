@@ -223,6 +223,50 @@ const Login = () => {
                             "Geçersiz T.C. Kimlik Numarası"}
                         </small>
                       </div>
+                      <div className="col-12 col-md-6 col-lg-6 mt-4 mb-2 phoneNumber">
+                        <div className="input-form-with-prefix w-100" style={{ display: "flex" }}>
+                          <div className="bg-main text-white input-form-prefix px-2">+90</div>
+                          <Controller
+                            control={control}
+                            name={"cepTelefonNo"}
+                            rules={{
+                              required: "Cep Telefonu Numarası Zorunlu",
+                              pattern: {
+                                value:
+                                  /^(([\+]90?)|([0]?))([ ]?)((\([0-9]{3}\))|([0-9]{3}))([ ]?)([0-9]{3})(\s*[\-]?)([0-9]{2})(\s*[\-]?)([0-9]{2})$/,
+                                message: "Geçersiz cep telefon numarası",
+                              },
+                            }}
+                            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                              <TextField
+                                onChange={(e) => {
+                                  setState({
+                                    ...state,
+                                    phoneNumber: e.target.value,
+                                  });
+                                  setValue("cepTelefonNo", e.target.value);
+                                  clearErrors("cepTelefonNo");
+                                }}
+                                value={state.phoneNumber || ""}
+                                placeholder="(5xx) xxx xx xx"
+                                type="tel"
+                                InputProps={{
+                                  inputProps: {
+                                    className: "phoneNumber",
+                                  },
+                                }}
+                                sx={inputStyle}
+                                size="small"
+                                error={errors && Boolean(errors["cepTelefonNo"])}
+                                label="Cep Telefonu"
+                              />
+                            )}
+                          />
+                        </div>
+                        <small className="text-danger">
+                          {errors && errors["cepTelefonNo"]?.message}
+                        </small>
+                      </div>
                       {/* Radio Buttons */}
                       {selectedFormOption.value == 0 ? (
                         <>

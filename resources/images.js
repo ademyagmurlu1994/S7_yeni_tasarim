@@ -77,6 +77,8 @@ import TurkNipponLogo from "/static/img/companies/Logo/TurkNipponLogo.png";
 import ZurichLogo from "/static/img/companies/Logo/ZurichLogo.png";
 //=========================================================================
 import ImageLogo from "/static/img/common/ImageLogo.jpg";
+/**200722 */
+import ImzalıDilekceOrnegi from "/static/img/imzali-dilekce-ornegi.png";
 export {
   logo,
   homefoldBackground,
@@ -149,4 +151,6 @@ export {
   ZurichLogo,
   //===============
   ImageLogo,
+  /*2007222*/
+  ImzalıDilekceOrnegi,
 };

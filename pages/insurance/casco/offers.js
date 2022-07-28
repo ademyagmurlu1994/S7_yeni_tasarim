@@ -30,6 +30,7 @@ import {
   getNewToken,
   writeResponseError,
   numberToTrNumber,
+  sortList,
 } from "/functions/common";
 
 const VehicleInsuranceOffers = () => {
@@ -106,55 +107,60 @@ const VehicleInsuranceOffers = () => {
   const mapOffersByCompanyCode = (companyCode, data) => {
     switch (companyCode) {
       case 100:
-        if (data.primBilgileri[0].prim) {
-          let brutPrim = Number(data.primBilgileri[0].prim);
-          let offerObject = {
-            companyCode: 100,
-            quoteReference: data.policeNo,
-            revisionNumber: 0,
-            companyLogo: AkSigortaLogo,
-            brutPrim: brutPrim,
-            customerName: "",
-          };
+        for (let item of data) {
+          if (!item.error.statu && item.quote?.primBilgileri[0]?.prim) {
+            let brutPrim = Number(item.quote.primBilgileri[0].prim);
+            let offerObject = {
+              companyCode: 100,
+              quoteReference: item.quote.policeNo,
+              revisionNumber: 0,
+              companyLogo: AkSigortaLogo,
+              brutPrim: brutPrim,
+              productName: item.plan,
+              customerName: "",
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim); // en düşük fiyatı bulabilmek için kullanıldı...
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
+
         break;
       case 110:
-        if (data.data.asosCreateProposalResponseANDLIVO.policySummary.premiumInfo.grossPremium) {
-          let brutPrim = Number(
-            data.data.asosCreateProposalResponseANDLIVO.policySummary.premiumInfo.grossPremium
-          );
-          let offerObject = {
-            companyCode: 110,
-            quoteReference: data.data.asosCreateProposalResponseANDLIVO.policyKey.proposalNumber,
-            revisionNumber: data.data.asosCreateProposalResponseANDLIVO.policyKey.revisionNumber,
-            companyLogo: AnadoluLogo,
-            brutPrim: brutPrim,
-            customerName: "",
-          };
+        for (let item of data) {
+          if (!item.error?.statu && item.quote?.policySummary?.premiumInfo?.grossPremium) {
+            let brutPrim = Number(item.quote.policySummary.premiumInfo.grossPremium);
+            let offerObject = {
+              companyCode: 110,
+              quoteReference: item.quote.policyKey.proposalNumber,
+              revisionNumber: item.quote.policyKey.revisionNumber,
+              companyLogo: AnadoluLogo,
+              brutPrim: brutPrim,
+              productName: item.plan,
+              customerName: "",
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim); // en düşük fiyatı bulabilmek için kullanıldı...
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
+
         break;
       case 120:
-        for (var i = 0; i < data.risks[0].packageRiskInfoList.length; i++) {
-          if (data.risks[0].packageRiskInfoList[i].totalPremium) {
-            let brutPrim = Number(data.risks[0].packageRiskInfoList[i].totalPremium);
-            let productName = data.risks[0].packageRiskInfoList[i].packageName;
+        for (let item of data) {
+          if (!item.error?.statu && item.quote?.totalPremium) {
+            let brutPrim = Number(item.quote.totalPremium);
             let offerObject = {
               companyCode: 120,
-              quoteReference: data.policyBase.quoteReference.toString().split("/")[0],
-              revisionNumber: data.policyBase.quoteReference.toString().split("/")[1],
+              quoteReference: item.quoteReference.toString().split("/")[0],
+              revisionNumber: item.quoteReference.toString().split("/")[1],
               companyLogo: AllianzLogo,
               brutPrim: brutPrim,
-              productName: productName,
+              productName: item.plan,
               customerName: "",
             };
 
@@ -167,36 +173,38 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 150:
-        if (data.OdenecekPrim) {
-          let brutPrim = Number(data.OdenecekPrim);
-          let productName = "";
-          let offerObject = {
-            companyCode: 150,
-            quoteReference: data.PoliceNo,
-            revisionNumber: data.YenilemeNo,
-            companyLogo: HdiLogo,
-            brutPrim: brutPrim,
-            productName: productName,
-            customerName: data.tcKmAd + "-" + data.tcKmSyAd,
-          };
+        for (let item of data) {
+          if (!item.error?.statu && item.quote?.OdenecekPrim) {
+            let brutPrim = Number(item.quote.OdenecekPrim);
+            let offerObject = {
+              companyCode: 150,
+              quoteReference: item.quote.PoliceNo,
+              revisionNumber: item.quote.YenilemeNo,
+              companyLogo: HdiLogo,
+              brutPrim: brutPrim,
+              productName: item.plan,
+              customerName: item.quote.tcKmAd + "-" + item.quote.tcKmSyAd,
+            };
 
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offerObject);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
         }
 
         break;
       case 160:
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].primBilgileriWS.burutPrim) {
-            let brutPrim = Number(data[i].primBilgileriWS.burutPrim);
+        for (let item of data) {
+          if (!item.error?.statu && item.quote?.primBilgileriWS?.burutPrim) {
+            let brutPrim = Number(item.quote.primBilgileriWS.burutPrim);
             let offerObject = {
               companyCode: 160,
-              quoteReference: data[i].polPoliceNo,
+              quoteReference: item.quote.polPoliceNo,
               revisionNumber: 0,
               companyLogo: MapfreLogo,
               brutPrim: brutPrim,
+              productName: item.plan,
               customerName: "",
             };
 
@@ -209,16 +217,16 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 180:
-        for (var i = 0; i < data.length; i++) {
-          if (!data[i].error && data[i].quote?.payment?.grosS_PREMIUM) {
-            let brutPrim = Number(data[i].quote.payment.grosS_PREMIUM);
+        for (let item of data) {
+          if (!item.error?.statu && item.quote?.payment?.grosS_PREMIUM) {
+            let brutPrim = Number(item.quote.payment.grosS_PREMIUM);
             let offerObject = {
               companyCode: 180,
-              quoteReference: data[i].quote.proposaL_NO,
+              quoteReference: item.quote.proposaL_NO,
               revisionNumber: 0,
               companyLogo: SompoLogo,
               brutPrim: brutPrim,
-              productName: data[i].plan,
+              productName: item.plan,
               customerName: "",
             };
 
@@ -231,15 +239,17 @@ const VehicleInsuranceOffers = () => {
 
         break;
       case 200:
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].brutPrim) {
-            let brutPrim = Number(data[i].brutPrim);
+        for (let item of data) {
+          console.log("Zurich İtem: ", item);
+          if (!item.error?.statu && item.quote?.brutPrim) {
+            let brutPrim = Number(item.quote.brutPrim);
             let offerObject = {
               companyCode: 200,
-              quoteReference: data[i].teklifNo,
-              revisionNumber: data[i].maxRevizeNo,
+              quoteReference: item.quote.teklifNo,
+              revisionNumber: item.quote.maxRevizeNo,
               companyLogo: ZurichLogo,
               brutPrim: brutPrim,
+              productName: item.plan,
               customerName: "",
             };
 
@@ -368,7 +378,7 @@ const VehicleInsuranceOffers = () => {
                   </div>
                 </div>
 
-                {state.offers.map((offer, index) => (
+                {sortList(state.offers, "brutPrim", "desc").map((offer, index) => (
                   <div className="row mt-5 insurance-offers-card " key={index}>
                     <div
                       className="col-12 col-md-9 col-lg-9 px-3 py-3 bg-white rounded shadow "

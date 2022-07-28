@@ -2,8 +2,21 @@ import React, { Component, useEffect, useState } from "react";
 import Link from "next/link";
 //import { Link } from "react-router-dom";
 import { logo } from "/resources/images";
+//fonksiyonlar
+import { logout, getNextAuth } from "/functions/auth";
 
 const Nav = () => {
+  const [nextAuth, setNextAuth] = useState();
+  useEffect(() => {
+    if (!nextAuth) {
+      setNextAuth(getNextAuth());
+    }
+  }, []);
+
+  const logoutUser = () => {
+    logout();
+    location.reload();
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top horizontal-nav" id="navbar">
@@ -132,7 +145,7 @@ const Nav = () => {
                               <Link href="/insurance/dask">
                                 <a className="dropdown-item">Dask</a>
                               </Link>
-                              <Link href="#">
+                              <Link href="/insurance/house">
                                 <a className="dropdown-item">Konut</a>
                               </Link>
                             </div>
@@ -156,9 +169,40 @@ const Nav = () => {
                   </li>
 
                   <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
-                  <li className="nav-item">
-                    <Link href="/login">Hesabım</Link>
-                  </li>
+
+                  {nextAuth?.loggedIn ? (
+                    <li className="nav-item scroll dropdown small-dropdown">
+                      <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                        <span>
+                          <b>{nextAuth?.user?.name}</b>{" "}
+                        </span>
+                      </a>
+                      <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
+                        <div className="dropdown-menu text-white" aria-labelledby="navbarDropdown">
+                          <Link href="#">
+                            <a className="dropdown-item">Tekliflerim</a>
+                          </Link>
+
+                          <Link href="#">
+                            <a className="dropdown-item">Poliçelerim</a>
+                          </Link>
+                          <Link href="/update-password">
+                            <a className="dropdown-item">Şifre Değiştirme</a>
+                          </Link>
+                          <Link href="#">
+                            <a className="dropdown-item" onClick={() => logoutUser()}>
+                              Çıkış Yap
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                    </li>
+                  ) : (
+                    <li className="nav-item">
+                      <Link href="/login">Hesabım</Link>{" "}
+                    </li>
+                  )}
+
                   <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
                   <li className="nav-item scroll dropdown small-dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">

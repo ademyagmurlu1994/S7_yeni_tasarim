@@ -9,7 +9,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import GetQuotePrint from "/components/common/GetQuotePrint";
 
 //fonksiyonlar
-import { getNewToken, writeResponseError, numberToTrNumber } from "/functions/common";
+import { getNewToken, writeResponseError, numberToTrNumber, sortList } from "/functions/common";
 
 //images
 import {
@@ -295,7 +295,7 @@ const ComplementaryHealthOffers = () => {
                     </div>
                   </div>
 
-                  {state.offers.map((offer, index) => (
+                  {sortList(state.offers, "brutPrim", "desc").map((offer, index) => (
                     <div className="row mt-5 insurance-offers-card " key={index}>
                       <div
                         className="col-12 col-md-9 col-lg-9 px-3 py-3 bg-white rounded shadow "

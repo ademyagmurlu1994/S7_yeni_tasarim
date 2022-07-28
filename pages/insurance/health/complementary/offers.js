@@ -9,7 +9,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import GetQuotePrint from "/components/common/GetQuotePrint";
 
 //fonksiyonlar
-import { getNewToken, writeResponseError, numberToTrNumber } from "/functions/common";
+import { getNewToken, writeResponseError, numberToTrNumber, sortList } from "/functions/common";
 
 //images
 import {
@@ -30,7 +30,7 @@ const ComplementaryHealthOffers = () => {
     verilerGetiriliyor: false,
     token: "",
     teklifFiyatlari: [],
-    insuranceCompanies: [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
+    insuranceCompanies: [110, 180, 190],
   });
 
   useEffect(async () => {
@@ -98,100 +98,53 @@ const ComplementaryHealthOffers = () => {
 
   const mapOffersByCompanyCode = (companyCode, data) => {
     switch (companyCode) {
-      case 100:
-        if (data.primBilgileri[0].prim) {
-          let brutPrim = Number(data.primBilgileri[0].prim);
-          let offer_object = {
-            companyCode: 100,
-            companyLogo: AkSigortaLogo,
-            brutPrim: brutPrim,
-            quoteReference: undefined,
-            revisionNumber: 0,
-          };
-
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offer_object);
-          teklifFiyatlari.push(brutPrim); // en düşük fiyatı bulabilmek için kullanıldı...
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
-        }
-        break;
       case 110:
-        if (data.asosCreateProposalResponseANDLIVO.policySummary.premiumInfo.grossPremium) {
-          let brutPrim = Number(
-            data.asosCreateProposalResponseANDLIVO.policySummary.premiumInfo.grossPremium
-          );
-          let offer_object = {
-            companyCode: 110,
-            companyLogo: AnadoluLogo,
-            brutPrim: brutPrim,
-            quoteReference: undefined,
-            revisionNumber: 0,
-          };
-
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offer_object);
-          teklifFiyatlari.push(brutPrim); // en düşük fiyatı bulabilmek için kullanıldı...
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
-        }
-        break;
-      case 120:
-        for (var i = 0; i < data[0].risks[0].packageRiskInfoList.length; i++) {
-          if (data[0].risks[0].packageRiskInfoList[i].totalPremium) {
-            let brutPrim = Number(data[0].risks[0].packageRiskInfoList[i].totalPremium);
-            let productName = data[0].risks[0].packageRiskInfoList[i].packageName;
-            let offer_object = {
-              companyCode: 120,
-              companyLogo: AllianzLogo,
-              brutPrim: brutPrim,
-              productName: productName,
-              quoteReference: undefined,
+        for (let item of data) {
+          if (
+            !item.error.statu &&
+            item.quote?.asosCreateProposalResponseANDLIVO?.policySummary?.premiumInfo?.grossPremium
+          ) {
+            let brutPrim = Number(
+              item.quote.asosCreateProposalResponseANDLIVO.policySummary.premiumInfo.grossPremium
+            );
+            let offerObject = {
+              companyCode: 110,
+              quoteReference: undefined, //item.quote.policeNo,
               revisionNumber: 0,
+              companyLogo: AnadoluLogo,
+              brutPrim: brutPrim,
+              productName: item.plan,
             };
 
             let { offers, teklifFiyatlari } = state;
-            offers.push(offer_object);
+            offers.push(offerObject);
+            teklifFiyatlari.push(brutPrim);
+            setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
+          }
+        }
+
+      case 180:
+        for (let item of data) {
+          if (!item.error.statu && item.quote?.payment?.grosS_PREMIUM) {
+            let brutPrim = Number(item.quote.payment.grosS_PREMIUM);
+            let offerObject = {
+              companyCode: 180,
+              companyLogo: SompoLogo,
+              quoteReference: item.quote.proposaL_NO, //item.quote.policeNo,
+              revisionNumber: 0,
+              brutPrim: brutPrim,
+              productName: item.plan,
+            };
+
+            let { offers, teklifFiyatlari } = state;
+            offers.push(offerObject);
             teklifFiyatlari.push(brutPrim);
             setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
           }
         }
 
         break;
-      case 160:
-        if (data[0].primBilgileriWS.burutPrim) {
-          let brutPrim = Number(data[0].primBilgileriWS.burutPrim);
-          let offer_object = {
-            companyCode: 160,
-            companyLogo: MapfreLogo,
-            brutPrim: brutPrim,
-            quoteReference: undefined,
-            revisionNumber: 0,
-          };
-
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offer_object);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
-        }
-        break;
-      case 180:
-        if (data.payment.grosS_PREMIUM) {
-          let brutPrim = Number(data.payment.grosS_PREMIUM);
-          let offer_object = {
-            companyCode: 180,
-            companyLogo: SompoLogo,
-            brutPrim: brutPrim,
-            quoteReference: data.proposaL_NO,
-            revisionNumber: 0,
-          };
-
-          let { offers, teklifFiyatlari } = state;
-          offers.push(offer_object);
-          teklifFiyatlari.push(brutPrim);
-          setState({ ...state, offers: offers, teklifFiyatlari: teklifFiyatlari });
-        }
-
-        break;
-      case 200:
+      case 190:
         if (data[0].brutPrim) {
           let brutPrim = Number(data[0].brutPrim);
           let offer_object = {
@@ -295,7 +248,7 @@ const ComplementaryHealthOffers = () => {
                     </div>
                   </div>
 
-                  {state.offers.map((offer, index) => (
+                  {sortList(state.offers, "brutPrim", "desc").map((offer, index) => (
                     <div className="row mt-5 insurance-offers-card " key={index}>
                       <div
                         className="col-12 col-md-9 col-lg-9 px-3 py-3 bg-white rounded shadow "
@@ -315,6 +268,12 @@ const ComplementaryHealthOffers = () => {
                               </label>
                             </label>
                           </div>
+
+                          {(() => {
+                            if (offer.productName) {
+                              return <div className="offer-product-name">{offer.productName}</div>;
+                            }
+                          })()}
                           <div>
                             <img
                               style={{ height: "40px" }}

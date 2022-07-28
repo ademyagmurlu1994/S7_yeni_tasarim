@@ -36,6 +36,7 @@ function CascoIndex() {
     register,
     handleSubmit,
     clearErrors,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -134,6 +135,7 @@ function CascoIndex() {
                               value={state.tcOrTaxIdentityNo || ""}
                               onChange={(e) => {
                                 setState({ ...state, tcOrTaxIdentityNo: e.target.value });
+                                setValue("tcOrTaxIdentityNo", e.target.value);
                                 clearErrors("tcOrTaxIdentityNo");
                               }}
                               onPaste={(event) => {
@@ -144,6 +146,11 @@ function CascoIndex() {
                                     .trim()
                                     .substring(0, 11),
                                 });
+                                setValue(
+                                  "tcOrTaxIdentityNo",
+                                  event.clipboardData.getData("text/plain").trim().substring(0, 11)
+                                );
+                                document.getElementsByName("tcOrTaxIdentityNo")[0].blur();
                                 clearErrors("tcOrTaxIdentityNo");
                               }}
                               InputProps={{
@@ -204,10 +211,12 @@ function CascoIndex() {
                                   inputProps={{ className: "plate uppercase" }}
                                   onPaste={() => {
                                     clearErrors("carPlateNo");
+
                                     setState({ ...state, plateShrink: true });
                                   }}
                                   onChange={(e) => {
                                     clearErrors("carPlateNo");
+                                    setValue("carPlateNo", e.target.value);
                                     !e.target.value &&
                                       setState({ ...state, plateShrink: undefined });
                                   }}

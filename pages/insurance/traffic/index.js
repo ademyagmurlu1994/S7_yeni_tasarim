@@ -36,6 +36,7 @@ function CascoIndex() {
     register,
     handleSubmit,
     clearErrors,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -136,6 +137,7 @@ function CascoIndex() {
                               onChange={(e) => {
                                 setState({ ...state, tcOrTaxIdentityNo: e.target.value });
                                 clearErrors("tcOrTaxIdentityNo");
+                                setValue("tcOrTaxIdentityNo", e.target.value);
                               }}
                               onPaste={(event) => {
                                 setState({
@@ -145,6 +147,11 @@ function CascoIndex() {
                                     .trim()
                                     .substring(0, 11),
                                 });
+                                setValue(
+                                  "tcOrTaxIdentityNo",
+                                  event.clipboardData.getData("text/plain").trim().substring(0, 11)
+                                );
+                                document.getElementsByName("tcOrTaxIdentityNo")[0].blur();
                                 clearErrors("tcOrTaxIdentityNo");
                               }}
                               InputProps={{
@@ -211,6 +218,7 @@ function CascoIndex() {
                                     clearErrors("carPlateNo");
                                     !e.target.value &&
                                       setState({ ...state, plateShrink: undefined });
+                                    setValue("carPlateNo", e.target.value);
                                   }}
                                   InputLabelProps={{
                                     shrink: state.plateShrink,
@@ -257,7 +265,7 @@ function CascoIndex() {
                           type="submit"
                           style={{ padding: "12px 26px" }}
                           className="btn-custom w-100 mt-4"
-                          value="KASKO TEKLİFİ AL"
+                          value="TRAFİK TEKLİFİ AL"
                         />
                       </form>
                     </div>

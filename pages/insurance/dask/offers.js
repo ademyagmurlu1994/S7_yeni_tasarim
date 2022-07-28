@@ -26,6 +26,7 @@ import {
   getTodayDate,
   writeResponseError,
   numberToTrNumber,
+  sortList,
 } from "/functions/common";
 
 const DaskOffers = () => {
@@ -346,7 +347,7 @@ const DaskOffers = () => {
                   </div>
                 </div>
 
-                {state.offers.map((offer, index) => (
+                {sortList(state.offers, "brutPrim", "desc").map((offer, index) => (
                   <div className="row mt-5 insurance-offers-card " key={index}>
                     <div
                       className="col-12 col-md-9 col-lg-9 px-3 py-3 bg-white rounded shadow "

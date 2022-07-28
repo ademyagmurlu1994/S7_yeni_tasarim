@@ -86,8 +86,8 @@ const LicenseInformation = ({
     fuelType: "",
     usageManner: undefined,
     usageMannerDescription: "",
-    usageSubManner: undefined,
-    usageSubMannerDescription: "",
+    usageSubstance: undefined,
+    usageSubstanceDescription: "",
     motorNo: "",
     chassisNo: "",
     countOfPassengers: 0,
@@ -146,7 +146,7 @@ const LicenseInformation = ({
 
   useEffect(() => {
     if (carCompanies.length >= 1 && selectedCarCompany) {
-      setSelectedCarModel(null);
+      setSelectedCarModel("");
       setCarModels([]);
       getCarModels();
     }
@@ -197,8 +197,8 @@ const LicenseInformation = ({
     carInfo.fuelType = info.car.fuelType;
     carInfo.usageManner = info.car.usageManner;
     carInfo.usageMannerDescription = info.car.usageMannerDescription;
-    carInfo.usageSubManner = info.car.usageSubManner;
-    carInfo.usageSubMannerDescription = info.car.usageSubMannerDescription;
+    carInfo.usageSubstance = info.car.usageSubstance;
+    carInfo.usageSubstanceDescription = info.car.usageSubstanceDescription;
     carInfo.countOfPassengers = info.car.countOfPassengers;
     carInfo.motorNo = info.car.motorNo;
     carInfo.chassisNo = info.car.chassisNo;
@@ -286,8 +286,8 @@ const LicenseInformation = ({
     let carInfo = cloneDeep(carInformation);
     carInfo.usageManner = model?.tramerAracGrupKod || 0;
     carInfo.usageMannerDescription = model?.tramerAracGrupAciklama || null;
-    carInfo.usageSubManner = model?.tramerAracKullanimSekliKod || 0;
-    carInfo.usageSubMannerDescription = model?.tramerAracKullanimSekliAciklama || null;
+    carInfo.usageSubstance = model?.tramerAracKullanimSekliKod || 0;
+    carInfo.usageSubstanceDescription = model?.tramerAracKullanimSekliAciklama || null;
 
     setSelectedCarModel(model);
     setCarInformation({ ...carInformation, ...carInfo });
@@ -350,7 +350,8 @@ const LicenseInformation = ({
 
       if (error.response) {
         toast.error(
-          error.response.data?.message?.content?.errors[0]?.faultMessage ||
+          (error.response?.data?.message?.content?.errors &&
+            error.response.data.message.content.errors[0]?.faultMessage) ||
             "Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
           {
             theme: "colored",
@@ -392,6 +393,7 @@ const LicenseInformation = ({
         });
     } catch (error) {
       writeResponseError(error);
+      toast.error("Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.");
     }
   };
 
@@ -419,6 +421,7 @@ const LicenseInformation = ({
       } catch (error) {
         setLoader({ ...loader, carModels: false });
         writeResponseError(error);
+        toast.error("Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.");
       }
     }
   };
@@ -456,8 +459,8 @@ const LicenseInformation = ({
         countOfPassengers: carInfo?.countOfPassengers,
         usageManner: carInfo?.usageManner,
         usageMannerDescription: carInfo?.usageMannerDescription,
-        usageSubManner: carInfo?.usageSubManner,
-        usageSubMannerDescription: carInfo?.usageSubMannerDescription,
+        usageSubstance: carInfo?.usageSubstance,
+        usageSubstanceDescription: carInfo?.usageSubstanceDescription,
       },
     };
 
@@ -560,7 +563,7 @@ const LicenseInformation = ({
               isConfirmLicence: {JSON.stringify(isConfirmLicence)} */}
           {!isConfirmLicence && loader.carInfo && !errorVal.carInfo ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ display: "block", paddingTop: "80px" }}>
+              <div style={{ display: "block", paddingTop: "80px", paddingBottom: "80px" }}>
                 <PreFormLoader />
               </div>
             </div>
@@ -600,7 +603,7 @@ const LicenseInformation = ({
                               {" " +
                                 carInformation.usageMannerDescription +
                                 " - " +
-                                carInformation.usageSubMannerDescription}
+                                carInformation.usageSubstanceDescription}
                             </td>
                           </tr>
                         )}
@@ -646,7 +649,7 @@ const LicenseInformation = ({
                   <input
                     type="submit"
                     className="btn-custom btn-timeline-forward w-100 mt-3"
-                    value="Teklifleri Getir"
+                    value="İleri"
                   />
                 </div>
               )}
@@ -934,11 +937,7 @@ const LicenseInformation = ({
           </div>
         )}
 
-        <input
-          type="submit"
-          className="btn-custom btn-timeline-forward w-100 mt-3"
-          value="Teklifleri Getir"
-        />
+        <input type="submit" className="btn-custom btn-timeline-forward w-100 mt-3" value="İleri" />
       </form>
     );
   };
@@ -1047,11 +1046,7 @@ const LicenseInformation = ({
             )}
           />
         </div>
-        <input
-          type="submit"
-          className="btn-custom btn-timeline-forward w-100 mt-3"
-          value="Teklifleri Getir"
-        />
+        <input type="submit" className="btn-custom btn-timeline-forward w-100 mt-3" value="İleri" />
       </form>
     );
   };
@@ -1304,11 +1299,7 @@ const LicenseInformation = ({
 
           <small className="text-danger">{errors2 && errors2["chassisNo"]?.message}</small>
         </div>
-        <input
-          type="submit"
-          className="btn-custom btn-timeline-forward w-100 mt-3"
-          value="Teklifleri Getir"
-        />
+        <input type="submit" className="btn-custom btn-timeline-forward w-100 mt-3" value="İleri" />
       </form>
     );
   };

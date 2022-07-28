@@ -13,7 +13,8 @@ import NotificationConfirmation from "/components/pop-up/NotificationConfirmatio
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 
 //fonksiyonlar
-import { isValidTcKimlik, getTodayDate, writeResponseError } from "/functions/common";
+import { isValidTcKimlik, getTodayDate, writeResponseError   sortList,
+} from "/functions/common";
 
 export default function TravelHealthInsurance() {
   const router = useRouter();

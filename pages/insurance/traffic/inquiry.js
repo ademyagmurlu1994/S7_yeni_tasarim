@@ -18,6 +18,7 @@ import PageMessage from "/components/PageMessage";
 import NotificationConfirmation from "/components/pop-up/NotificationConfirmation";
 import SingleCodeVerification from "/components/pop-up/SingleCodeVerification";
 import LicenceInformation from "/components/casco/LicenceInformation";
+import PrevPolicy from "/components/casco/PrevPolicy";
 
 //state çağırma ve değiştirme işlemi
 import { setIsExistPlate } from "/stores/kasko";
@@ -80,6 +81,7 @@ const VehicleInsuranceInquiry = () => {
     isAcceptNotification: false,
     isConfirmPhoneOrEmail: false,
     isShowedNotificationModal: false,
+    isExistLicensePolicy: false,
     email: undefined,
     phoneNumber: "",
     activeStep: 1,
@@ -96,6 +98,7 @@ const VehicleInsuranceInquiry = () => {
   const [insuredInfo, setInsuredInfo] = useState();
   const [isVerifySmsSingleCode, setIsVerifySmsSingleCode] = useState(undefined);
   const [isShowVerifySingleCodePopup, setIsShowVerifySingleCodePopup] = useState(false);
+  const [carInformation, setCarInformation] = useState();
   ///New
   const [isShowNotifyConfirmPopup, setIsShowNotifyConfirmPopup] = useState(false);
   const [notificationConfirmation, setNotificationConfirmation] = useState(undefined);
@@ -203,6 +206,7 @@ const VehicleInsuranceInquiry = () => {
         });
     } catch (error) {
       writeResponseError(error);
+      toast.error("Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.");
     }
   };
 
@@ -226,6 +230,7 @@ const VehicleInsuranceInquiry = () => {
         });
     } catch (error) {
       writeResponseError(error);
+      toast.error("Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.");
     }
   };
 
@@ -262,10 +267,10 @@ const VehicleInsuranceInquiry = () => {
       setInsuredInfo({ status: false });
       writeResponseError(error);
       setButtonLoader({ ...buttonLoader, stepOne: false });
-      // toast.error(
-      //   !error?.response?.data?.message?.content &&
-      //     "Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
-      // );
+      toast.error(
+        !error?.response?.data?.message?.content &&
+          "Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
+      );
 
       setError("birthDate", {
         type: "manual",
@@ -273,15 +278,23 @@ const VehicleInsuranceInquiry = () => {
       });
 
       //Beklenmedik bir hata oluştuğunda işlemlere devam etmesi için return true dönderiyoruz.
-      if (!error?.response?.data?.message?.content) return true;
+      //if (!error?.response?.data?.message?.content) return true;
     }
   };
 
   //normal fonksiyonlar
   const onChangeCarInformation = (info) => {
     //console.log("Car Info: ", info);
-    saveInquiryInformations(info);
+    setCarInformation(info);
+    setActiveStep(3);
+  };
 
+  const onChangePrevPolicy = (info) => {
+    let carInfo = carInformation;
+    carInfo.prevPolicy = info;
+    setCarInformation(carInfo);
+
+    saveInquiryInformations();
     router.push("/insurance/traffic/offers");
   };
 
@@ -305,7 +318,7 @@ const VehicleInsuranceInquiry = () => {
     }
   };
 
-  const saveInquiryInformations = (carInfo) => {
+  const saveInquiryInformations = () => {
     let carPlateNo = state.carPlateNo.replaceAll(" ", "");
 
     var inquiryInformations = {};
@@ -334,20 +347,20 @@ const VehicleInsuranceInquiry = () => {
           isPlateExist: true,
           plateState: carPlateNo ? Number(carPlateNo.substring(0, 2)) : null,
           plateNo: carPlateNo ? carPlateNo.substring(2, carPlateNo.length) : null,
-          registrationDate: carInfo.registrationDate,
-          registrationSerialCode: carInfo.registrationSerialCode,
-          registrationSerialNo: carInfo.registrationSerialNo,
-          motorNo: carInfo.motorNo,
-          chassisNo: carInfo.chassisNo, //###
-          modelYear: Number(carInfo.modelYear), //###
-          makeCode: carInfo.makeCode, //###
-          modelCode: carInfo.modelCode, //###
-          fuelType: carInfo.fuelType, //########
-          countOfPassengers: Number(carInfo.countOfPassengers), //###
-          usageManner: Number(carInfo.usageManner),
-          usageSubManner: Number(carInfo.usageSubManner), //###
+          registrationDate: carInformation.registrationDate,
+          registrationSerialCode: carInformation.registrationSerialCode,
+          registrationSerialNo: carInformation.registrationSerialNo,
+          motorNo: carInformation.motorNo,
+          chassisNo: carInformation.chassisNo, //###
+          modelYear: Number(carInformation.modelYear), //###
+          makeCode: carInformation.makeCode, //###
+          modelCode: carInformation.modelCode, //###
+          fuelType: carInformation.fuelType, //########
+          countOfPassengers: Number(carInformation.countOfPassengers), //###
+          usageManner: Number(carInformation.usageManner),
+          usageSubstance: Number(carInformation.usageSubstance), //###
         },
-        prevPolicy: carInfo.prevPolicy,
+        prevPolicy: carInformation.prevPolicy,
         address: {
           addressDescription: insuredInfo?.address?.addressDescription || null,
           provinceCode: state.isIdentityTcNo
@@ -393,20 +406,20 @@ const VehicleInsuranceInquiry = () => {
           isPlateExist: false,
           plateState: Number(state.plateCity?.toString()), //Plaka İl bilgisi
           plateNo: "",
-          registrationDate: carInfo.registrationDate, //### ruhsat tarihi
+          registrationDate: carInformation.registrationDate, //### ruhsat tarihi
           registrationSerialCode: null,
           registrationSerialNo: null,
-          motorNo: carInfo.motorNo,
-          chassisNo: carInfo.chassisNo, //###
-          modelYear: Number(carInfo.modelYear), //###
-          makeCode: carInfo.makeCode, //###
-          modelCode: carInfo.modelCode, //###
-          fuelType: carInfo.fuelType, //########
-          countOfPassengers: Number(carInfo.countOfPassengers), //###
-          usageManner: Number(carInfo.usageManner), //###
-          usageSubManner: Number(carInfo.usageSubManner), //###
+          motorNo: carInformation.motorNo,
+          chassisNo: carInformation.chassisNo,
+          modelYear: Number(carInformation.modelYear), //###
+          makeCode: carInformation.makeCode, //###
+          modelCode: carInformation.modelCode, //###
+          fuelType: carInformation.fuelType, //########
+          countOfPassengers: Number(carInformation.countOfPassengers), //###
+          usageManner: Number(carInformation.usageManner), //###
+          usageSubstance: Number(carInformation.usageSubstance), //###
         },
-        prevPolicy: carInfo.prevPolicy,
+        prevPolicy: carInformation.prevPolicy,
         address: {
           addressDescription: insuredInfo?.address?.addressDescription || null,
           provinceCode: state.isIdentityTcNo
@@ -493,7 +506,7 @@ const VehicleInsuranceInquiry = () => {
           border: "2px solid #eeeeee",
           borderRadius: "5px",
         }}
-        className="animate__animated animate__fadeInRight stepContainer"
+        className="animate__animated animate__fadeInRight stepContainer cascoStepContainer"
       >
         {/* <StepArrow top="-10%" left="15px"/> */}
         <div className={"timeline-inverted"}>
@@ -662,7 +675,7 @@ const VehicleInsuranceInquiry = () => {
             border: "2px solid #eeeeee",
             borderRadius: "5px",
           }}
-          className="stepContainer"
+          className="stepContainer cascoStepContainer"
         >
           <div className={"timeline-inverted "}>
             <div className="timeline-badge">
@@ -875,7 +888,7 @@ const VehicleInsuranceInquiry = () => {
             border: "2px solid #eeeeee",
             borderRadius: "5px",
           }}
-          className="stepContainer"
+          className="stepContainer cascoStepContainer"
         >
           <div className="timeline-heading">
             <h4 className="timeline-title ">Araç ve ruhsat bilgileri</h4>
@@ -897,7 +910,38 @@ const VehicleInsuranceInquiry = () => {
     );
   };
 
-  const steps = [OneStep(), TwoStep(), ThreeStep()];
+  const FourStep = () => {
+    return (
+      <div className="animate__animated  animate__fadeInRight">
+        <Box
+          sx={{
+            mt: 5,
+            mb: 1,
+            mr: "auto",
+            ml: "auto",
+            p: "30px",
+            border: "2px solid #eeeeee",
+            borderRadius: "5px",
+          }}
+          className="stepContainer cascoStepContainer"
+        >
+          <div className="timeline-panel ">
+            <div className="timeline-heading">
+              <h4 className="timeline-title">Mevcut ve Geçmiş Poliçe</h4>
+            </div>
+            <PrevPolicy
+              insuranceService="traffic"
+              insurancePrevPolicy={carInformation?.prevPolicy || null}
+              token={state.token}
+              onChange={(info) => onChangePrevPolicy(info)}
+            />
+          </div>
+        </Box>
+      </div>
+    );
+  };
+
+  const steps = [OneStep(), TwoStep(), ThreeStep(), FourStep()];
 
   const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
