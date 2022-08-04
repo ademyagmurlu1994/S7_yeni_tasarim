@@ -19,7 +19,7 @@ const Footer = () => {
   return (
     <>
       {/* footer section start*/}
-      <section>
+      <section id="footer">
         <footer className="">
           <div className="container">
             <div className="row footer-mobile-top-section">

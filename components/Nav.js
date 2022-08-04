@@ -20,7 +20,7 @@ const Nav = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top horizontal-nav" id="navbar">
-        <div className="container-fluid " style={{ padding: "0px 10%" }}>
+        <div className="container-fluid navbar-container">
           <Link href="/">
             <div className="navbar-brand navbar-brand-mobile">
               <img src={logo} alt="" />
@@ -50,7 +50,7 @@ const Nav = () => {
                     </span>
                   </a>
                 </li>
-                <div className="vertical-divider mr-4 ml-4"></div>
+                <div className="vertical-divider mr-3 ml-3"></div>
                 <li className="nav-item">
                   <Link href="/services">
                     <a href="#">
@@ -230,7 +230,7 @@ const Nav = () => {
                         <Link href="/">
                           <a className="dropdown-item text-danger">
                             <b>
-                              <i class="fas fa-bullhorn mr-1"></i> ACİL YARDIM
+                              <i className="fas fa-bullhorn mr-1"></i> ACİL YARDIM
                             </b>
                           </a>
                         </Link>

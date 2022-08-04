@@ -576,7 +576,7 @@ header {
   .navbar-nav .navbar-right-side .auth-links {
     display: flex;
     align-items: center;
-    margin-right: 35px;
+    margin-right: 10px;
   }
 
   .navbar-nav {

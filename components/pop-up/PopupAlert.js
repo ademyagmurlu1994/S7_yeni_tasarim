@@ -51,10 +51,10 @@ const PopupAlert = ({ show, children, severity, onClose }) => {
                 {(() => {
                   switch (severity) {
                     case "warning":
-                      return <i class="fas fa-exclamation-circle text-warning"></i>;
+                      return <i className="fas fa-exclamation-circle text-warning"></i>;
                       break;
                     case "error":
-                      return <i class="fas fa-times-circle text-danger"></i>;
+                      return <i className="fas fa-times-circle text-danger"></i>;
                     default:
                       return <i className="fas fa-info-circle text-info"></i>;
                   }

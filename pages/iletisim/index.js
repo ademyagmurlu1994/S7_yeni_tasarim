@@ -318,8 +318,8 @@ const Login = () => {
                                   sx={{ width: "100%" }}
                                   variant="outlined"
                                   component="span"
-                                  startIcon={<i class="fas fa-paperclip mr-2"></i>}
-                                  endIcon={<i class="fas fa-upload ml-2"></i>}
+                                  startIcon={<i className="fas fa-paperclip mr-2"></i>}
+                                  endIcon={<i className="fas fa-upload ml-2"></i>}
                                 >
                                   Noter Satış Belgesi Ekle
                                 </Button>
@@ -411,8 +411,8 @@ const Login = () => {
                                 sx={{ width: "100%" }}
                                 variant="outlined"
                                 component="span"
-                                startIcon={<i class="fas fa-file-alt mr-2"></i>}
-                                endIcon={<i class="fas fa-upload ml-2"></i>}
+                                startIcon={<i className="fas fa-file-alt mr-2"></i>}
+                                endIcon={<i className="fas fa-upload ml-2"></i>}
                               >
                                 İmzalı Dilekçe Ekle
                               </Button>

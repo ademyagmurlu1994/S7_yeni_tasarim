@@ -39,7 +39,7 @@ const QuoteErrorList = ({ show, quoteErrors, onClose }) => {
         style={{ position: "fixed", top: "85px", right: "0", zIndex: "99" }}
       >
         <b>
-          <i class="fas fa-times-circle mr-2"></i> Hatalar
+          <i className="fas fa-times-circle mr-2"></i> Hatalar
         </b>
       </button>
 
@@ -69,7 +69,7 @@ const QuoteErrorList = ({ show, quoteErrors, onClose }) => {
               </button>
             </div>
             <div className="modal-body">
-              <table class="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th scope="col" style={{ borderTop: "none" }}>
