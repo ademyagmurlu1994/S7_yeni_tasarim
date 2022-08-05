@@ -19,6 +19,9 @@ import ".//../static/scss/_services.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+//05082022
+import "/static/scss/custom-new-design.scss";
+
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Script from "next/script";

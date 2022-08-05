@@ -25,32 +25,32 @@ const HomeFold = () => {
         url: "/insurance/dask",
       },
       {
-        name: "TRAFİK",
+        name: "Trafik",
         icon: Traffic,
         url: "/insurance/traffic/",
       },
       {
-        name: "KASKO",
+        name: "Kasko",
         icon: CarService,
         url: "/insurance/casco/",
       },
       {
-        name: "TAMAMLAYICI SAĞLIK",
+        name: "Tamamlayıcı Sağlık",
         icon: Health,
         url: "/insurance/health/complementary",
       },
       {
-        name: "EVCİL HAYVAN",
+        name: "Evcil Hayvan",
         icon: Pet,
         url: "/insurance/pet",
       },
       {
-        name: "SEYAHAT",
+        name: "Seyahat",
         icon: Travel,
         url: "/insurance/health/travel",
       },
       {
-        name: "TELEFON",
+        name: "Telefon",
         icon: Phone,
         url: "/insurance/phone",
       },
@@ -59,26 +59,30 @@ const HomeFold = () => {
 
   return (
     <>
-      <section
-        className="home-topfold-services"
-        style={{ paddingBottom: "0px", marginTop: "85px" }}
-      >
-        <div className="container">
+      <section className="home-topfold-services" style={{ position: "relative" }}>
+        <hr
+          style={{
+            position: "absolute",
+            top: "20%",
+            borderWidth: "2px",
+            borderColor: "var(--main-color)",
+          }}
+          className="d-none d-md-none d-lg-block w-100"
+        />
+        <div className="container container-large">
           <div className="row justify-content-center row-seven-column">
             {state.itemList.map((service, index) => {
               return (
-                <div className="col-4 col-md-4 col-seven-1 topfold-services" key={index}>
+                <div
+                  className="col-6 col-sm-4 col-md-3 col-seven-1"
+                  key={index}
+                  style={{ display: "grid" }}
+                >
                   <Link href={service.url}>
-                    <div className="service-wrapper text-center">
-                      <div className="service-circle-wrapper">
-                        <div className="service-circle">
-                          <div>
-                            <img src={service.icon} alt="" />
-                          </div>
-                        </div>
-                      </div>
-
+                    <div className="insurance-service-item">
+                      <img src={service.icon} className="service-icon" alt="" />
                       <div className="service-name">{service.name}</div>
+                      <a className="service-link">Teklif Al</a>
                     </div>
                   </Link>
                 </div>

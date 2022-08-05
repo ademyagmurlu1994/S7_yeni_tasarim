@@ -1,0 +1,181 @@
+.insurance-service-item {
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  text-align: center;
+  background-color: white;
+  padding: 10px;
+  position: relative;
+
+  .service-icon {
+    max-width: 50%;
+    filter: brightness(0) saturate(100%) invert(60%) sepia(37%) saturate(4644%) hue-rotate(220deg)
+      brightness(102%) contrast(94%);
+  }
+  .service-name {
+    margin-top: 5px;
+    color: gray;
+    font-weight: 600;
+  }
+
+  .service-link {
+    margin-top: 15px;
+    color: var(--main-color);
+    font-weight: 700;
+    position: sticky;
+    top: 100%;
+    width: 100%;
+    display: block;
+  }
+
+  &:hover {
+    background-color: var(--main-color-light);
+    cursor: pointer;
+  }
+}
+
+.container.container-large {
+  max-width: 1400px;
+}
+
+.home-topfold-banner {
+  position: relative;
+
+  .topfold-content {
+    display: flex;
+    justify-content: center;
+
+    text-align: center;
+    .topfold-text {
+      max-width: 600px;
+      position: absolute;
+      z-index: 10;
+      top: 10px;
+      .main-text {
+        font-size: 35pt;
+        font-weight: 700;
+        color: var(--main-color);
+      }
+      .sub-text {
+        margin-top: 20px;
+      }
+      .quote-button {
+        margin-top: 20px;
+        &:hover {
+          background-color: var(--main-color-light) !important;
+        }
+      }
+    }
+  }
+}
+
+.home-page-section {
+  padding: 50px 0px;
+  .section-title {
+    text-align: center;
+    color: var(--main-color);
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+}
+.home-page-section.communication-section {
+  background-color: #f5f7f9;
+}
+
+/*FEEDBACK CARD START*/
+.feedback-card {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 25px;
+  background-color: var(--main-color-light-dark);
+  display: grid;
+
+  .feedback-author {
+    display: -webkit-box;
+
+    .author-wrapper {
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+
+    img {
+      width: 40px;
+      display: inline-block;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0px 10px 0px 0px;
+      border: 2px solid var(--main-color);
+      box-sizing: content-box;
+    }
+
+    .feedback-author-name {
+      font-size: 12pt;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.74);
+      margin-top: 10px;
+    }
+  }
+  .feedback-text {
+    margin-top: 10px;
+    text-align: center;
+  }
+  .feedback-rating {
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    i {
+      font-size: 13pt;
+      color: rgb(255, 85, 0);
+      margin-left: 5px;
+    }
+  }
+}
+.client-feedback-section {
+  .slick-prev:before,
+  .slick-next:before {
+    color: var(--main-color);
+    font-size: 40px;
+    font-weight: 600;
+  }
+  .slick-prev {
+    left: -45px;
+  }
+}
+.slick-active {
+  &:nth-child(2) {
+    .feedback-card {
+      background-color: blue;
+    }
+  }
+}
+/*FEED BACK CARD END*/
+
+.anlasmali-sirketler-wrapper {
+  .col {
+    margin-bottom: 30px !important;
+    display: grid;
+  }
+  .anlasmali-sirket {
+    padding: 5px 0px;
+    text-align: center;
+    position: relative;
+    height: auto;
+    border-radius: 8px;
+    img {
+      max-height: 60px;
+      width: auto;
+      max-width: 100%;
+      filter: grayscale(100%);
+    }
+
+    &:hover img {
+      filter: grayscale(0%);
+    }
+  }
+}
+
+/*SSS Acordion*/
+.MuiAccordionSummary-content.Mui-expanded {
+  border-bottom: 2px solid lightgray;
+}

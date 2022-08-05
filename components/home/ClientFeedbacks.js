@@ -220,52 +220,25 @@ const ClientFeedbacks = () => {
 
   var settings = {
     dots: false,
-    arrows: false,
+    arrows: true,
     infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 0.1,
-    cssEase: "linear",
+    slidesToShow: 3,
+    slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 0,
-    speed: 1000,
-    pauseOnHover: false,
-    cssEase: "linear",
+    speed: 700,
     pauseOnHover: true,
     responsive: [
       {
         breakpoint: 1360,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 900,
-        settings: {
+          arrows: false,
           slidesToShow: 1,
-          slidesToScroll: 0.5,
-          speed: 4000,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 0.5,
-          speed: 4000,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 0.5,
-          speed: 4000,
         },
       },
     ],
@@ -273,68 +246,41 @@ const ClientFeedbacks = () => {
 
   return (
     <>
-      <section className="client-feedback-section">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-12">
-              <h2 className="title">
-                <div className="home_four_content header-tween mx-auto text-center">
-                  <h3 className="">Sizden Gelenler</h3>
-                  <img src={ClientFeedbackIcon} alt="" style={{ width: "100px" }} />
-                </div>
-              </h2>
-            </div>
-            <div className="col-12">
-              <div className="client-feedbacks-wrapper mt-3">
-                <Slider {...settings}>
-                  {blogList.map((feedback, index) => (
-                    <div className="fw-carousel-review my-3" key={index} style={{ width: "430px" }}>
-                      <div className="feedback-card ml-2 mr-2">
-                        <div className="feedback-card-header">
-                          <div className="feedback-author">
-                            <div className="author-wrapper">
-                              <img src={feedback.author.image} alt="" />
-                              <h4 className="feedback-author-name">
-                                {feedback.author.name.split(" ")[0][0]}**{" "}
-                                {feedback.author.name.split(" ")[1][0]}**
-                              </h4>
-                            </div>
-                          </div>
-                          <div className="feedback-card-left-side">
-                            <div className="small-ratings" style={{ width: "100%", display: "" }}>
-                              {Array.from(Array(feedback.rating), (e, i) => {
-                                return (
-                                  <i
-                                    className="fa fa-star"
-                                    style={{ color: "orange", marginRight: "2px" }}
-                                    key={i}
-                                  ></i>
-                                );
-                              })}
-                              {Array.from(Array(5 - feedback.rating), (e, i) => {
-                                return (
-                                  <i
-                                    className="far fa-star"
-                                    style={{ color: "orange", marginRight: "2px" }}
-                                    key={i}
-                                  ></i>
-                                );
-                              })}
-                            </div>
-                          </div>
+      <section className="client-feedback-section home-page-section">
+        <div className="container container-large">
+          <h2 className="section-title">Müşteri Memnuniyeti</h2>
+          <div className="w-100">
+            <div className="client-feedbacks-wrapper">
+              <Slider {...settings}>
+                {blogList.map((feedback, index) => (
+                  <div className="fw-carousel-review" key={index}>
+                    <div className="feedback-card ml-2 mr-2">
+                      <div className="feedback-author">
+                        <div className="author-wrapper">
+                          <img src={feedback.author.image} alt="" />
+                          <h4 className="feedback-author-name">{feedback.author.name}</h4>
                         </div>
+                      </div>
 
-                        <div className="feedback-content">
-                          {feedback.intro.length < 130
-                            ? feedback.intro
-                            : feedback.intro.substring(0, 130) + "..."}{" "}
+                      <div className="feedback-text">
+                        {feedback.intro.length < 130
+                          ? feedback.intro
+                          : feedback.intro.substring(0, 130) + "..."}{" "}
+                      </div>
+                      <div className="feedback-rating">
+                        <div className="small-ratings" style={{ width: "100%", display: "" }}>
+                          {Array.from(Array(feedback.rating), (e, i) => {
+                            return <i className="fa fa-star" key={i}></i>;
+                          })}
+                          {Array.from(Array(5 - feedback.rating), (e, i) => {
+                            return <i className="far fa-star" key={i}></i>;
+                          })}
                         </div>
                       </div>
                     </div>
-                  ))}
-                </Slider>
-              </div>
-              {/* blog_slider */}
+                  </div>
+                ))}
+              </Slider>
             </div>
           </div>
         </div>

@@ -84,26 +84,21 @@ const Services = () => {
     <>
       {/* Feature section start*/}
       {/*Deneme Commit*/}
-      <section
-        className="home-topfold-services bg-white"
-        style={{ paddingBottom: "0px", marginTop: "85px", marginBottom: "400px" }}
-      >
-        <div className="container">
+      <section style={{ paddingBottom: "0px", marginTop: "150px", marginBottom: "400px" }}>
+        <div className="container container-large">
           <div className="row justify-content-center row-seven-column">
             {serviceList.map((service, index) => {
               return (
-                <div className="col-4 col-md-4 col-seven-1 topfold-services" key={index}>
+                <div
+                  className="col-6 col-sm-4 col-md-3 col-seven-1"
+                  key={index}
+                  style={{ display: "grid" }}
+                >
                   <Link href={service.url}>
-                    <div className="service-wrapper text-center">
-                      <div className="service-circle-wrapper">
-                        <div className="service-circle">
-                          <div>
-                            <img src={service.img} alt="" />
-                          </div>
-                        </div>
-                      </div>
-
+                    <div className="insurance-service-item">
+                      <img src={service.img} className="service-icon" alt="" />
                       <div className="service-name">{service.title}</div>
+                      <a className="service-link">Teklif Al</a>
                     </div>
                   </Link>
                 </div>

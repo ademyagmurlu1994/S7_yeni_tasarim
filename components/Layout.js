@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <div className="content">
       <link rel="stylesheet" href="/../static/css/bootstrap.min.css" />
       <Nav />
-      <div style={{ marginTop: "10px" }}>{children}</div>
+      <div style={{ marginTop: "90px" }}>{children}</div>
 
       <Footer />
     </div>

@@ -5,6 +5,9 @@ import { logo } from "/resources/images";
 //fonksiyonlar
 import { logout, getNextAuth } from "/functions/auth";
 
+//Components
+import Button from "/components/form/Button";
+
 const Nav = () => {
   const [nextAuth, setNextAuth] = useState();
   useEffect(() => {
@@ -43,62 +46,20 @@ const Nav = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav horizontal-menu h-100">
               <div className="navbar-left-side h-100">
-                <li className="nav-item">
-                  <a href="#">
-                    <span className="d-flex">
-                      <i className="fas fa-phone-alt color-main mr-1"></i> 0 850 212 12 12
-                    </span>
+                <li className="nav-item scroll dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <span>Ürünler</span>
                   </a>
-                </li>
-                <div className="vertical-divider mr-3 ml-3"></div>
-                <li className="nav-item">
-                  <Link href="/services">
-                    <a href="#">
-                      <span className="d-flex">
-                        <i className="fas fa-envelope color-main mr-1"></i> Teklif Alın
-                      </span>
-                    </a>
-                  </Link>
-                </li>
-              </div>
-
-              <li className="navbar-center-side">
-                <Link href="/">
-                  <div className="navbar-brand">
-                    <img src={logo} alt="" />
-                  </div>
-                </Link>
-              </li>
-              <div className="navbar-right-side">
-                <div className="auth-links">
-                  <li className="nav-item">
-                    <li className="scroll dropdown">
-                      <ul className="dropdown-menu">
-                        <li className="nav-item">
-                          <Link href="/insurance/casco/" prefetch={false} className="dropdown-item">
-                            Kasko Sigortası
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link href="/insurance/traffic" className="dropdown-item">
-                            Zorunlu Trafik Sigortası
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </li>
-                  <li className="nav-item scroll dropdown">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                      <span>Ürünler</span>
-                    </a>
-                    <div className="dropdown-menu-wrapper">
-                      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <div className="row">
-                          <div className="col-12 col-md-6 col-lg-6">
-                            <div className="similar-service-wrapper">
-                              <h3>
-                                <i className="fas fa-car"></i> Arabanız
-                              </h3>
+                  <div className="dropdown-menu-wrapper">
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <div className="row">
+                        <div className="col-12 col-md-6 col-lg-6">
+                          <div className="similar-service-wrapper">
+                            <div className="similar-service-icon">
+                              <i className="fas fa-car"></i>
+                            </div>
+                            <div className="service-links">
+                              <h4 className="similar-service-title">Arabanız</h4>
                               <Link href="/insurance/casco">
                                 <a className="dropdown-item">Kasko</a>
                               </Link>
@@ -110,11 +71,14 @@ const Nav = () => {
                               </Link>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-6 ">
-                            <div className="similar-service-wrapper">
-                              <h3>
-                                <i className="fas fa-heartbeat"></i> Sağlığınız
-                              </h3>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-6 ">
+                          <div className="similar-service-wrapper">
+                            <div className="similar-service-icon">
+                              <i className="fas fa-heartbeat"></i>
+                            </div>
+                            <div className="service-links">
+                              <h4 className="similar-service-title"> Sağlığınız</h4>
                               <Link href="/insurance/health/complementary">
                                 <a className="dropdown-item">Tamamlayıcı Sağlık</a>
                               </Link>
@@ -136,12 +100,15 @@ const Nav = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-12 col-md-6 col-lg-6">
-                            <div className="similar-service-wrapper">
-                              <h3>
-                                <i className="fas fa-home"></i> Eviniz
-                              </h3>
+                      </div>
+                      <div className="row">
+                        <div className="col-12 col-md-6 col-lg-6">
+                          <div className="similar-service-wrapper">
+                            <div className="similar-service-icon">
+                              <i className="fas fa-home"></i>
+                            </div>
+                            <div className="service-links">
+                              <h4 className="similar-service-title">Eviniz</h4>
                               <Link href="/insurance/dask">
                                 <a className="dropdown-item">Dask</a>
                               </Link>
@@ -150,11 +117,14 @@ const Nav = () => {
                               </Link>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-6">
-                            <div className="similar-service-wrapper">
-                              <h3>
-                                <i className="fas fa-ellipsis-h"></i> Diğer Sigortalarınız
-                              </h3>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-6">
+                          <div className="similar-service-wrapper">
+                            <div className="similar-service-icon">
+                              <i class="fas fa-dog"></i>
+                            </div>
+                            <div className="service-links">
+                              <h4 className="similar-service-title"> Diğer Sigortalarınız</h4>
                               <Link href="/insurance/pet">
                                 <a className="dropdown-item">Evcil Hayvan</a>
                               </Link>
@@ -166,115 +136,90 @@ const Nav = () => {
                         </div>
                       </div>
                     </div>
-                  </li>
+                  </div>
+                </li>
+                <li className="nav-item scroll dropdown small-dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <span>Hasar İşlemleri</span>
+                  </a>
+                  <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <Link href="/">
+                        <a className="dropdown-item text-danger">
+                          <b>
+                            <i className="fas fa-bullhorn mr-1"></i> ACİL YARDIM
+                          </b>
+                        </a>
+                      </Link>
+                      <Link href="/">
+                        <a className="dropdown-item">Hasar Bildirimi</a>
+                      </Link>
+                      <Link href="/">
+                        <a className="dropdown-item">Hasar Takibi</a>
+                      </Link>
+                    </div>
+                  </div>
+                </li>
 
-                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
-
-                  {nextAuth?.loggedIn ? (
-                    <li className="nav-item scroll dropdown small-dropdown">
-                      <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span>
-                          <b>{nextAuth?.user?.name}</b>{" "}
-                        </span>
-                      </a>
-                      <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
-                        <div className="dropdown-menu text-white" aria-labelledby="navbarDropdown">
-                          <Link href="#">
-                            <a className="dropdown-item">Tekliflerim</a>
-                          </Link>
-
-                          <Link href="#">
-                            <a className="dropdown-item">Poliçelerim</a>
-                          </Link>
-                          <Link href="/update-password">
-                            <a className="dropdown-item">Şifre Değiştirme</a>
-                          </Link>
-                          <Link href="#">
-                            <a className="dropdown-item" onClick={() => logoutUser()}>
-                              Çıkış Yap
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-                    </li>
-                  ) : (
-                    <li className="nav-item">
-                      <Link href="/login">Hesabım</Link>{" "}
-                    </li>
-                  )}
-
-                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
+                <li className="nav-item">
+                  <Link href="/blog">Blog</Link>
+                </li>
+                {nextAuth?.loggedIn ? (
                   <li className="nav-item scroll dropdown small-dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                      <span>Bize Ulaşın</span>
+                      <span>
+                        <b>{nextAuth?.user?.name}</b>{" "}
+                      </span>
                     </a>
                     <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
                       <div className="dropdown-menu text-white" aria-labelledby="navbarDropdown">
-                        <Link href="/iletisim?option=0">
-                          <a className="dropdown-item">İptal İşlemleri</a>
+                        <Link href="#">
+                          <a className="dropdown-item">Tekliflerim</a>
                         </Link>
 
-                        <Link href="/iletisim">
-                          <a className="dropdown-item">İletişim</a>
+                        <Link href="#">
+                          <a className="dropdown-item">Poliçelerim</a>
                         </Link>
-                      </div>
-                    </div>
-                  </li>
-                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
-                  <li className="nav-item scroll dropdown small-dropdown">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                      <span>Hasar İşlemleri</span>
-                    </a>
-                    <div className="dropdown-menu-wrapper small-dropdown-menu-wrapper">
-                      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <Link href="/">
-                          <a className="dropdown-item text-danger">
-                            <b>
-                              <i className="fas fa-bullhorn mr-1"></i> ACİL YARDIM
-                            </b>
+                        <Link href="/update-password">
+                          <a className="dropdown-item">Şifre Değiştirme</a>
+                        </Link>
+                        <Link href="#">
+                          <a className="dropdown-item" onClick={() => logoutUser()}>
+                            Çıkış Yap
                           </a>
                         </Link>
-                        <Link href="/">
-                          <a className="dropdown-item">Hasar Bildirimi</a>
-                        </Link>
-                        <Link href="/">
-                          <a className="dropdown-item">Hasar Takibi</a>
-                        </Link>
                       </div>
                     </div>
                   </li>
-
-                  <div className="vertical-divider mr-lg-3 ml-lg-3 mr-md-1 ml-md-1  h-60"></div>
+                ) : (
                   <li className="nav-item">
-                    <Link href="/blog">Blog</Link>
+                    <Link href="/login">Hesabım</Link>{" "}
+                  </li>
+                )}
+              </div>
+
+              <li className="navbar-center-side">
+                <Link href="/">
+                  <div className="navbar-brand">
+                    <img src={logo} alt="" />
+                  </div>
+                </Link>
+              </li>
+              <div className="navbar-right-side">
+                <div className="auth-links">
+                  <li className="nav-item">
+                    <Button variant="outlined" sx={{ width: "210px", fontWeight: "550" }}>
+                      Üye Ol / Giriş Yap
+                    </Button>
+                  </li>
+                  <li className="nav-item">
+                    <Link href="/services">
+                      <Button sx={{ width: "210px" }}>
+                        <i className="fas fa-phone-alt  mr-1"></i> 0 850 212 12 12
+                      </Button>
+                    </Link>
                   </li>
                 </div>
-
-                {/* <li>
-                  <ul className="social-platforms">
-                    <li className="nav-item">
-                      <a href="#">
-                        <i className="fab fa-facebook-f"></i>
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="#">
-                        <i className="fab fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="#">
-                        <i className="fab fa-youtube"></i>
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <a href="#">
-                        <i className="fab fa-linkedin-in"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li> */}
               </div>
             </ul>
           </div>

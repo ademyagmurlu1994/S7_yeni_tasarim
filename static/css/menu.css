@@ -301,7 +301,8 @@ header {
     border: 0px solid #efefef;
     /* -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 15px 0px rgb(111 111 111 / 10%); */
-    box-shadow: rgb(0 0 0 / 30%) 0px 19px 38px, rgb(0 0 0 / 22%) 0px 15px 12px;
+
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   }
   .horizontal-nav .horizontal-menu .dropdown .dropdown-menu .dropdown-menu {
     left: 100%;
@@ -568,11 +569,6 @@ header {
     width: 20%;
   }
 
-  .navbar-nav .navbar-left-side i {
-    font-size: 18pt;
-    margin-right: 2px;
-  }
-
   .navbar-nav .navbar-right-side .auth-links {
     display: flex;
     align-items: center;
@@ -625,4 +621,132 @@ header {
   .navbar-brand-mobile {
     display: block;
   }
+}
+
+/*Yeni Tasarım 05082022*/
+/*Mobil ve Middle Görünüm*/
+@media (max-width: 992px) {
+  /*Mobilde tıklanan dropdown'ın rengini değiştirme Start */
+  .scroll.dropdown.show .dropdown-toggle {
+    background-color: var(--main-color-light);
+    color: var(--main-color);
+  }
+  .scroll.dropdown.show li {
+    padding-left: 18px;
+    background-color: var(--main-color-light);
+  }
+
+  .mobile-mode-display-none {
+    display: none;
+  }
+
+  .horizontal-nav .dropdown .similar-service-wrapper .similar-service-icon i {
+    display: none;
+  }
+
+  .horizontal-nav .dropdown .similar-service-wrapper h3 {
+    font-size: 13pt;
+  }
+}
+
+/*Masaüstü ve Middle Görünüm*/
+@media (min-width: 992px) {
+  .horizontal-nav li.nav-item {
+    margin-right: 15px;
+  }
+
+  .horizontal-nav .dropdown {
+    position: relative !important;
+  }
+  .horizontal-nav .dropdown.small-dropdown {
+    position: relative !important;
+  }
+
+  .horizontal-nav .dropdown .dropdown-item {
+    padding: 10px;
+  }
+
+  .horizontal-nav .dropdown-item:focus,
+  .dropdown-item:hover {
+    background-color: rgba(var(--main-color-rgb), 8%) !important;
+    color: var(--main-color) !important;
+  }
+
+  .horizontal-nav .dropdown .similar-service-wrapper {
+    display: flex;
+    padding: 17px;
+    background-color: white;
+    border-radius: 4px;
+    height: 100%;
+    min-height: 230px;
+  }
+  .horizontal-nav .dropdown .similar-service-wrapper .similar-service-icon i {
+    font-size: 30pt;
+    margin-right: 15px;
+    margin-top: 0px;
+    color: var(--main-color);
+  }
+  .horizontal-nav .dropdown .similar-service-wrapper .service-links {
+    width: 100%;
+  }
+  .horizontal-nav .dropdown .similar-service-wrapper .similar-service-title {
+    padding: 0px 3px;
+    font-weight: 700;
+    color: var(--main-color);
+  }
+
+  .horizontal-nav .dropdown .service-links .dropdown-item {
+    padding: 3px 3px;
+  }
+
+  .horizontal-nav .dropdown .dropdown-menu-wrapper .row:nth-child(1) {
+    margin-bottom: 30px;
+  }
+
+  /*DropDown Menünün üstüne gelindiğinde açma Start*/
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    visibility: visible;
+  }
+
+  .horizontal-nav .horizontal-menu .dropdown .dropdown-menu-wrapper {
+    display: none;
+    margin-top: -5px;
+    position: absolute;
+    padding-top: 25px;
+    margin-top: 0px !important;
+    width: 800px !important;
+    left: 0px;
+  }
+  .horizontal-nav .horizontal-menu .dropdown .dropdown-menu-wrapper.small-dropdown-menu-wrapper {
+    width: 350px !important;
+    left: 0px;
+  }
+
+  .horizontal-nav .horizontal-menu .small-dropdown .dropdown-menu {
+    background-color: white !important;
+    padding: 15px 15px !important;
+  }
+
+  .horizontal-nav .horizontal-menu .dropdown .dropdown-menu {
+    position: static;
+    width: 100% !important;
+    padding: 30px 30px;
+    background-color: var(--main-color-light-dark);
+    border-radius: 4px;
+    /* background: linear-gradient(90deg, var(--main-color-light-dark), var(--main-color-light)); */
+    /* background: linear-gradient(
+      324deg,
+      var(--main-color),
+      var(--main-color-light-dark),
+      var(--main-color)
+    ); */
+    /*margin-top: 20px;*/
+  }
+  .horizontal-nav .dropdown:hover .dropdown-menu-wrapper {
+    display: block !important;
+  }
+
+  /*DropDown Menünün üstüne gelindiğinde açma End*/
 }
