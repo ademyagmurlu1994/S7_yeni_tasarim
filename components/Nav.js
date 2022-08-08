@@ -9,6 +9,16 @@ import { logout, getNextAuth } from "/functions/auth";
 //Components
 import Button from "/components/form/Button";
 
+import {
+  CascoIcon,
+  DaskIcon,
+  TssIcon,
+  TravelIcon,
+  PetIcon,
+  PhoneIcon,
+  TrafficIcon,
+} from "/resources/images";
+
 const Nav = () => {
   const [nextAuth, setNextAuth] = useState();
   useEffect(() => {
@@ -57,7 +67,7 @@ const Nav = () => {
                         <div className="col-12 col-md-6 col-lg-6">
                           <div className="similar-service-wrapper">
                             <div className="similar-service-icon">
-                              <i className="fas fa-car"></i>
+                              <img src={CascoIcon} alt="" />
                             </div>
                             <div className="service-links">
                               <h4 className="similar-service-title">Arabanız</h4>
@@ -76,7 +86,7 @@ const Nav = () => {
                         <div className="col-12 col-md-6 col-lg-6 ">
                           <div className="similar-service-wrapper">
                             <div className="similar-service-icon">
-                              <i className="fas fa-heartbeat"></i>
+                              <img src={TssIcon} alt="" />
                             </div>
                             <div className="service-links">
                               <h4 className="similar-service-title"> Sağlığınız</h4>
@@ -106,7 +116,7 @@ const Nav = () => {
                         <div className="col-12 col-md-6 col-lg-6">
                           <div className="similar-service-wrapper">
                             <div className="similar-service-icon">
-                              <i className="fas fa-home"></i>
+                              <img src={DaskIcon} alt="" />
                             </div>
                             <div className="service-links">
                               <h4 className="similar-service-title">Eviniz</h4>
@@ -122,7 +132,7 @@ const Nav = () => {
                         <div className="col-12 col-md-6 col-lg-6">
                           <div className="similar-service-wrapper">
                             <div className="similar-service-icon">
-                              <i class="fas fa-dog"></i>
+                              <img src={PetIcon} alt="" />
                             </div>
                             <div className="service-links">
                               <h4 className="similar-service-title"> Diğer Sigortalarınız</h4>
@@ -209,13 +219,13 @@ const Nav = () => {
               <div className="navbar-right-side">
                 <div className="auth-links">
                   <li className="nav-item">
-                    <Button variant="outlined" sx={{ width: "200px", fontWeight: "550" }}>
+                    <Button variant="outlined" sx={{ width: "200px", fontWeight: "600" }}>
                       Üye Ol / Giriş Yap
                     </Button>
                   </li>
                   <li className="nav-item">
                     <Link href="/services">
-                      <Button sx={{ width: "200px" }}>
+                      <Button style={{ width: "200px" }} bgColor="orange">
                         <PhoneInTalkIcon className="mr-1" /> 0 850 212 12 12
                         {/* <i className="fas fa-phone-alt  mr-1"></i> 0 850 212 12 12 */}
                       </Button>

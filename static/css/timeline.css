@@ -88,8 +88,8 @@
   right: -15px;
   display: inline-block;
   border-top: 15px solid transparent;
-  border-left: 15px solid var(--main-color);
-  border-right: 0 solid var(--main-color);
+  border-left: 15px solid var(--color-one);
+  border-right: 0 solid var(--color-one);
   border-bottom: 15px solid transparent;
   content: " ";
 }
@@ -127,7 +127,7 @@
   top: 16px;
   left: 2%;
   margin-left: -25px;
-  background-color: var(--main-color);
+  background-color: var(--color-one);
   /*z-index: 100;*/
   border-top-right-radius: 50%;
   border-top-left-radius: 50%;
@@ -183,7 +183,7 @@
 }
 
 .timeline-badge.success {
-  background-color: var(--main-color) !important;
+  background-color: var(--color-one) !important;
 }
 
 .timeline-badge.warning {

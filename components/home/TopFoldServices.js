@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import EastIcon from "@mui/icons-material/East";
-//import { carIcon, healthIcon, dask, phoneIcon, petIcon } from "/resources/images";
+//import { carIcon, healthIcon, dask, PhoneImg, petIcon } from "/resources/images";
 
 import {
-  dask,
-  CarService,
-  Pet,
-  Health,
-  Traffic,
-  Travel,
-  Phone,
+  CascoIcon,
+  DaskIcon,
+  TssIcon,
+  TravelIcon,
+  PetIcon,
+  PhoneIcon,
+  TrafficIcon,
   logo,
   HomeFoldTopContentBackground,
 } from "/resources/images";
@@ -22,37 +22,37 @@ const HomeFold = () => {
     itemList: [
       {
         name: "DASK",
-        icon: dask,
+        icon: DaskIcon,
         url: "/insurance/dask",
       },
       {
         name: "Trafik",
-        icon: Traffic,
+        icon: TrafficIcon,
         url: "/insurance/traffic/",
       },
       {
         name: "Kasko",
-        icon: CarService,
+        icon: CascoIcon,
         url: "/insurance/casco/",
       },
       {
         name: "Tamamlayıcı Sağlık",
-        icon: Health,
+        icon: TssIcon,
         url: "/insurance/health/complementary",
       },
       {
         name: "Evcil Hayvan",
-        icon: Pet,
+        icon: PetIcon,
         url: "/insurance/pet",
       },
       {
         name: "Seyahat",
-        icon: Travel,
+        icon: TravelIcon,
         url: "/insurance/health/travel",
       },
       {
         name: "Telefon",
-        icon: Phone,
+        icon: PhoneIcon,
         url: "/insurance/phone",
       },
     ],
@@ -66,7 +66,7 @@ const HomeFold = () => {
             position: "absolute",
             top: "20%",
             borderWidth: "2px",
-            borderColor: "var(--main-color)",
+            borderColor: "var(--color-one)",
           }}
           className="d-none d-md-none d-lg-block w-100"
         />

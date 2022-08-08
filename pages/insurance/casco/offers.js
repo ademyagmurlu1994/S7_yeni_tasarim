@@ -476,47 +476,47 @@ const VehicleInsuranceOffers = () => {
                                   Ana Teminatlar{" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                                 <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
                                   Mini Onarım{" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                                 <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
                                   İkame/ Yedek Araç{" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                                 <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
                                   Yol Yardım (Asistans){" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                                 <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
                                   İhtiyari Mali Mesuliyet (IMM){" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                                 <div className="col col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
                                   Dolu ve Sel/Su Baskını{" "}
                                   <i
                                     className="far fa-question-circle"
-                                    style={{ color: "var(--main-color)" }}
+                                    style={{ color: "var(--color-one)" }}
                                   ></i>
                                 </div>
                               </div>
                               <div className="row mt-3">
-                                <div className="col-12" style={{ color: "var(--main-color)" }}>
+                                <div className="col-12" style={{ color: "var(--color-one)" }}>
                                   <i className="fas fa-file-alt"></i> Tüm Teminatlar
                                 </div>
                               </div>

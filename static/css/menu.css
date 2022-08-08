@@ -183,7 +183,7 @@ header {
 .horizontal-nav .horizontal-menu > li.active > a,
 .horizontal-nav .horizontal-menu > li > a:hover,
 .horizontal-nav .horizontal-menu > li > a:focus {
-  color: var(--main-color);
+  color: var(--color-one);
   background-color: transparent;
 }
 .horizontal-nav .horizontal-menu > li.active > a img,
@@ -221,7 +221,7 @@ header {
 .horizontal-nav .horizontal-menu .dropdown-menu li.active > a,
 .horizontal-nav .horizontal-menu .dropdown-menu li > a:hover,
 .horizontal-nav .horizontal-menu .dropdown-menu li > a:focus {
-  color: var(--main-color);
+  color: var(--color-one);
 }
 .horizontal-nav .horizontal-menu .dropdown-toggle:focus {
   outline: 0;
@@ -259,7 +259,7 @@ header {
 .horizontal-nav .menu-item-has-mega-menu.dropdown .mega-menu-col .active > a,
 .horizontal-nav .menu-item-has-mega-menu.dropdown .mega-menu-col > a:hover,
 .horizontal-nav .menu-item-has-mega-menu.dropdown .mega-menu-col > a:focus {
-  color: var(--main-color);
+  color: var(--color-one);
   background: transparent;
 }
 .horizontal-nav .menu-item-has-mega-menu.dropdown .mega-menu-col-title {
@@ -350,7 +350,7 @@ header {
   }
   .horizontal-nav .horizontal-menu .mega-menu-col .sub-menu a:hover,
   .horizontal-nav .horizontal-menu .mega-menu-col .sub-menu a:focus {
-    color: var(--main-color);
+    color: var(--color-one);
     background: transparent;
   }
   .horizontal-nav .horizontal-menu .mega-menu-col-title {
@@ -425,7 +425,7 @@ header {
   .horizontal-nav .horizontal-menu li .dropdown-menu li a:focus,
   .horizontal-nav .horizontal-menu li .mega-menu .mega-menu-col ul li a:hover,
   .horizontal-nav .horizontal-menu li .mega-menu .mega-menu-col ul li a:focus {
-    color: var(--main-color);
+    color: var(--color-one);
     background-color: transparent;
   }
   .horizontal-nav .horizontal-menu li a:hover img,
@@ -522,7 +522,7 @@ header {
   }
 
   .navbar-nav a:hover {
-    color: var(--main-color);
+    color: var(--color-one);
   }
 
   .navbar-nav .navbar-left-side {
@@ -607,12 +607,12 @@ header {
 @media (max-width: 992px) {
   /*Mobilde tıklanan dropdown'ın rengini değiştirme Start */
   .scroll.dropdown.show .dropdown-toggle {
-    background-color: var(--main-color-light);
-    color: var(--main-color);
+    background-color: var(--color-one-light);
+    color: var(--color-one);
   }
   .scroll.dropdown.show li {
     padding-left: 18px;
-    background-color: var(--main-color-light);
+    background-color: var(--color-one-light);
   }
 
   .mobile-mode-display-none {
@@ -647,8 +647,8 @@ header {
 
   .horizontal-nav .dropdown-item:focus,
   .dropdown-item:hover {
-    background-color: rgba(var(--main-color-rgb), 8%) !important;
-    color: var(--main-color) !important;
+    background-color: rgba(var(--color-one-rgb), 8%) !important;
+    color: var(--color-one) !important;
   }
 
   .horizontal-nav .dropdown .similar-service-wrapper {
@@ -659,11 +659,12 @@ header {
     height: 100%;
     min-height: 230px;
   }
-  .horizontal-nav .dropdown .similar-service-wrapper .similar-service-icon i {
-    font-size: 30pt;
+  .horizontal-nav .dropdown .similar-service-wrapper .similar-service-icon img {
+    width: 70px;
     margin-right: 15px;
     margin-top: 0px;
-    color: var(--main-color);
+    filter: brightness(0) saturate(100%) invert(64%) sepia(96%) saturate(6025%) hue-rotate(242deg)
+      brightness(95%) contrast(86%);
   }
   .horizontal-nav .dropdown .similar-service-wrapper .service-links {
     width: 100%;
@@ -671,7 +672,7 @@ header {
   .horizontal-nav .dropdown .similar-service-wrapper .similar-service-title {
     padding: 0px 3px;
     font-weight: 700;
-    color: var(--main-color);
+    color: var(--color-one);
   }
 
   .horizontal-nav .dropdown .service-links .dropdown-item {
@@ -712,14 +713,14 @@ header {
     position: static;
     width: 100% !important;
     padding: 30px 30px;
-    background-color: var(--main-color-light-dark);
+    background-color: var(--color-one-light-dark);
     border-radius: 4px;
-    /* background: linear-gradient(90deg, var(--main-color-light-dark), var(--main-color-light)); */
+    /* background: linear-gradient(90deg, var(--color-one-light-dark), var(--color-one-light)); */
     /* background: linear-gradient(
       324deg,
-      var(--main-color),
-      var(--main-color-light-dark),
-      var(--main-color)
+      var(--color-one),
+      var(--color-one-light-dark),
+      var(--color-one)
     ); */
     /*margin-top: 20px;*/
   }

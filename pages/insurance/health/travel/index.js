@@ -76,7 +76,7 @@ export default function travelIndex() {
               </div>
               <div
                 className="col-xs-12 col-sm-12 col-md-6 col-lg-6"
-                style={{ backgroundColor: "var(--main-color-light)", padding: "20px 10px" }}
+                style={{ backgroundColor: "var(--color-one-light)", padding: "20px 10px" }}
               >
                 <div className="row">
                   <div className="col-lg-12">

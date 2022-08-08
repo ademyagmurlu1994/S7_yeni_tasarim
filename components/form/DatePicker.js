@@ -59,7 +59,7 @@ export default function DatePicker(props) {
               sx={{
                 "&:hover": {
                   cursor: "pointer",
-                  color: "var(--main-color)",
+                  color: "var(--color-one)",
                 },
               }}
               onClick={() => {

@@ -10,9 +10,9 @@ const Button = (props) => {
   let style = {
     fontSize: "12pt",
     fontWeight: "500",
-    border: "2px solid var(--main-color) !important",
+    border: "2px solid var(--color-one) !important",
     color: "white",
-    backgroundColor: "var(--main-color) !important",
+    backgroundColor: "var(--color-one) !important",
     textTransform: "none !important",
     "&:hover": {
       boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px !important",
@@ -41,7 +41,7 @@ const Button = (props) => {
       //alert("loading");
       let btnStyle = cloneDeep(buttonStyle);
       if (props.variant != "text") {
-        btnStyle.color = "var(--main-color) !important";
+        btnStyle.color = "var(--color-one) !important";
         btnStyle.backgroundColor = "#e5e5e5 !important";
         btnStyle.borderColor = "#e5e5e5 !important";
 
@@ -71,23 +71,42 @@ const Button = (props) => {
     let btnStyle = buttonStyle ? cloneDeep(buttonStyle) : style;
     switch (props.variant) {
       case "outlined":
-        btnStyle.color = "var(--main-color) !important";
-        btnStyle.backgroundColor = "white !important";
-        btnStyle.borderColor = "var(--main-color) !important";
+        switch (props.bgColor) {
+          case "orange":
+            btnStyle.color = "var(--color-two) !important";
+            btnStyle.backgroundColor = "white !important";
+            btnStyle.borderColor = "var(--color-two) !important";
+            break;
+          default:
+            btnStyle.color = "var(--color-one) !important";
+            btnStyle.backgroundColor = "white !important";
+            btnStyle.borderColor = "var(--color-one) !important";
+            break;
+        }
+
         break;
       case "text":
-        btnStyle.color = "var(--main-color) !important";
+        btnStyle.color = "var(--color-one) !important";
         btnStyle.backgroundColor = "white !important";
         btnStyle.borderColor = "transparent !important";
         btnStyle.boxShadow = "none !important";
         btnStyle["&:hover"] = {
-          backgroundColor: "var(--main-color-light) !important",
+          backgroundColor: "var(--color-one-light) !important",
         };
         break;
       default:
-        btnStyle.color = "white !important";
-        btnStyle.backgroundColor = "var(--main-color) !important";
-        btnStyle.borderColor = "var(--main-color) !important";
+        switch (props.bgColor) {
+          case "orange":
+            btnStyle.color = "white !important";
+            btnStyle.backgroundColor = "var(--color-two) !important";
+            btnStyle.borderColor = "var(--color-two) !important";
+            break;
+          default:
+            btnStyle.color = "white !important";
+            btnStyle.backgroundColor = "var(--color-one) !important";
+            btnStyle.borderColor = "var(--color-one) !important";
+            break;
+        }
 
         break;
     }

@@ -1,81 +1,80 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Traffic,
-  Health,
-  dask,
-  HomeOwners,
-  CarService,
-  Pet,
-  Travel,
-  Phone,
+  CascoIcon,
+  DaskIcon,
+  TssIcon,
+  TravelIcon,
+  PetIcon,
+  PhoneIcon,
+  TrafficIcon,
 } from "/resources/images";
 
 const Services = () => {
   const [serviceList] = useState([
     {
-      title: "TRAFİK",
-      img: Traffic,
+      title: "Trafik",
+      img: TrafficIcon,
       url: "/insurance/traffic",
     },
     {
-      title: "TAMAMLAYICI SAĞLIK",
-      img: Health,
+      title: "Tamamlayıcı Sağlık",
+      img: TssIcon,
       url: "/insurance/health/complementary",
     },
     {
       title: "DASK",
-      img: dask,
+      img: DaskIcon,
       url: "/insurance/dask",
     },
     {
-      title: "KONUT",
-      img: HomeOwners,
+      title: "Konut",
+      img: DaskIcon,
       url: "/insurance/house",
     },
     {
-      title: "KASKO",
-      img: CarService,
+      title: "Kasko",
+      img: CascoIcon,
       url: "/insurance/casco",
     },
     {
-      title: "EVCİL HAYVAN",
-      img: Pet,
+      title: "Evcil Hayvan",
+      img: PetIcon,
       url: "/insurance/pet",
     },
     {
-      title: "SEYAHAT",
-      img: Travel,
+      title: "Seyahat",
+      img: TravelIcon,
       url: "/insurance/health/travel",
     },
     {
-      title: "TELEFON",
-      img: Phone,
+      title: "Telefon",
+      img: PhoneIcon,
       url: "/insurance/phone",
     },
     {
-      title: "FERDİ KAZA",
-      img: Health,
+      title: "Ferdi Kaza",
+      img: TssIcon,
       url: "#",
     },
     {
-      title: "ÖZEL SAĞLIK",
-      img: Health,
+      title: "Özel Sağlık",
+      img: TssIcon,
       url: "/insurance/health/private",
     },
     {
-      title: "MİNİ KASKO",
-      img: CarService,
+      title: "Mini Kasko",
+      img: CascoIcon,
       url: "#",
     },
     {
-      title: "YAŞAM TERAPİ",
-      img: Health,
+      title: "Yaşam Terapi",
+      img: TssIcon,
       url: "#",
     },
     {
-      title: "YABANCI SAĞLIK",
-      img: Health,
+      title: "Yabancı Sağlık",
+      img: TssIcon,
       url: "#",
     },
   ]);

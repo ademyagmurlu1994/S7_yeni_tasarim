@@ -104,7 +104,7 @@ function CarPriceOffer() {
                       <div className="pet-assurance d-flex align-items-center">
                         <i
                           className="far fa-question-circle mr-2"
-                          style={{ color: "var(--main-color)" }}
+                          style={{ color: "var(--color-one)" }}
                         ></i>
                         <div style={{ fontSize: "13pt" }}> {assurance}</div>
                       </div>
@@ -113,7 +113,7 @@ function CarPriceOffer() {
                 })}
               </div>
               <div className="row mt-3">
-                <div className="col-12" style={{ color: "var(--main-color)" }}>
+                <div className="col-12" style={{ color: "var(--color-one)" }}>
                   <i className="fas fa-file-alt"></i> Tüm Teminatlar
                 </div>
               </div>

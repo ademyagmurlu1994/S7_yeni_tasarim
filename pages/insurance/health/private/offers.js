@@ -386,47 +386,47 @@ const ComplementaryHealthOffers = () => {
                                     Yatarak + Ayakta Tedavi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                   <div className="col-6 col-xs-6 col-sm-6 col-md-4 col-lg-4 mt-2">
                                     10 Kez Doktor Muayenesi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                   <div className="col-6 col-xs-6 col-sm-6 col-md-4 col-lg-4 mt-2">
                                     Limitsiz Yatarak Tedavi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                   <div className="col-6 col-xs-6 col-sm-6 col-md-4 col-lg-4 mt-2">
                                     Diş Paketi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                   <div className="col-6 col-xs-6 col-sm-6 col-md-4 col-lg-4 mt-2">
                                     20 Kez Fizik Tedavi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                   <div className="col col-xs-6 col-sm-6 col-md-4 col-lg-4 mt-2">
                                     Limitsiz Dijital Doktor Görüşmesi{" "}
                                     <i
                                       className="far fa-question-circle"
-                                      style={{ color: "var(--main-color)" }}
+                                      style={{ color: "var(--color-one)" }}
                                     ></i>
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col-12" style={{ color: "var(--main-color)" }}>
+                                  <div className="col-12" style={{ color: "var(--color-one)" }}>
                                     <i className="fas fa-file-alt"></i> Tüm Teminatlar
                                   </div>
                                 </div>

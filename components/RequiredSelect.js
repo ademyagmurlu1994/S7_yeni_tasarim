@@ -9,14 +9,14 @@ const colourStyles = {
   /*control: (styles) => ({
     ...styles,
     backgroundColor: "white",
-    borderColor: isFocused & "var(--main-color)",
-    boxShadow: isFocused & "0 0 0 1px var(--main-color)",
+    borderColor: isFocused & "var(--color-one)",
+    boxShadow: isFocused & "0 0 0 1px var(--color-one)",
   }),*/
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     //const color = chroma(data.color);
     return {
       ...styles,
-      backgroundColor: isFocused ? "var(--main-color)" : "white",
+      backgroundColor: isFocused ? "var(--color-one)" : "white",
       color: "#222",
       cursor: isDisabled ? "not-allowed" : "default",
       zIndex: "555555",

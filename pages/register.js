@@ -634,7 +634,7 @@ const Register = () => {
                         sx={{
                           padding: "0px 8px 0px 0px",
                           "&.Mui-checked": {
-                            color: "var(--main-color)",
+                            color: "var(--color-one)",
                           },
                         }}
                       />
@@ -661,7 +661,7 @@ const Register = () => {
                         sx={{
                           padding: "0px 8px 0px 0px",
                           "&.Mui-checked": {
-                            color: "var(--main-color)",
+                            color: "var(--color-one)",
                           },
                         }}
                       />

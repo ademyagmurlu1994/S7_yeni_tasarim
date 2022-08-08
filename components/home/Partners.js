@@ -88,8 +88,8 @@ const Partners = () => {
             </div>
           </div>
           <div className="w-100 d-block text-center">
-            <Button variant="outlined" onClick={() => handleShow()}>
-              {showAll ? "- Daha Az Göster" : "+ Tümünü Göster"}{" "}
+            <Button variant="outlined" size="small" onClick={() => handleShow()}>
+              <b>{showAll ? "- Daha Az Göster" : "+ Tümünü Göster"} </b>
             </Button>
           </div>
         </div>

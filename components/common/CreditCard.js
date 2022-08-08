@@ -203,12 +203,12 @@ const CreditCard = ({ params, onChange, value }) => {
 
   const ColorButton = styled(LoadingButton)(({ theme }) => ({
     color: "white",
-    backgroundColor: "var(--main-color)",
+    backgroundColor: "var(--color-one)",
     fontSize: "12pt",
     fontWeight: "500",
-    border: "2px solid var(--main-color)",
+    border: "2px solid var(--color-one)",
     "&:hover": {
-      color: "var(--main-color)",
+      color: "var(--color-one)",
       backgroundColor: "white",
     },
   }));

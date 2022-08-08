@@ -88,7 +88,7 @@
 .custom-field.outlined input.dirty,
 .custom-field.outlined input:not(:placeholder-shown),
 .custom-field.outlined input:focus {
-  border-color: var(--main-color);
+  border-color: var(--color-one);
   transition-delay: 0.1s;
 }
 
@@ -285,7 +285,7 @@
 }
 .custom_textfield .form__input:hover,
 .custom_textfield .form__input:focus {
-  border-color: var(--main-color);
+  border-color: var(--color-one);
   /* Change border when input focus*/
 }
 .custom_textfield .form__input::placeholder {
@@ -348,8 +348,8 @@
 
 /*============Pure Outline TextField==========*/
 .pure-material-textfield-outlined {
-  --pure-material-safari-helper1: var(--main-color);
-  --pure-material-primary-rgb: var(--main-color);
+  --pure-material-safari-helper1: var(--color-one);
+  --pure-material-primary-rgb: var(--color-one);
   position: relative;
   display: inline-block;
   padding-top: 6px;
@@ -440,24 +440,24 @@
 
 /* Hover */
 .pure-material-textfield-outlined:hover input .pure-material-textfield-outlined:hover textarea {
-  border-color: var(--main-color) !important;
+  border-color: var(--color-one) !important;
 }
 
 .pure-material-textfield-outlined:hover input:placeholder-shown,
 .pure-material-textfield-outlined:hover textarea:placeholder-shown {
-  border-color: var(--main-color);
+  border-color: var(--color-one);
 }
 
 .pure-material-textfield-outlined input:placeholder-shown + span,
 .pure-material-textfield-outlined textarea:placeholder-shown + span {
-  border-top-color: var(--main-color) !important;
+  border-top-color: var(--color-one) !important;
 }
 
 .pure-material-textfield-outlined:hover input + span::before,
 .pure-material-textfield-outlined:hover textarea + span::before,
 .pure-material-textfield-outlined:hover input + span::after,
 .pure-material-textfield-outlined:hover textarea + span::after {
-  /*border-top-color: var(--main-color); */
+  /*border-top-color: var(--color-one); */
   border-top-color: #b1b4ba;
 }
 
@@ -488,21 +488,21 @@
 /* Focus */
 .pure-material-textfield-outlined input:focus,
 .pure-material-textfield-outlined textarea:focus {
-  border-color: var(--main-color) !important;
+  border-color: var(--color-one) !important;
   border-top-color: transparent !important;
   outline: none;
 }
 
 .pure-material-textfield-outlined input:focus:placeholder-shown,
 .pure-material-textfield-outlined textarea:focus:placeholder-shown {
-  border-color: var(--main-color) !important;
+  border-color: var(--color-one) !important;
   border-top-color: transparent !important;
   outline: none;
 }
 
 .pure-material-textfield-outlined input:focus + span,
 .pure-material-textfield-outlined textarea:focus + span {
-  border-color: var(--main-color) !important;
+  border-color: var(--color-one) !important;
   color: #1976d2;
 }
 
@@ -510,8 +510,8 @@
 .pure-material-textfield-outlined input:focus + span::after,
 .pure-material-textfield-outlined textarea:focus + span::before,
 .pure-material-textfield-outlined textarea:focus + span::after {
-  color: var(--main-color) !important;
-  border-color: var(--main-color) !important;
+  color: var(--color-one) !important;
+  border-color: var(--color-one) !important;
 }
 
 /* Disabled */

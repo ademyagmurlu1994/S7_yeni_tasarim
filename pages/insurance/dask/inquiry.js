@@ -1300,7 +1300,7 @@ const Inquiry = () => {
                         className="uavt-home-address mt-3"
                         style={{
                           padding: "10px",
-                          backgroundColor: "var(--main-color-light)",
+                          backgroundColor: "var(--color-one-light)",
                         }}
                       >
                         <b>Görünen Adres</b> <br />

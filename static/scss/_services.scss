@@ -208,7 +208,7 @@
     grid-template-columns: repeat(5, 1fr);
     column-gap: 30px;
     .nav-item {
-      border: 1px solid var(--main-color);
+      border: 1px solid var(--color-one);
       border-radius: 10px;
       width: 100%;
       text-align: center;
@@ -226,8 +226,8 @@
         }
       }
       &.react-tabs__tab--selected {
-        /* background-color: var(--main-color);
-          border: 1px solid var(--main-color);
+        /* background-color: var(--color-one);
+          border: 1px solid var(--color-one);
           box-shadow: 0px 20px 40px 0px rgba(48, 67, 239, 0.13);
           .nav_title {
             color: #fff;

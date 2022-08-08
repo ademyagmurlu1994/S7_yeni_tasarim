@@ -195,7 +195,7 @@ const GetQuotePrint = ({ service, companyCode, quoteReference, revisionNumber, t
                 >
                   <ReactLoading
                     type={"spinningBubbles"}
-                    color={"var(--main-color)"}
+                    color={"var(--color-one)"}
                     height="auto"
                     width={18}
                   />
@@ -236,7 +236,7 @@ const GetQuotePrint = ({ service, companyCode, quoteReference, revisionNumber, t
               <div className="d-flex justify-content-center">
                 <ReactLoading
                   type={"spinningBubbles"}
-                  color={"var(--main-color)"}
+                  color={"var(--color-one)"}
                   height={7}
                   width={18}
                   className="mr-2"

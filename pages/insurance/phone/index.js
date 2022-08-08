@@ -42,7 +42,7 @@ import { inputStyle, MainButtonLarge } from "/styles/custom";
 
 //Images
 import {
-  PhoneIcon,
+  PhoneImg,
   PhoneInsurancePackageOne,
   PhoneInsurancePackageTwo,
   DaskInsuranceInformationPhoto,
@@ -287,7 +287,7 @@ function PhoneIndex() {
               </div>
               <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 mobile-mode-display-none">
                 <div className="d-flex justify-content-center">
-                  <img src={PhoneIcon} width="auto" style={{ maxHeight: "200px" }} alt="" />
+                  <img src={PhoneImg} width="auto" style={{ maxHeight: "200px" }} alt="" />
                 </div>
               </div>
             </div>
@@ -432,7 +432,7 @@ function PhoneIndex() {
                                 sx={{
                                   padding: "0px 8px 0px 0px",
                                   "&.Mui-checked": {
-                                    color: "var(--main-color)",
+                                    color: "var(--color-one)",
                                   },
                                 }}
                               />
@@ -451,7 +451,7 @@ function PhoneIndex() {
                               sx={{
                                 padding: "0px 8px 0px 0px",
                                 "&.Mui-checked": {
-                                  color: "var(--main-color)",
+                                  color: "var(--color-one)",
                                 },
                               }}
                               checked={state.isCheckedNotification}

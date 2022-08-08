@@ -7,17 +7,6 @@ import client4 from "../static/img/client4.jpg";
 import client6 from "../static/img/client6.jpg";
 import client7 from "../static/img/client7.jpg";
 import client8 from "../static/img/client8.jpg";
-import Renters from "../static/img/renters.png";
-import HomeOwners from "../static/img/homefold_icons/homeOwners.png";
-//==============================================
-import Pet from "../static/img/homefold_icons/pet.svg";
-import CarService from "../static/img/homefold_icons/car.svg";
-import Family from "../static/img/homefold_icons/family.png";
-import dask from "../static/img/homefold_icons/dask.svg";
-import Health from "../static/img/homefold_icons/health.svg";
-import Traffic from "../static/img/homefold_icons/traffic.svg";
-import Travel from "../static/img/homefold_icons/travel.svg";
-import Phone from "../static/img/homefold_icons/phone.png";
 //================================================
 import CarImage from "/static/img/homefold_banner_images/second/car-image.png";
 import HomeImage from "/static/img/homefold_banner_images/second/home-image.png";
@@ -38,7 +27,7 @@ import CascoPrintPolicyBanner from "../static/img/print/casco-policy-print-banne
 import CascoPrintPolicyIcon from "../static/img/print/casco-policy-print-icon.png";
 import PetInsurancePackageOne from "../static/img/insurance/pet/pet-package-1.jpg";
 import PetInsurancePackageTwo from "../static/img/insurance/pet/pet-package-2.jpg";
-import PhoneIcon from "/static/img/insurance/phone/phone-icon.png";
+import PhoneImg from "/static/img/insurance/phone/phone-icon.png";
 import PhoneInsurancePackageOne from "../static/img/insurance/phone/phone-package-1.jpg";
 import PhoneInsurancePackageTwo from "../static/img/insurance/phone/phone-package-2.jpg";
 
@@ -79,6 +68,19 @@ import ZurichLogo from "/static/img/companies/Logo/ZurichLogo.png";
 import ImageLogo from "/static/img/common/ImageLogo.jpg";
 /**200722 */
 import ImzalıDilekceOrnegi from "/static/img/imzali-dilekce-ornegi.png";
+
+/**New Icons */
+
+import CascoIcon from "/static/img/icons/service/casco.svg";
+import DaskIcon from "/static/img/icons/service/dask.svg";
+import TssIcon from "/static/img/icons/service/tss.svg";
+import TravelIcon from "/static/img/icons/service/travel.svg";
+import PetIcon from "/static/img/icons/service/pet.svg";
+import PhoneIcon from "/static/img/icons/service/phone.svg";
+import TrafficIcon from "/static/img/icons/service/traffic.svg";
+//
+import PhoneCallIcon from "/static/img/icons/phone-call.svg";
+
 export {
   logo,
   homefoldBackground,
@@ -89,16 +91,6 @@ export {
   client6,
   client7,
   client8,
-  Renters,
-  Pet,
-  HomeOwners,
-  CarService,
-  Family,
-  Health,
-  Traffic,
-  dask,
-  Travel,
-  Phone,
   CarImage,
   HomeImage,
   FamilyImage,
@@ -119,7 +111,7 @@ export {
   CascoPrintPolicyIcon,
   PetInsurancePackageOne,
   PetInsurancePackageTwo,
-  PhoneIcon,
+  PhoneImg,
   PhoneInsurancePackageOne,
   PhoneInsurancePackageTwo,
   InternalServerError,
@@ -153,4 +145,14 @@ export {
   ImageLogo,
   /*2007222*/
   ImzalıDilekceOrnegi,
+  //newIcons
+  CascoIcon,
+  DaskIcon,
+  TssIcon,
+  TravelIcon,
+  PetIcon,
+  PhoneIcon,
+  TrafficIcon,
+  //======================
+  PhoneCallIcon,
 };

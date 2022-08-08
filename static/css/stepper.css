@@ -57,18 +57,18 @@
 
 .stepper-item.active .step-counter {
   background-color: white;
-  color: var(--main-color);
-  border: 3px solid var(--main-color);
+  color: var(--color-one);
+  border: 3px solid var(--color-one);
 }
 
 .stepper-item.completed .step-counter {
-  background-color: var(--main-color);
+  background-color: var(--color-one);
   color: white;
 }
 /*Aktif ve Completed stepin çizgisinin rengini main color yapıyoruz.*/
 .stepper-item.active::before,
 .stepper-item.completed::before {
-  border-bottom: 2px solid var(--main-color);
+  border-bottom: 2px solid var(--color-one);
 }
 
 .stepper-item.completed .step-counter .step-count {
@@ -80,7 +80,7 @@
 }
 
 .stepper-item.completed::after {
-  border-bottom: 2px solid var(--main-color);
+  border-bottom: 2px solid var(--color-one);
 }
 
 .stepper-item:first-child::before {

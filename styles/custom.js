@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 export const inputStyle = {
   width: "100%",
   "label.Mui-focused": {
-    color: "var(--main-color) !important",
+    color: "var(--color-one) !important",
   },
   "& .MuiOutlinedInput-root": {
     backgroundColor: "white",
@@ -16,12 +16,12 @@ export const inputStyle = {
       },
     },
     "&:hover fieldset": {
-      borderColor: "var(--main-color)",
+      borderColor: "var(--color-one)",
       borderWidth: "1px",
     },
     "&.Mui-focused": {
       fieldset: {
-        borderColor: "var(--main-color)",
+        borderColor: "var(--color-one)",
         borderWidth: "1px",
       },
     },
@@ -34,13 +34,13 @@ export const inputStyle = {
 
 export const MainButtonLarge = styled(Button)(({ theme }) => ({
   color: "white",
-  backgroundColor: "var(--main-color)",
+  backgroundColor: "var(--color-one)",
   padding: "12px 26px",
   fontWeight: 600,
   fontSize: "12pt",
   "&:hover": {
     filter: "brightness(0.90)",
     color: "white",
-    backgroundColor: "var(--main-color)",
+    backgroundColor: "var(--color-one)",
   },
 }));
