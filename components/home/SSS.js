@@ -50,7 +50,7 @@ const SSS = () => {
   };
   return (
     <>
-      <section className="client-feedback-section home-page-section">
+      <section className="home-page-section mb-4">
         <div className="container">
           <h2 className="section-title">En Çok Sorulan 7 Soru</h2>
           <div className="w-100">

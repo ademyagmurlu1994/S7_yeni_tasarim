@@ -68,7 +68,7 @@ const Partners = () => {
   return (
     <>
       <section className="client-feedback-section home-page-section">
-        <div className="container container-large">
+        <div className="container">
           <h2 className="section-title">Çözüm Ortaklarımız</h2>
           <div className="w-100">
             <div className="anlasmali-sirketler-wrapper">

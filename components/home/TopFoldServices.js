@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-
+import EastIcon from "@mui/icons-material/East";
 //import { carIcon, healthIcon, dask, phoneIcon, petIcon } from "/resources/images";
+
 import {
   dask,
   CarService,
@@ -88,6 +89,12 @@ const HomeFold = () => {
                 </div>
               );
             })}
+          </div>
+          <div className="d-flex justify-content-center">
+            <div className="topfold-service-arrow">
+              <EastIcon />
+              <i class="fas fa-arrow-down"></i>
+            </div>
           </div>
         </div>
       </section>

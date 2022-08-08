@@ -1,10 +1,9 @@
 :root {
   /*rgb(10, 161, 149);*/
-
-  --main-color: rgb(164, 129, 248);
+  --main-color: rgb(133, 85, 226);
   --main-color-light: rgb(249, 247, 255);
   --main-color-light-dark: rgb(242, 240, 255);
-  --main-color-dark: rgb(133, 93, 226);
+  --main-color-dark: rgb(83, 39, 168);
   --main-color-rgb: 164, 129, 248;
   /*--main-color: rgb(255, 0, 131);
   --main-color-light: rgb(255, 0, 131, 0.2);*/

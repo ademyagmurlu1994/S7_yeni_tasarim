@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DocumentScroller from "/components/pop-up/DocumentScroller";
 import Link from "next/link";
 
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import { logo } from "/resources/images";
 
 const Footer = () => {
@@ -20,8 +21,8 @@ const Footer = () => {
     <>
       {/* footer section start*/}
       <section id="footer">
-        <footer className="">
-          <div className="container">
+        <footer>
+          <div className="container container-large">
             <div className="row footer-mobile-top-section">
               <div className="col-6">
                 <div className="footer-mobile-top-right-side">
@@ -41,25 +42,46 @@ const Footer = () => {
             </div>
 
             <div className="row">
-              <div className="footer-column">
-                <div className="widget widget_links">
-                  <h3>Hakkımızda</h3>
-                  <ul>
+              <div className="col-sm-6 col-md-3 col-five-1 footer-column first-column">
+                <img className="first-column-item" src="/static/img/logo-light.svg" alt="" />
+                <p>Size en uygun sigortayı ve en uygun teklifi bulun</p>
+                <div className="communication-info first-column-item">
+                  <div className="item-title">İletişim Hattı</div>
+                  <span>
+                    <PhoneInTalkIcon className="mr-1" /> <b>0 850 212 12 12</b>
+                  </span>
+                </div>
+                <div className="follow-us first-column-item">
+                  <div className="item-title">Bizi Takip Edin</div>
+                  <ul className="social-platforms">
                     <li>
-                      <a href="/footer/sigorta7-nedir">Sigorta 7 nedir?</a>
+                      <a href="#">
+                        <i class="fab fa-facebook"></i>
+                      </a>
                     </li>
                     <li>
-                      <Link href="/iletisim">
-                        <a>İletişim</a>
-                      </Link>
+                      <a href="#">
+                        <i class="fab fa-instagram"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i className="fab fa-youtube"></i>
+                      </a>
                     </li>
                   </ul>
                 </div>
+
                 {/* widget_links */}
               </div>
-              <div className="footer-column">
+              <div className="col-sm-6 col-md-3 col-five-1 footer-column">
                 <div className="widget widget_links">
-                  <h3>Bilgi Merkezi</h3>
+                  <h3>Kurumsal</h3>
                   <ul>
                     <li>
                       <Link href="/blog">
@@ -82,7 +104,7 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div className="footer-column">
+              <div className="col-sm-6 col-md-3 col-five-1 footer-column">
                 <div className="widget widget_links">
                   <h3>Hızlı Erişim</h3>
                   <ul>
@@ -101,7 +123,7 @@ const Footer = () => {
                 </div>
                 {/* widget_address */}
               </div>
-              <div className="footer-column">
+              <div className="col-sm-6 col-md-3 col-five-1 footer-column">
                 <div className="widget widget_links">
                   <h3>Ürünlerimiz</h3>
                   <ul>
@@ -145,33 +167,13 @@ const Footer = () => {
                         <a>Mobil Cihaz - Cep Telefonu</a>
                       </Link>
                     </li>
-                    {/* <li>
-                      <Link href="#">
-                        <a>Ferdi Kaza</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#">
-                        <a>Mini Kasko</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#">
-                        <a>Yaşam Terapi</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#">
-                        <a>Yabancı Sağlık</a>
-                      </Link>
-                    </li> */}
                   </ul>
                 </div>
                 {/* widget_address */}
               </div>
-              <div className="footer-column">
+              <div className="col-sm-6 col-md-3 col-five-1 footer-column">
                 <div className="widget widget_links">
-                  <h3>Destek</h3>
+                  <h3>Desteklerimiz</h3>
                   <ul>
                     <li>
                       <a href="#">Sıkça Sorulan Sorular</a>
@@ -198,45 +200,11 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
           {/* container */}
         </footer>
-        <div className="w-100 footer-bottom-section-wrapper">
-          <div className="container footer-bottom-section">
-            <div className="footer-bottom-left-side h-100">
-              <span>
-                <i className="fas fa-phone-alt color-main"></i> 0 850 212 12 12
-              </span>
-              <span className="ml-5">
-                <i className="fas fa-envelope color-main"></i> TEKLİF ALIN
-              </span>
-            </div>
-
-            <div className="footer-bottom-right-side">
-              <ul className="social-platforms">
-                <li>
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-youtube"></i>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div className="container container-large footer-bottom-section">
+          © sigorta7.com 2022 - Tüm Hakları Saklıdır.
         </div>
 
         {/* footer widget */}

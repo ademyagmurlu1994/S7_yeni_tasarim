@@ -1,3 +1,13 @@
+:root {
+  --home-section-pd: 40px;
+  --footer-column-x-pd: 10px;
+  --footer-y-pd: 50px;
+}
+
+.home-topfold-services {
+  padding-bottom: var(--home-section-pd);
+}
+
 .insurance-service-item {
   border: 2px solid var(--main-color);
   border-radius: 5px;
@@ -30,6 +40,30 @@
   &:hover {
     background-color: var(--main-color-light);
     cursor: pointer;
+  }
+}
+
+.topfold-service-arrow {
+  padding: 10px 2px;
+  border: 1px solid var(--main-color);
+  width: auto;
+  border-radius: 50px;
+  color: var(--main-color);
+  i {
+    font-weight: 200;
+    display: none;
+  }
+  svg {
+    transform: rotate(90deg) !important;
+  }
+  &:hover {
+    padding: 10px 5px;
+    svg {
+      display: none;
+    }
+    i {
+      display: block;
+    }
   }
 }
 
@@ -69,7 +103,7 @@
 }
 
 .home-page-section {
-  padding: 50px 0px;
+  padding: var(--home-section-pd) 0px var(--home-section-pd) 0px;
   .section-title {
     text-align: center;
     color: var(--main-color);
@@ -142,12 +176,8 @@
     left: -45px;
   }
 }
-.slick-active {
-  &:nth-child(2) {
-    .feedback-card {
-      background-color: blue;
-    }
-  }
+.slick-active:nth-child(2) {
+  background-color: aquamarine !important;
 }
 /*FEED BACK CARD END*/
 
@@ -178,4 +208,107 @@
 /*SSS Acordion*/
 .MuiAccordionSummary-content.Mui-expanded {
   border-bottom: 2px solid lightgray;
+}
+
+footer {
+  background-color: var(--main-color-dark);
+  color: white;
+  padding: var(--footer-y-pd) 0px;
+
+  .footer-column {
+    margin-bottom: 15px;
+  }
+
+  .first-column {
+    img {
+      max-width: 90%;
+    }
+    .first-column-item {
+      margin-bottom: 20px;
+      .item-title {
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  ul.social-platforms {
+    display: flex !important;
+    align-items: center;
+    list-style: none;
+    li {
+      margin-right: 25px;
+      i {
+        color: white;
+        font-size: 15pt;
+      }
+      &:hover i {
+        color: black;
+      }
+    }
+  }
+
+  .widget h3 {
+    color: white !important;
+  }
+  .widget_links li a {
+    color: white !important;
+  }
+  .widget_links li a:hover {
+    cursor: pointer;
+    color: black !important;
+  }
+
+  .footer-mobile-top-section {
+    display: none !important;
+    padding: 30px 0px;
+    margin-bottom: 15px;
+  }
+
+  .footer-mobile-top-section img {
+    width: 80%;
+  }
+
+  .footer-mobile-top-left-side {
+    display: grid;
+    color: #bdbdbd;
+  }
+
+  .footer-mobile-top-left-side i {
+    font-size: 14pt;
+  }
+}
+.footer-bottom-section {
+  background-color: #ffffff;
+  color: var(--main-color);
+  padding: 10px 0px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .footer-column {
+    padding: 0px 15px;
+    width: 50% !important;
+  }
+}
+
+/*=== Masaüstü ============*/
+
+@media (min-width: 960px) {
+  .col-five-1 {
+    width: 20% !important;
+    -webkit-flex: 0 0 20% !important;
+    -moz-box-flex: 0;
+    flex: 0 0 20% !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+  //Footer Column
+  .footer-column:not(:first-child) .widget.widget_links {
+    padding-left: 20px !important;
+  }
+
+  .first-column {
+    padding-right: 20px !important;
+    border-right: 1px solid white;
+  }
 }

@@ -52,7 +52,6 @@ const ClientFeedbacks = () => {
   const [selectedTopic, setSelectedTopic] = useState("");
 
   const handleBlur = (value) => {
-    console.log(Object.keys(watch()).slice(-1)[0]);
     if (watch()[Object.keys(watch()).slice(-1)[0]] != "") {
       setFormVisibleCounter((prev) => prev + 1);
     }

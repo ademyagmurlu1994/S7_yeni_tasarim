@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import Link from "next/link";
 //import { Link } from "react-router-dom";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import { logo } from "/resources/images";
 //fonksiyonlar
 import { logout, getNextAuth } from "/functions/auth";
@@ -23,7 +24,7 @@ const Nav = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top horizontal-nav" id="navbar">
-        <div className="container-fluid navbar-container">
+        <div className="container container-large">
           <Link href="/">
             <div className="navbar-brand navbar-brand-mobile">
               <img src={logo} alt="" />
@@ -208,14 +209,15 @@ const Nav = () => {
               <div className="navbar-right-side">
                 <div className="auth-links">
                   <li className="nav-item">
-                    <Button variant="outlined" sx={{ width: "210px", fontWeight: "550" }}>
+                    <Button variant="outlined" sx={{ width: "200px", fontWeight: "550" }}>
                       Üye Ol / Giriş Yap
                     </Button>
                   </li>
                   <li className="nav-item">
                     <Link href="/services">
-                      <Button sx={{ width: "210px" }}>
-                        <i className="fas fa-phone-alt  mr-1"></i> 0 850 212 12 12
+                      <Button sx={{ width: "200px" }}>
+                        <PhoneInTalkIcon className="mr-1" /> 0 850 212 12 12
+                        {/* <i className="fas fa-phone-alt  mr-1"></i> 0 850 212 12 12 */}
                       </Button>
                     </Link>
                   </li>

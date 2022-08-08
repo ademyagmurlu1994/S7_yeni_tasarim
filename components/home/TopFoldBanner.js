@@ -6,28 +6,37 @@ import Button from "/components/form/Button";
 
 const HomeFold = () => {
   const { width } = useWindowDimensions();
-  const [height, setHeight] = useState("400");
+  const [height, setHeight] = useState("");
 
   useEffect(() => {
     //Background videoyu otomatik oynatma
-    document.getElementById("myVideo").play();
+    document.getElementById("mobileVideo").play();
+    document.getElementById("desktopVideo").play();
   }, []);
 
   useEffect(() => {
-    var offsetHeight = document.getElementById("backVideo").offsetHeight;
+    var offsetHeight;
+    console.log(width);
+    if (width <= 992) {
+      offsetHeight = document.getElementById("mobileVideo").offsetHeight;
+    } else {
+      offsetHeight = document.getElementById("desktopVideo").offsetHeight;
+    }
     setHeight(offsetHeight);
   }, [width]);
   return (
     <>
       <section
-        className="home-topfold-banner"
+        className="home-topfold-banner w-100"
         style={{
           paddingBottom: "0px",
           objectFit: "cover",
           height: height + "px",
+          maxHeight: "600px",
+          minHeight: "400px",
         }}
       >
-        <div className="topfold-content">
+        <div className="topfold-content w-100">
           <div className=" topfold-text">
             <h2 className="main-text">Sigortanın Sigortası</h2>
             <h5 className="sub-text">
@@ -47,19 +56,17 @@ const HomeFold = () => {
             </Link>
           </div>
         </div>
-        <div className="row " id="backVideo">
-          <div className="col-12 d-none d-md-block">
-            <video autoPlay muted loop playsInline id="myVideo" style={{ width: "100%" }}>
-              <source src="/static/video/homefold-background.mp4" type="video/mp4" />
-              {/* <source src="/static/video/deneme.mp4" type="video/mp4" /> */}
-            </video>
-          </div>
+        <div className="w-100 d-none d-md-block">
+          <video className="w-100" autoPlay muted loop playsInline id="desktopVideo">
+            <source src="/static/video/homefold-background.mp4" type="video/mp4" />
+            {/* <source src="/static/video/deneme.mp4" type="video/mp4" /> */}
+          </video>
+        </div>
 
-          <div className="col-12 d-block d-md-none">
-            <video autoPlay muted loop playsInline id="myVideo" style={{ width: "100%" }}>
-              <source src="/static/video/homefold-background-mobile.mp4" type="video/mp4" />
-            </video>
-          </div>
+        <div className="w-100 d-block d-md-none">
+          <video className="w-100" autoPlay muted loop playsInline id="mobileVideo">
+            <source src="/static/video/homefold-background-mobile.mp4" type="video/mp4" />
+          </video>
         </div>
       </section>
     </>
